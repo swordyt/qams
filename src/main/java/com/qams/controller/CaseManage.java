@@ -8,11 +8,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CaseManage {
+	@RequestMapping("/index")
+	public ModelAndView  testIndex(HttpServletRequest request) {
+//		org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
+		System.out.println("index");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("index");
+        return mav;
+	}
 	@RequestMapping("/case")
 	public ModelAndView  testCase(HttpServletRequest request) {
-		String path = request.getParameter("path") + "";
+//		org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
+		System.out.println("case");
         ModelAndView mav = new ModelAndView();
-        mav.setViewName(path);
+        mav.setViewName("case");
         return mav;
 	}
 }

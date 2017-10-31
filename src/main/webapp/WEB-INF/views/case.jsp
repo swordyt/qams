@@ -1,24 +1,33 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html>
 <html>
 <head>
+<base href="<%=basePath%>">
 <title>QACS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
-	href="../resources/css/bootstrap/bootstrap.min.css">
-<script type="text/javascript" src="../resources/js/jquery-3.2.1.min.js"></script>
+	href="resources/css/bootstrap/bootstrap.min.css">
+<script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
 <!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
 <script type="text/javascript"
-	src="../resources/js/bootstrap/bootstrap.min.js"></script>
+	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <link rel="stylesheet"
-	href="../resources/css/bootstrapStyle/bootstrapStyle.css"
+	href="resources/css/bootstrapStyle/bootstrapStyle.css"
 	type="text/css">
 <script type="text/javascript"
-	src="../resources/js/tree/jquery.ztree.core.js"></script>
+	src="resources/js/tree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
-	src="../resources/js/tree/jquery.ztree.excheck.js"></script>
+	src="resources/js/tree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript"
-	src="../resources/js/tree/jquery.ztree.exedit.js"></script>
-<title>QACS</title>
+	src="resources/js/tree/jquery.ztree.exedit.js"></script>
+<title>QAMS</title>
 </head>
 <body>
 	<div class="container" style="padding: 0;" ng-app="caseMange"
@@ -42,16 +51,18 @@
 					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCopy"><span class="glyphicon glyphicon-plus"
-							style="color: #269abc"></span>复制</a></li>
+							style="color: #269abc"></span>复制</a>
+					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCut"><span class="glyphicon glyphicon-plus"
-							style="color: #d58512"></span>剪切</a></li>
+							style="color: #d58512"></span>剪切</a>
+					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuDrop"><span
 							class="glyphicon glyphicon-remove" style="color: #ac2925"></span>删除</a>
 					</li>
 					<!-- <li role="presentation" class="divider"></li> -->
-					<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">分离的链接</a></li> -->
+					<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">åç¦»çé¾æ¥</a></li> -->
 				</ul>
 			</div>
 			<div class="col-xs-8"
@@ -90,8 +101,8 @@
 						<div>
 							<div class="form-group">
 								<label>步骤</label>
-								<textarea class="form-control" name="step" placeholder="请输入用例步骤"
-									rows="3" cols="30"></textarea>
+								<textarea class="form-control" name="step"
+									placeholder="请输入用例步骤" rows="3" cols="30"></textarea>
 							</div>
 							<div class="form-group">
 								<label>期望</label>
@@ -110,14 +121,14 @@
 								class="form-control" />
 						</div>
 						<div class="form-group pull-right">
-							<label>创建者</label> <span><p class="form-control-static">email@example.com</p>
-							</span>
+							<label>创建者</label> <span><p
+									class="form-control-static">email@example.com</p> </span>
 						</div>
 					</div>
 					<div class="clearfix"></div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
-							<label>最新修改时间</label>
+							<label>最新修改时间<</label>
 							<p class="form-control-static" id="lastTime">2017/10/29
 								10:39:38</p>
 						</div>
@@ -131,6 +142,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="../resources/js/case.js"></script>
+	<script src="resources/js/case.js"></script>
 </body>
 </html>

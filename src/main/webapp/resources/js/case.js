@@ -176,12 +176,14 @@ $(document).ready(function () {
     $("#menuCreateCase").click(function (event) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         zTree.addNodes(tree_Node, { id: (100 + newCount), pId: tree_Node.id, name: "new node" + (newCount++), isParent: false });
+        event.preventDefault();
         return true;
     });
     //创建子目录
     $("#menuCreateSubdirectory").click(function (event) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         zTree.addNodes(tree_Node, { id: (100 + newCount), pId: tree_Node.id, name: "new node" + (newCount++), isParent: true });
+        event.preventDefault();
         return true;
     });
     //复制
@@ -196,6 +198,7 @@ $(document).ready(function () {
     $("#menuDrop").click(function (event) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         zTree.removeNode(tree_Node);
+        event.preventDefault();
     });
     //监控name值变化,动态更新树名称
     $("#name").keyup(function (event) {
