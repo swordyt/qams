@@ -3,7 +3,7 @@ $(document).ready(
 		var name=$(this).attr("name");
 		var url="#";
 		if (name=="nav-casemanger") {
-			url="case.html";
+			url="cases/case.html";
 		}
 		$("#content_iframe").attr("src",url);
 	})

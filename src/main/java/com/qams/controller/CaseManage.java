@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/cases")
 public class CaseManage {
 	@RequestMapping("/index")
 	public ModelAndView  testIndex(HttpServletRequest request) {
