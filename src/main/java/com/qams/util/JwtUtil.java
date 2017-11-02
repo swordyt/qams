@@ -15,12 +15,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qams.bean.User;
 import com.qams.config.Constant;
+import com.qams.domain.User;
 
 @Component
 public class JwtUtil {
-	@Value("spring.profiles.active")
+	//@Value("#{configProperties['t1.msgname']}")
+	@Value("${spring.profiles.active}")
 	private String profiles;
 
 	/**
@@ -29,6 +30,7 @@ public class JwtUtil {
 	 * @return
 	 * */
 	public SecretKey generalKey() {
+		System.out.println("profiles="+profiles);
 		String stringKey = profiles + Constant.JWT_SECRET;
 		byte[] encodeKey = Base64.decodeBase64(stringKey);
 		SecretKey key = new SecretKeySpec(encodeKey, 0, encodeKey.length, "AES");

@@ -14,7 +14,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap/bootstrap.min.css">
-<script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>

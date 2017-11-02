@@ -1,7 +1,11 @@
 package com.qams.interceptor;
 
+import java.io.PrintWriter;
+import java.util.Date;
+
 import io.jsonwebtoken.Claims;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,38 +13,76 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.qams.bean.User;
+import com.alibaba.fastjson.JSONObject;
 import com.qams.config.Constant;
-import com.qams.dao.BcdcSignBankcardMapper;
-import com.qams.domain.BcdcSignBankcard;
+import com.qams.dao.UserMapper;
+import com.qams.domain.UserKey;
+import com.qams.response.Response;
 import com.qams.util.JwtUtil;
 
 public class TestInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	JwtUtil jwt;
 	@Autowired
-	User user;
+	UserMapper userDao;
+	@Autowired
+	UserKey userKey;
 	String jwtString;
 	@Autowired
-	BcdcSignBankcardMapper map;
+	Response res;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		user.setId(10000011);
-		jwtString = jwt.createJWT(Constant.JWT_ID, jwt.generalSubject(user),
-				Constant.JWT_TTL);
-		System.out.println(jwtString);
-		BcdcSignBankcard bean = map.selectByPrimaryKey("20161130000000000001");
-		System.out.println("BCDC" + bean.getCardIdxNo());
-		return super.preHandle(request, response, handler);
+		boolean flag = true;
+		try {
+			String token = request.getParameter("tokenId");// 获取客服端token
+			if (token == null) {//如果为携带tokenId参数，将从cookie中获取
+				Cookie[] cookies = request.getCookies();
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("tokenId")) {
+						token = cookie.getValue();
+					}
+				}
+
+			}
+			if (token == null) {
+				flag = false;
+			} else {
+				Claims claims = jwt.parseJWT(token);
+				Long expTime = Long.parseLong(claims.get("exp") + "") * 1000; // 获取token中保存过期时间
+				String id = claims.getSubject();// 获取token中保存userid
+				Integer userId = Integer.parseInt(JSONObject.parseObject(id)
+						.get("userId") + "");
+				Long now = System.currentTimeMillis();
+				userKey.setId(userId);
+				// 查询userid在数据库中是否存在
+				// 判断token时间是否过期
+				if (userDao.selectByPrimaryKey(userKey) == null
+						|| (now - expTime) > 0) {
+					flag = false;
+				}
+				if (!flag) {
+					String path = request.getContextPath();
+					String basePath = request.getScheme() + "://"
+							+ request.getServerName() + ":"
+							+ request.getServerPort() + path + "/";
+					response.sendRedirect(basePath + "user/index");
+				}
+			}
+			//
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return flag;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println(jwt.parseJWT(jwtString).get("sub"));
+		// System.out.println(jwt.parseJWT(jwtString).get("sub"));
 		super.postHandle(request, response, handler, modelAndView);
 	}
 
@@ -48,7 +90,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		Claims claims = jwt.parseJWT(jwtString);
+		// Claims claims = jwt.parseJWT(jwtString);
 		super.afterCompletion(request, response, handler, ex);
 	}
 }

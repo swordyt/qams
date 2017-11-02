@@ -12,7 +12,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="resources/css/index.css">
-<script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <title>QAMS</title>
