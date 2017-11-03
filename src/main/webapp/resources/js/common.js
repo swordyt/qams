@@ -36,4 +36,7 @@ var Network = {
 			callback(data, textStatus, jqXHR);
 		});
 	}
+};
+$.fn.stringify = function() {
+	return JSON.stringify(this);
 }

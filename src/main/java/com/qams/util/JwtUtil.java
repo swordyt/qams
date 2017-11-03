@@ -20,7 +20,7 @@ import com.qams.domain.User;
 
 @Component
 public class JwtUtil {
-	//@Value("#{configProperties['t1.msgname']}")
+	// @Value("#{configProperties['t1.msgname']}")
 	@Value("${spring.profiles.active}")
 	private String profiles;
 
@@ -30,7 +30,6 @@ public class JwtUtil {
 	 * @return
 	 * */
 	public SecretKey generalKey() {
-		System.out.println("profiles="+profiles);
 		String stringKey = profiles + Constant.JWT_SECRET;
 		byte[] encodeKey = Base64.decodeBase64(stringKey);
 		SecretKey key = new SecretKeySpec(encodeKey, 0, encodeKey.length, "AES");
@@ -65,28 +64,40 @@ public class JwtUtil {
 		}
 		return builder.compact();
 	}
-	
+
 	/**
 	 * 解密jwt
+	 * 
 	 * @param jwt
 	 * @return
 	 * @throws Exception
 	 * */
-	public Claims parseJWT(String jwt){
-		SecretKey key=generalKey();
-		Claims claims=Jwts.parser()
-				.setSigningKey(key)
-				.parseClaimsJws(jwt).getBody();
+	public Claims parseJWT(String jwt) {
+		SecretKey key = generalKey();
+		Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt)
+				.getBody();
 		return claims;
 	}
+
 	/**
 	 * 生成subject信息
+	 * 
 	 * @param user
 	 * @return
 	 * */
-	public static String generalSubject(User user){
-		JSONObject jo=new JSONObject();
+	public static String generalSubject(User user) {
+		JSONObject jo = new JSONObject();
 		jo.put("userId", user.getId());
 		return jo.toJSONString();
+	}
+
+	/**
+	 * 获取sub中指定key值
+	 * */
+	public static Object parseSubject(JwtUtil jwt,String token,String key )
+			throws Exception {
+		Claims claims = jwt.parseJWT(token);
+		String sub = claims.getSubject();
+		return JSONObject.parseObject(sub).get(key);
 	}
 }

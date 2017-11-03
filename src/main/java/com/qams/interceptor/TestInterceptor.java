@@ -1,8 +1,5 @@
 package com.qams.interceptor;
 
-import java.io.PrintWriter;
-import java.util.Date;
-
 import io.jsonwebtoken.Claims;
 
 import javax.servlet.http.Cookie;
@@ -14,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qams.config.Constant;
 import com.qams.dao.UserMapper;
 import com.qams.domain.UserKey;
 import com.qams.response.Response;
@@ -35,9 +31,10 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		boolean flag = true;
+		Integer userId=null;
 		try {
 			String token = request.getParameter("tokenId");// 获取客服端token
-			if (token == null) {//如果为携带tokenId参数，将从cookie中获取
+			if (token == null) {// 如果为携带tokenId参数，将从cookie中获取
 				Cookie[] cookies = request.getCookies();
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("tokenId")) {
@@ -51,9 +48,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 			} else {
 				Claims claims = jwt.parseJWT(token);
 				Long expTime = Long.parseLong(claims.get("exp") + "") * 1000; // 获取token中保存过期时间
-				String id = claims.getSubject();// 获取token中保存userid
-				Integer userId = Integer.parseInt(JSONObject.parseObject(id)
-						.get("userId") + "");
+				userId = Integer.parseInt(jwt.parseSubject(jwt,token, "userId")+"");
 				Long now = System.currentTimeMillis();
 				userKey.setId(userId);
 				// 查询userid在数据库中是否存在
@@ -62,19 +57,20 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 						|| (now - expTime) > 0) {
 					flag = false;
 				}
-				if (!flag) {
-					String path = request.getContextPath();
-					String basePath = request.getScheme() + "://"
-							+ request.getServerName() + ":"
-							+ request.getServerPort() + path + "/";
-					response.sendRedirect(basePath + "user/index");
-				}
 			}
 			//
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			flag = false;
 		}
+		if (!flag) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
+			response.sendRedirect(basePath + "user/index");
+		}
+		request.setAttribute("userid", userId);
 		return flag;
 	}
 

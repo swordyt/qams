@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-01 11:34:37
+Date: 2017-11-03 11:22:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,18 +20,19 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_case`;
 CREATE TABLE `t_case` (
-  `id` int(32) NOT NULL,
-  `userId` int(32) NOT NULL COMMENT '创建用户id',
-  `type` int(32) NOT NULL COMMENT '0:目录，1:用例',
-  `pid` int(32) DEFAULT NULL COMMENT '父级id',
-  `name` varchar(200) NOT NULL,
-  `level` int(32) NOT NULL DEFAULT '0' COMMENT '用例等级，0：无实际效用，供目录使用。\n1：最高，2：高，3：中，4：低，5：最低',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL COMMENT '创建用户id',
+  `pid` int(11) NOT NULL COMMENT '父级id',
+  `type` int(11) NOT NULL COMMENT '0:目录，1:用例',
+  `name` varchar(500) NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT '用例等级，0：无实际效用，供目录使用。1：最高，2：高，3：中，4：低，5：最低',
   `description` varchar(1000) DEFAULT NULL,
-  `step` json DEFAULT NULL COMMENT '用例步骤',
+  `step` json DEFAULT NULL,
   `file` varchar(200) DEFAULT NULL COMMENT '上传附件地址',
-  `status` int(32) NOT NULL DEFAULT '0' COMMENT '0:无效，1:有效',
-  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatetime` timestamp NULL DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0:无效，1:有效',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  CONSTRAINT `userId` FOREIGN KEY (`id`) REFERENCES `t_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `userId` (`userId`),
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;

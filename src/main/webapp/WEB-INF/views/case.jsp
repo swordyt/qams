@@ -14,19 +14,22 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap/bootstrap.min.css">
-<script type="text/javascript" src="resources/js/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/js/jquery/jquery.cookie.js"></script>
 <!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <link rel="stylesheet"
-	href="resources/css/bootstrapStyle/bootstrapStyle.css"
-	type="text/css">
+	href="resources/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
 <script type="text/javascript"
 	src="resources/js/tree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
 	src="resources/js/tree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript"
 	src="resources/js/tree/jquery.ztree.exedit.js"></script>
+<script src="resources/js/common.js"></script>
 <title>QAMS</title>
 </head>
 <body>
@@ -73,6 +76,8 @@
 							<label for="name">名称</label> <input type="text" name="name"
 								class="form-control" id="name" required="">
 						</div>
+						<input type="hidden" name="type" value="0" id="type" /> <input
+							type="hidden" name="pid" value="0" id="pid" />
 						<div class="form-group">
 							<label for="level">优先级</label> <select class="form-control"
 								name="level" id="level">
@@ -85,7 +90,7 @@
 						</div>
 						<div class="form-group pull-right">
 							<button type="button" class="form-control btn btn-success"
-								onclick="submitForm(this.form)">
+								onclick="submitForm(this.form);return false;">
 								提交
 								<!-- <span class="glyphicon glyphicon-ok"></span> -->
 							</button>
@@ -94,20 +99,21 @@
 					<div>
 						<div class="form-group" style="margin-top: 10px">
 							<label>描述</label>
-							<textarea class="form-control" cols="70" rows="5"></textarea>
+							<textarea class="form-control" cols="70" rows="5"
+								name="description" id="description"></textarea>
 						</div>
 					</div>
-					<div style="margin-top: 20px" id="steps">
-						<div>
+					<div>
+						<div style="margin-top: 20px" id="steps">
 							<div class="form-group">
 								<label>步骤</label>
-								<textarea class="form-control" name="step"
-									placeholder="请输入用例步骤" rows="3" cols="30"></textarea>
+								<textarea class="form-control" placeholder="请输入用例步骤" rows="3"
+									cols="30"></textarea>
 							</div>
 							<div class="form-group">
 								<label>期望</label>
-								<textarea class="form-control" name="expect"
-									placeholder="请输入期望的结果" rows="3" cols="30"></textarea>
+								<textarea class="form-control" placeholder="请输入期望的结果" rows="3"
+									cols="30"></textarea>
 							</div>
 							<button type="button" id="addStep"
 								class="btn btn-success pull-right" style="font-size: 18px;">
@@ -117,19 +123,19 @@
 					</div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
-							<label>附件</label> <input type="file" name="upload"
+							<label>附件</label> <input type="file" name="file" id="file"
 								class="form-control" />
 						</div>
 						<div class="form-group pull-right">
-							<label>创建者</label> <span><p
-									class="form-control-static">email@example.com</p> </span>
+							<label>创建者</label> <span><p class="form-control-static"
+									id="userId">email@example.com</p> </span>
 						</div>
 					</div>
 					<div class="clearfix"></div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
-							<label>最新修改时间<</label>
-							<p class="form-control-static" id="lastTime">2017/10/29
+							<label>最新修改时间</label>
+							<p class="form-control-static" id="updatetime">2017/10/29
 								10:39:38</p>
 						</div>
 						<div class="form-group pull-right">

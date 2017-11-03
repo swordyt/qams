@@ -1,5 +1,8 @@
 package com.qams.domain;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class UserKey {
     private Integer id;
 
