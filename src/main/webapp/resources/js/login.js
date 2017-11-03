@@ -14,7 +14,7 @@ function submit() {
 			}
 		}
 	};
-	Network.maskSend("user/login", {
+	Network.maskSend("login", {
 		"email" : email,
 		"password" : password
 	}, fun);

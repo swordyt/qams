@@ -33,8 +33,7 @@
 <title>QAMS</title>
 </head>
 <body>
-	<div class="container" style="padding: 0;" ng-app="caseMange"
-		ng-controller="caseMange">
+	<div class="container" style="padding: 0;">
 		<div class="row" style="border:1px double #e7e7e7">
 			<div class="col-xs-4"
 				style="padding: 0;height:588px;overflow-y:auto;overflow-x: scroll;">
@@ -70,7 +69,8 @@
 			</div>
 			<div class="col-xs-8"
 				style="height:588px;overflow-y:auto;overflow-x: auto;">
-				<form class="form-inline" role="form" method="post" action="#">
+				<form class="form-inline" role="form" method="post" action="#"
+					id="form">
 					<div>
 						<div class="form-group">
 							<label for="name">名称</label> <input type="text" name="name"
@@ -128,20 +128,24 @@
 						</div>
 						<div class="form-group pull-right">
 							<label>创建者</label> <span><p class="form-control-static"
-									id="userId">email@example.com</p> </span>
+									id="userId"></p> </span>
 						</div>
 					</div>
 					<div class="clearfix"></div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
 							<label>最新修改时间</label>
-							<p class="form-control-static" id="updatetime">2017/10/29
-								10:39:38</p>
+							<p class="form-control-static" id="updatetime"></p>
 						</div>
 						<div class="form-group pull-right">
 							<label>创建时间</label>
-							<p class="form-control-static" id="createTime">2017/10/29
-								10:39:38</p>
+							<p class="form-control-static" id="createTime"></p>
+						</div>
+					</div>
+					<div style="clear:both">
+						<div class="form-group pull-right">
+							<input class="btn btn-warning form-control" type="reset" id="reset"
+								onclick="resetForm()" value="重置" />
 						</div>
 					</div>
 				</form>

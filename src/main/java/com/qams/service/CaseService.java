@@ -20,6 +20,7 @@ public class CaseService {
 	 * */
 	public int addCase(Case cs) {
 		cs.setType(1);
+		cs.setStatus(1);
 		return caseDao.insertSelective(cs);
 	}
 

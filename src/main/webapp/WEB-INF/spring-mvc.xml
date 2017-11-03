@@ -40,9 +40,14 @@
 		<property name="suffix" value=".html" /> <property name="order" value="0"></property> 
 		<property name="contentType" value="text/html;charset=UTF-8"></property> 
 		</bean> -->
+	<!-- 登录态拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/cases/*" /> <!-- /user/* -->
+			<mvc:mapping path="/cases/*" /> <!-- /case/* -->
+			<bean class="com.qams.interceptor.TestInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/*" /> <!-- /user/* -->
 			<bean class="com.qams.interceptor.TestInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -86,7 +86,7 @@ function rightFunctionMenu(event, treeId, treeNode) {
 	}
 }
 function doubleItemFunction(event, treeId, treeNode) {
-	console.log(treeNode.tId);
+//	console.log(treeNode.tId);
 	tree_dbElementId = treeNode;
 	if (treeNode.type == 0) {
 		showForm(1, 0, 1, 0, 0, 1, 1);
@@ -97,7 +97,7 @@ function doubleItemFunction(event, treeId, treeNode) {
 	console.log(treeNode);
 	fillForm(treeNode.name, treeNode.type, treeNode.pid, treeNode.level,
 			treeNode.description, treeNode.step, treeNode.file,
-			treeNode.userid, treeNode.createtime, treeNode.updateTime);
+			treeNode.userid, date(treeNode.createtime), date(treeNode.updateTime));
 	return true;
 }
 function fillForm(name, type, pid, level, description, steps, file, userId,
@@ -267,7 +267,16 @@ $(document).ready(function() {
 		tree_dbElementId.name = $(this).val();
 		zTree.updateNode(tree_dbElementId);
 	});
+//	$("#reset").click(function(e){
+//		$("#form")[0].reset();
+//	});
 });
+//重置表单
+var formHtml=$("#form").html();
+function resetForm(){
+	$("#steps").find("button.btn-danger").click();
+	return true;
+}
 // 提交表单
 function submitForm(form) {
 	var step = new Array();
@@ -277,7 +286,7 @@ function submitForm(form) {
 	$.each(stepes, function(index, domEle) {
 		var obj = new Object();
 		obj.step = $(domEle).val();
-		console.log(obj.step);
+//		console.log(obj.step);
 		obj.expect = $(expectes[index]).val();
 		step.push(obj);
 
