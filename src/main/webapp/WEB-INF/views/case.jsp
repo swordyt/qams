@@ -53,12 +53,10 @@
 					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCopy"><span class="glyphicon glyphicon-plus"
-							style="color: #269abc"></span>复制</a>
-					</li>
+							style="color: #269abc"></span>复制</a></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCut"><span class="glyphicon glyphicon-plus"
-							style="color: #d58512"></span>剪切</a>
-					</li>
+							style="color: #d58512"></span>剪切</a></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuDrop"><span
 							class="glyphicon glyphicon-remove" style="color: #ac2925"></span>删除</a>
@@ -76,8 +74,9 @@
 							<label for="name">名称</label> <input type="text" name="name"
 								class="form-control" id="name" required="">
 						</div>
-						<input type="hidden" name="type" value="0" id="type" /> <input
-							type="hidden" name="pid" value="0" id="pid" />
+						<input type="hidden" name="id" id="id" style="display:none"/><input
+							type="hidden" name="pid" value="0" id="pid" style="display:none"/> <input
+							type="hidden" name="type" value="0" id="type" style="display:none"/>
 						<div class="form-group">
 							<label for="level">优先级</label> <select class="form-control"
 								name="level" id="level">
@@ -127,8 +126,8 @@
 								class="form-control" />
 						</div>
 						<div class="form-group pull-right">
-							<label>创建者</label> <span><p class="form-control-static"
-									id="userId"></p> </span>
+							<label>创建者</label><span>
+								<p class="form-control-static" id="userId"></p> </span>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -144,8 +143,8 @@
 					</div>
 					<div style="clear:both">
 						<div class="form-group pull-right">
-							<input class="btn btn-warning form-control" type="reset" id="reset"
-								onclick="resetForm()" value="重置" />
+							<input class="btn btn-warning form-control" type="reset"
+								id="reset" onclick="resetForm(this)" value="重置" />
 						</div>
 					</div>
 				</form>

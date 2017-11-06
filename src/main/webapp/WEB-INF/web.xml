@@ -50,13 +50,17 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
 		<url-pattern>*.jpg</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
-		<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.map</url-pattern>
 	</servlet-mapping>
@@ -69,6 +73,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>view/index.html</welcome-file>
+		<welcome-file>WEB-INF/views/index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

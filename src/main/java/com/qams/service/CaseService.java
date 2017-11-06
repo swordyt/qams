@@ -19,11 +19,35 @@ public class CaseService {
 	 * 插入case
 	 * */
 	public int addCase(Case cs) {
-		cs.setType(1);
 		cs.setStatus(1);
-		return caseDao.insertSelective(cs);
+		int i=caseDao.insertSelective(cs);
+		System.out.println(cs.getId());
+		return i;
 	}
-
+	/**
+	 * 删除case
+	 * */
+	public boolean delCase(Integer id) {
+		Case cs=caseDao.selectByPrimaryKey(id);
+		cs.setStatus(0);
+		if(cs!=null&&caseDao.updateByPrimaryKeySelective(cs) == 1){
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 更新case
+	 * */
+	public boolean updateCase(Case cs) {
+		Case cse=caseDao.selectByPrimaryKey(cs.getId());
+		if(cse == null){
+			return false;
+		}
+		if(cs!=null&&caseDao.updateByPrimaryKeySelective(cs) == 1){
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * 获取case详情
 	 * */
@@ -34,7 +58,7 @@ public class CaseService {
 	/**
 	 * 获取目录树
 	 * */
-	public List<Case> getCases() {
-		return caseDao.selectAll();
+	public List<Case> getCases(Integer id) {
+		return caseDao.selectCases(id);
 	}
 }

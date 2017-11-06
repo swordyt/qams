@@ -1,5 +1,8 @@
 package com.qams.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,9 @@ public class CaseController {
 
 	@ResponseBody
 	@RequestMapping("/addCase")
-	public Response addCase(Case cs,HttpServletRequest request) {
+	public Response addCase(Case cs,HttpServletRequest request) throws UnsupportedEncodingException {
+		System.out.println(request.getParameter("ids"));
+		cs.setStep(URLDecoder.decode(cs.getStep(),"utf-8"));
 		cs.setUserid((Integer)request.getAttribute("userid"));
 		response.setData(caseService.addCase(cs));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
@@ -48,17 +53,40 @@ public class CaseController {
 	}
 	@ResponseBody
 	@RequestMapping("/updateCase")
-	public Response updateCase(Case cs,HttpServletRequest request) {
-		cs.setUserid((Integer)request.getAttribute("userid"));
-		response.setData(caseService.addCase(cs));
+	public Response updateCase(Case cs) throws UnsupportedEncodingException {
+		cs.setStep(URLDecoder.decode(cs.getStep(),"utf-8"));
+		boolean flag=caseService.updateCase(cs);
+		if(flag){
+			response.setData(flag);
+			response.setCode(Constant.CODE.RESCODE_SUCCESS);
+			response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+			return response;
+		}
+		response.setData(flag);
+		response.setCode(Constant.CODE.RESCODE_FALSE);
+		response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping("/casesTree")
+	public Response casesTree(Integer id) {
+		if(id == null){
+			id=0;
+		}
+		response.setData(caseService.getCases(id));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping("/casesTree")
-	public Response casesTree() {
-		response.setData(caseService.getCases());
+	@RequestMapping("/delCase")
+	public Response delCase(Integer id) {
+		if(id == null||id == 0){
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
+		response.setData(caseService.delCase(id));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		return response;

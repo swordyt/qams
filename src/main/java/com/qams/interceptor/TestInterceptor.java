@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qams.config.UrlMapping;
 import com.qams.dao.UserMapper;
 import com.qams.domain.UserKey;
 import com.qams.response.Response;
@@ -68,7 +69,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 			String basePath = request.getScheme() + "://"
 					+ request.getServerName() + ":" + request.getServerPort()
 					+ path + "/";
-			response.sendRedirect(basePath + "user/index");
+			response.sendRedirect(basePath + UrlMapping.IndexController_Index);
 		}
 		request.setAttribute("userid", userId);
 		return flag;

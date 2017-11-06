@@ -1,7 +1,24 @@
 var tree_Id;
 var tree_Node;
 var tree_dbElementId = null;
+function typeToIsparent(data){
+	$.each(data.data, function(k, v) {
+		if (data.data[k].id == 0) {
+			data.data[k].open = true;
+		}
+		if (data.data[k].type == 1) {
+			data.data[k].isParent = false;
+		} else {
+			data.data[k].isParent = true;
+		}
+	});
+	return data;
+}
 /* 初始化tree */
+function dataFilter(treeId, parentNode, responseData) {
+	responseData=typeToIsparent(responseData);
+	return responseData.data;
+}
 var setting = {
 	view : {
 		addHoverDom : false,
@@ -18,6 +35,10 @@ var setting = {
 			pIdKey : "pid",
 			isParent : "type",
 			rootPId : 0
+		},
+		keep : {
+			leaf : true,
+			parent : true
 		}
 	},
 	edit : {
@@ -26,6 +47,13 @@ var setting = {
 	callback : {
 		onRightClick : rightFunctionMenu,
 		onDblClick : doubleItemFunction
+	},
+	async : {
+		enable : true,
+		dataFilter : dataFilter,
+		type : "post",
+		autoParam : [ "id" ],
+		url : "cases/casesTree"
 	}
 };
 var newCount = 1;
@@ -86,7 +114,8 @@ function rightFunctionMenu(event, treeId, treeNode) {
 	}
 }
 function doubleItemFunction(event, treeId, treeNode) {
-//	console.log(treeNode.tId);
+	// console.log(treeNode.tId);
+	resetForm();
 	tree_dbElementId = treeNode;
 	if (treeNode.type == 0) {
 		showForm(1, 0, 1, 0, 0, 1, 1);
@@ -97,21 +126,45 @@ function doubleItemFunction(event, treeId, treeNode) {
 	console.log(treeNode);
 	fillForm(treeNode.name, treeNode.type, treeNode.pid, treeNode.level,
 			treeNode.description, treeNode.step, treeNode.file,
-			treeNode.userid, date(treeNode.createtime), date(treeNode.updateTime));
+			treeNode.userid, date(treeNode.createtime),
+			date(treeNode.updateTime), treeNode.id);
 	return true;
 }
 function fillForm(name, type, pid, level, description, steps, file, userId,
-		createTime, updatetime) {
-	$("#name").val(name);
-	$("#type").val(type);
-	$("#pid").val(pid);
-	$("#level").val(level);
-	$("#description").val(description);
-	$("#file").val(file);
-	$("#userId").text(userId);
-	$("#createTime").text(createTime);
-	$("#updatetime").text(updatetime);
-
+		createTime, updatetime, id) {
+	if (name != null) {
+		$("#name").val(name);
+	}
+	if (type != null) {
+		$("#type").val(type);
+	}
+	if (pid != null) {
+		$("#pid").val(pid);
+	}
+	if (level != null) {
+		$("#level").val(level);
+	}
+	if (description != null) {
+		$("#description").val(description);
+	}
+	if (steps != null) {
+		$("#steps").val(steps);
+	}
+	if (file != null) {
+		$("#file").val(file);
+	}
+	if (userId != null) {
+		$("#userId").html(userId);
+	}
+	if (createTime != null) {
+		$("#createTime").html(createTime);
+	}
+	if (updatetime != null) {
+		$("#updatetime").html(updatetime);
+	}
+	if (id != null) {
+		$("#id").val(id);
+	}
 }
 /**
  * 填充用例步骤字段
@@ -154,7 +207,9 @@ function fillStep(step, expect) {
 								+ "</div>");
 	}
 }
+$("form").hide();
 function showForm(name, level, description, steps, file, createTime, updatetime) {
+	$("form").show();
 	if (name == null || name == 0 || name == false) {
 		$("#name").parent().css("display", "none");
 	} else {
@@ -195,88 +250,108 @@ function showForm(name, level, description, steps, file, createTime, updatetime)
 function removeStep(e) {
 	$(e).parent().remove();
 }
-$(document).ready(function() {
-	var zNodes;
-	Network.maskSend("cases/casesTree", {}, function(data, textStatus, jqXHR) {
-		$.each(data.data, function(k, v) {
-			if(data.data[k].id==0){
-				data.data[k].open=true;
-			}
-			if (data.data[k].type == 1) {
-				data.data[k].isParent = false;
-			} else {
-				data.data[k].isParent = true;
-			}
-		});
-		// console.log(data.data);
-		$.fn.zTree.init($("#treeDemo"), setting, data.data);
-	});
+$(document).ready(
+		function() {
+			var zNodes;
+			Network.maskSend("cases/casesTree", {}, function(data, textStatus,
+					jqXHR) {
+				data=typeToIsparent(data);
+				// console.log(data.data);
+				$.fn.zTree.init($("#treeDemo"), setting, data.data);
+			});
 
-	$("#addStep").click(function() {
-		fillStep(null, null);
-	});
-	// 鼠标单击全屏隐藏功能菜单
-	$(document).click(function() {
-		$("#treeRightMenu").css("display", "none");
-	});
-	// 创建用例
-	$("#menuCreateCase").click(function(event) {
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		zTree.addNodes(tree_Node, {
-			id : (100 + newCount),
-			pId : tree_Node.id,
-			name : "new node" + (newCount++),
-			isParent : false
-		});
-		event.preventDefault();
-		return true;
-	});
-	// 创建子目录
-	$("#menuCreateSubdirectory").click(function(event) {
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		zTree.addNodes(tree_Node, {
-			id : (100 + newCount),
-			pId : tree_Node.id,
-			name : "new node" + (newCount++),
-			isParent : true
-		});
-		event.preventDefault();
-		return true;
-	});
-	// 复制
-	$("#menuCopy").click(function(event) {
+			$("#addStep").click(function() {
+				fillStep(null, null);
+			});
+			// 鼠标单击全屏隐藏功能菜单
+			$(document).click(function() {
+				$("#treeRightMenu").css("display", "none");
+			});
+			// 创建用例
+			$("#menuCreateCase").click(
+					function(event) {
+						resetForm("kill");
+						showForm(1, 1, 1, 1, 1, 1, 1);
+						fillForm(null, "1", tree_Node.id, null, null, null,
+								null, tree_Node.userId, null, null);
+						// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+						// zTree.addNodes(tree_Node, {
+						// id : (100 + newCount),
+						// pId : tree_Node.id,
+						// name : "new node" + (newCount++),
+						// isParent : false
+						// });
+						event.preventDefault();
+						return true;
+					});
+			// 创建子目录
+			$("#menuCreateSubdirectory").click(
+					function(event) {
+						resetForm("kill");
+						showForm(1, 0, 1, 0, 0, 1, 1);
+						fillForm(null, "0", tree_Node.id, null, null, null,
+								null, tree_Node.userId, null, null);
+						// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+						// zTree.addNodes(tree_Node, {
+						// id : (100 + newCount),
+						// pId : tree_Node.id,
+						// name : "new node" + (newCount++),
+						// isParent : true
+						// });
+						event.preventDefault();
+						return true;
+					});
+			// 复制
+			$("#menuCopy").click(function(event) {
 
-	});
-	// 剪切
-	$("#menuCut").click(function(event) {
+			});
+			// 剪切
+			$("#menuCut").click(function(event) {
 
-	});
-	// 删除
-	$("#menuDrop").click(function(event) {
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		zTree.removeNode(tree_Node);
-		event.preventDefault();
-	});
-	// 监控name值变化,动态更新树名称
-	$("#name").keyup(function(event) {
-		if (tree_dbElementId == null) {
-			return true;
-		}
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		console.log(tree_dbElementId);
-		tree_dbElementId.name = $(this).val();
-		zTree.updateNode(tree_dbElementId);
-	});
-//	$("#reset").click(function(e){
-//		$("#form")[0].reset();
-//	});
-});
-//重置表单
-var formHtml=$("#form").html();
-function resetForm(){
+			});
+			// 删除
+			$("#menuDrop").click(function(event) {
+				if (tree_Node.isParent == true) {
+					alert("您正在删除的是目录，请再次确认。");
+				}
+				function fun(data, textStatus, jqXHR) {
+					alert(data.message);
+				}
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.removeNode(tree_Node);
+				var data = new Object();
+				var id = tree_Node.id;
+				data.id = id;
+				Network.maskSend("cases/delCase", data, fun);
+				event.preventDefault();
+			});
+			// 监控name值变化,动态更新树名称
+			// $("#name").keyup(function(event) {
+			// if (tree_dbElementId == null) {
+			// return true;
+			// }
+			// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			// console.log(tree_dbElementId);
+			// tree_dbElementId.name = $(this).val();
+			// zTree.updateNode(tree_dbElementId);
+			// });
+			// $("#reset").click(function(e){
+			// $("#form")[0].reset();
+			// });
+		});
+// 重置表单
+function resetForm(e) {
 	$("#steps").find("button.btn-danger").click();
+	if (e == "kill") {
+		e = null;
+		$("#id").removeAttr("value");
+	}
+	if (e == null) {
+		$("#reset").click();
+	}
 	return true;
 }
+
 // 提交表单
 function submitForm(form) {
 	var step = new Array();
@@ -286,13 +361,13 @@ function submitForm(form) {
 	$.each(stepes, function(index, domEle) {
 		var obj = new Object();
 		obj.step = $(domEle).val();
-//		console.log(obj.step);
+		// console.log(obj.step);
 		obj.expect = $(expectes[index]).val();
 		step.push(obj);
 
 	});
-	console.log($(step).stringify());
-	data.step = $(step).stringify();
+	console.log(encodeURI($(step).stringify(), "utf-8"));
+	data.step = encodeURI($(step).stringify(), "utf-8");
 	data.name = $(form.name).val();
 	data.file = $(form.file).val();
 	data.level = $(form.level).val();
@@ -301,6 +376,14 @@ function submitForm(form) {
 	data.description = $(form.description).val();
 	function fun(data, textStatus, jqXHR) {
 		alert(data.data);
+		resetForm("kill");
 	}
-	Network.maskSend("cases/addCase", data, fun);
+	var id = parseInt($(form.id).val());
+	if (isNaN(id)) {
+		Network.maskSend("cases/addCase", data, fun);
+	} else {
+		data.id = id;
+		Network.maskSend("cases/updateCase", data, fun);
+	}
+
 }
