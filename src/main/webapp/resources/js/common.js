@@ -27,12 +27,22 @@ var Network = {
 		Mask.popMask();
 		data.tokenId = $.cookie("tokenId");
 		$.post(url, data, function(data, textStatus, jqXHR) {
+			if(textStatus=="success" && data.code=="000000"){
+				showAlert(1,data.message);
+			}else{
+				showAlert(2,data.message);
+			}
 			callback(data, textStatus, jqXHR);
 			Mask.shutMask();
 		});
 	},
 	send : function(url, data, callback) {
 		$.post(url, data, function(data, textStatus, jqXHR) {
+			if(textStatus=="success" && data.code=="000000"){
+				showAlert(1,data.message);
+			}else{
+				showAlert(2,data.message);
+			}
 			callback(data, textStatus, jqXHR);
 		});
 	}
@@ -62,3 +72,23 @@ function date(timestamp){// 比如需要这样的格式 yyyy-MM-dd hh:mm:ss
 	// 输出结果：2014-04-23 18:55:49
 	return Y+M+D+h+m+s;
 };
+/**
+ * level 1:成功 0:失败 message:提示信息
+ */
+function timeOut() {
+	$("#myAlert").alert('close');
+};
+function showAlert(level, message) {
+	var style;
+	switch (level) {
+	case 1:
+		style = "center-block alert fade in alert alert-success";
+		break;
+	case 2:
+		style = "center-block alert fade in alert alert-warning";
+		break;
+	}
+	$("#alertMessage").html(message);
+	$("#myAlert").attr("class", style).show();
+//	setTimeout('timeOut()', 1000);
+}

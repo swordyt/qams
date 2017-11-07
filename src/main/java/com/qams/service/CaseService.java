@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qams.dao.CaseMapper;
 import com.qams.domain.Case;
 
@@ -21,7 +22,6 @@ public class CaseService {
 	public int addCase(Case cs) {
 		cs.setStatus(1);
 		int i=caseDao.insertSelective(cs);
-		System.out.println(cs.getId());
 		return i;
 	}
 	/**
@@ -59,6 +59,8 @@ public class CaseService {
 	 * 获取目录树
 	 * */
 	public List<Case> getCases(Integer id) {
-		return caseDao.selectCases(id);
+		List<Case> list=caseDao.selectCases(id);
+				JSONObject.toJSONString(list);
+		return list;
 	}
 }

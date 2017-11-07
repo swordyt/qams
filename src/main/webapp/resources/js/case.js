@@ -1,8 +1,7 @@
-var tree_Id;
 var tree_Node;
-var tree_dbElementId = null;
-function typeToIsparent(data){
+function typeToIsparent(data) {
 	$.each(data.data, function(k, v) {
+		data.data[k].grade = data.data[k].level;
 		if (data.data[k].id == 0) {
 			data.data[k].open = true;
 		}
@@ -16,7 +15,7 @@ function typeToIsparent(data){
 }
 /* 初始化tree */
 function dataFilter(treeId, parentNode, responseData) {
-	responseData=typeToIsparent(responseData);
+	responseData = typeToIsparent(responseData);
 	return responseData.data;
 }
 var setting = {
@@ -80,7 +79,6 @@ function addHoverDom(treeId, treeNode) {
 // $("#addBtn_" + treeNode.tId).unbind().remove();
 // };
 function rightFunctionMenu(event, treeId, treeNode) {
-	tree_Id = treeId;
 	tree_Node = treeNode;
 	// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 	var mouse_x = event.originalEvent.x;
@@ -115,8 +113,13 @@ function rightFunctionMenu(event, treeId, treeNode) {
 }
 function doubleItemFunction(event, treeId, treeNode) {
 	// console.log(treeNode.tId);
+
+	if (treeNode == null) {
+		return true;
+	}
+	tree_Node = treeNode.getParentNode();
 	resetForm();
-	tree_dbElementId = treeNode;
+	// tree_dbElementId = treeNode;
 	if (treeNode.type == 0) {
 		showForm(1, 0, 1, 0, 0, 1, 1);
 	}
@@ -124,14 +127,16 @@ function doubleItemFunction(event, treeId, treeNode) {
 		showForm(1, 1, 1, 1, 1, 1, 1);
 	}
 	console.log(treeNode);
-	fillForm(treeNode.name, treeNode.type, treeNode.pid, treeNode.level,
+	fillForm(treeNode.name, treeNode.type, treeNode.pid, treeNode.grade,
 			treeNode.description, treeNode.step, treeNode.file,
 			treeNode.userid, date(treeNode.createtime),
 			date(treeNode.updateTime), treeNode.id);
 	return true;
 }
-function fillForm(name, type, pid, level, description, steps, file, userId,
+function fillForm(name, type, pid, grade, description, steps, file, userId,
 		createTime, updatetime, id) {
+	// steps=decodeURI(steps, "utf-8");
+	console.log("steps=" + steps);
 	if (name != null) {
 		$("#name").val(name);
 	}
@@ -141,14 +146,24 @@ function fillForm(name, type, pid, level, description, steps, file, userId,
 	if (pid != null) {
 		$("#pid").val(pid);
 	}
-	if (level != null) {
-		$("#level").val(level);
+	if (grade != null) {
+		// $("#level").find("option[text='"+grade+"']").attr("selected",true);
+		$("#level").val(grade);
 	}
 	if (description != null) {
 		$("#description").val(description);
 	}
 	if (steps != null) {
-		$("#steps").val(steps);
+		$.each(JSON.parse(steps), function(k, v) {
+			if (k == 0) {
+				$("#steps_step").val(v.step);
+				$("#steps_expect").val(v.expect);
+			} else {
+				fillStep(v.step, v.expect);
+			}
+
+		});
+		// $("#steps").val(steps);
 	}
 	if (file != null) {
 		$("#file").val(file);
@@ -192,16 +207,18 @@ function fillStep(step, expect) {
 						"<div style=\"margin-top: 10px\">"
 								+ "<div class=\"form-group\">"
 								+ "<label>步骤&nbsp</label>"
-								+ "<textarea class=\"form-control\" placeholder=\"请输入用例步骤\" rows=\"3\" cols=\"30\" value=\""
+								+ "<textarea class=\"form-control\" placeholder=\"请输入用例步骤\" rows=\"3\" cols=\"30\""
+								+ "\">"
 								+ step
-								+ "\"></textarea>"
+								+ "</textarea>"
 								+ "</div>"
 								+ "&nbsp"
 								+ "<div class=\"form-group\">"
 								+ "<label>期望&nbsp</label>"
-								+ "<textarea class=\"form-control\"  placeholder=\"请输入期望的结果\" rows=\"3\" cols=\"30\" value=\""
+								+ "<textarea class=\"form-control\"  placeholder=\"请输入期望的结果\" rows=\"3\" cols=\"30\""
+								+ "\">"
 								+ expect
-								+ "\"></textarea>"
+								+ "</textarea>"
 								+ "</div>"
 								+ "<button type=\"button\" class=\"btn btn-danger pull-right\" style=\"font-size: 18px;\" onclick=\"removeStep(this)\"><span class=\"glyphicon glyphicon-minus\"></span></button>"
 								+ "</div>");
@@ -250,16 +267,19 @@ function showForm(name, level, description, steps, file, createTime, updatetime)
 function removeStep(e) {
 	$(e).parent().remove();
 }
+/**
+ * init tree
+ */
+function initTree() {
+	Network.maskSend("cases/casesTree", {}, function(data, textStatus, jqXHR) {
+		data = typeToIsparent(data);
+		// console.log(data.data);
+		$.fn.zTree.init($("#treeDemo"), setting, data.data);
+	});
+}
 $(document).ready(
 		function() {
-			var zNodes;
-			Network.maskSend("cases/casesTree", {}, function(data, textStatus,
-					jqXHR) {
-				data=typeToIsparent(data);
-				// console.log(data.data);
-				$.fn.zTree.init($("#treeDemo"), setting, data.data);
-			});
-
+			initTree();
 			$("#addStep").click(function() {
 				fillStep(null, null);
 			});
@@ -315,7 +335,7 @@ $(document).ready(
 					alert("您正在删除的是目录，请再次确认。");
 				}
 				function fun(data, textStatus, jqXHR) {
-					alert(data.message);
+					showAlert(0, data.message);
 				}
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.removeNode(tree_Node);
@@ -361,13 +381,16 @@ function submitForm(form) {
 	$.each(stepes, function(index, domEle) {
 		var obj = new Object();
 		obj.step = $(domEle).val();
-		// console.log(obj.step);
+		console.log("step=" + obj.step);
 		obj.expect = $(expectes[index]).val();
+		console.log(obj);
 		step.push(obj);
 
 	});
-	console.log(encodeURI($(step).stringify(), "utf-8"));
-	data.step = encodeURI($(step).stringify(), "utf-8");
+	// console.log(decodeURI($(step).stringify(), "utf-8"));
+	// data.step = decodeURI($(step).stringify(), "utf-8");
+	data.step = JSON.stringify(step);
+	console.log("data.step=" + data.step);
 	data.name = $(form.name).val();
 	data.file = $(form.file).val();
 	data.level = $(form.level).val();
@@ -375,8 +398,13 @@ function submitForm(form) {
 	data.type = $(form.type).val();
 	data.description = $(form.description).val();
 	function fun(data, textStatus, jqXHR) {
-		alert(data.data);
 		resetForm("kill");
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+		if (tree_Node == null || tree_Node.id == 0) {
+			initTree();
+		} else {
+			zTree.reAsyncChildNodes(tree_Node, "refresh");
+		}
 	}
 	var id = parseInt($(form.id).val());
 	if (isNaN(id)) {

@@ -1,7 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%> 
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
-String path = request.getContextPath(); String basePath =
-request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html>
 <html>
@@ -12,7 +14,8 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="resources/css/index.css">
-<script type="text/javascript" src="resources/js/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <title>QAMS</title>
@@ -46,6 +49,11 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
 		</div>
 	</div>
 	<div style="clear: both;"></div>
+	<div class="row">
+		<div id="myAlert">
+			<span id="alertMessage"></span>
+		</div>
+	</div>
 	<iframe src="javascript:void(0);" frameborder="0" id="content_iframe"></iframe>
 
 	<script type="text/javascript" src="resources/js/index.js"></script>

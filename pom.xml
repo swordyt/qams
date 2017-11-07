@@ -10,7 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.0.2.RELEASE</spring.version>
-		 <mybatis.version>3.2.6</mybatis.version> 
+		<mybatis.version>3.2.6</mybatis.version>
 		<fastjson.version>1.2.16</fastjson.version>
 	</properties>
 	<dependencies>
@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.30</version>
+			<version>5.1.40</version>
 		</dependency>
 		<!-- 导入dbcp的jar包，用来在applicationContext.xml中配置数据库 -->
 		<dependency>

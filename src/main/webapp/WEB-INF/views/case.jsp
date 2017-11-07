@@ -107,12 +107,12 @@
 							<div class="form-group">
 								<label>步骤</label>
 								<textarea class="form-control" placeholder="请输入用例步骤" rows="3"
-									cols="30"></textarea>
+									cols="30" id="steps_step"></textarea>
 							</div>
 							<div class="form-group">
 								<label>期望</label>
 								<textarea class="form-control" placeholder="请输入期望的结果" rows="3"
-									cols="30"></textarea>
+									cols="30" id="steps_expect"></textarea>
 							</div>
 							<button type="button" id="addStep"
 								class="btn btn-success pull-right" style="font-size: 18px;">

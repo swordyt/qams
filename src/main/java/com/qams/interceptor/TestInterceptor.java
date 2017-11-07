@@ -79,7 +79,6 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// System.out.println(jwt.parseJWT(jwtString).get("sub"));
 		super.postHandle(request, response, handler, modelAndView);
 	}
 

@@ -26,7 +26,6 @@ public class CaseController {
 	@RequestMapping("/index")
 	public ModelAndView testIndex(HttpServletRequest request) {
 		// org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
-		System.out.println("index");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index");
 		return mav;
@@ -34,7 +33,6 @@ public class CaseController {
 
 	@RequestMapping("/case")
 	public ModelAndView testCase(HttpServletRequest request) {
-		System.out.println("case");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("case");
 		return mav;
@@ -43,8 +41,6 @@ public class CaseController {
 	@ResponseBody
 	@RequestMapping("/addCase")
 	public Response addCase(Case cs,HttpServletRequest request) throws UnsupportedEncodingException {
-		System.out.println(request.getParameter("ids"));
-		cs.setStep(URLDecoder.decode(cs.getStep(),"utf-8"));
 		cs.setUserid((Integer)request.getAttribute("userid"));
 		response.setData(caseService.addCase(cs));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
@@ -54,7 +50,6 @@ public class CaseController {
 	@ResponseBody
 	@RequestMapping("/updateCase")
 	public Response updateCase(Case cs) throws UnsupportedEncodingException {
-		cs.setStep(URLDecoder.decode(cs.getStep(),"utf-8"));
 		boolean flag=caseService.updateCase(cs);
 		if(flag){
 			response.setData(flag);

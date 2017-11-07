@@ -1,5 +1,6 @@
 package com.qams.domain;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import org.springframework.stereotype.Repository;
@@ -89,7 +90,7 @@ public class Case {
         return step;
     }
 
-    public void setStep(String step) {
+    public void setStep(String step) throws UnsupportedEncodingException {
         this.step = step == null ? null : step.trim();
     }
 
