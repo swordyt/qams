@@ -1,11 +1,16 @@
 package com.qams.interceptor;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.jsonwebtoken.Claims;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -16,8 +21,10 @@ import com.qams.dao.UserMapper;
 import com.qams.domain.UserKey;
 import com.qams.response.Response;
 import com.qams.util.JwtUtil;
+import com.qams.util.NetworkUtil;
 
-public class TestInterceptor extends HandlerInterceptorAdapter {
+public class TokenInterceptor extends HandlerInterceptorAdapter {
+	private static final Logger Log=Logger.getLogger(TokenInterceptor.class);
 	@Autowired
 	JwtUtil jwt;
 	@Autowired
@@ -31,6 +38,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
+		recodeLog(request);
 		boolean flag = true;
 		Integer userId=null;
 		try {
@@ -72,6 +80,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect(basePath + UrlMapping.IndexController_Index);
 		}
 		request.setAttribute("userid", userId);
+		Log.info("userid="+userId);
 		return flag;
 	}
 
@@ -88,5 +97,12 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		// Claims claims = jwt.parseJWT(jwtString);
 		super.afterCompletion(request, response, handler, ex);
+	}
+	private void recodeLog(HttpServletRequest request) throws IOException {
+		Log.info(request.getRequestURL());
+		String ip = NetworkUtil.getIpAddress(request);
+		Log.info("ip="+ip);
+		String parameter=JSONObject.toJSONString(request.getParameterMap());
+		Log.info("parameter="+parameter);
 	}
 }

@@ -30,6 +30,7 @@
 <script type="text/javascript"
 	src="resources/js/tree/jquery.ztree.exedit.js"></script>
 <script src="resources/js/common.js"></script>
+<!-- <script src="resources/js/dropzone.min.js"></script> -->
 <title>QAMS</title>
 </head>
 <body>
