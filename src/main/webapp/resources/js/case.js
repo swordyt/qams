@@ -1,7 +1,11 @@
 var tree_Node;
+var rootId;
 function typeToIsparent(data) {
 	$.each(data.data, function(k, v) {
 		data.data[k].grade = data.data[k].level;
+		if(data.data[k].pid == null&&data.data[k].projectId !=null){
+			rootId=data.data[k].id;
+		}
 		if (data.data[k].id == 0) {
 			data.data[k].open = true;
 		}
@@ -33,7 +37,7 @@ var setting = {
 			idKey : "id",
 			pIdKey : "pid",
 			isParent : "type",
-			rootPId : 0
+			rootPId : rootId
 		},
 		keep : {
 			leaf : true,
@@ -52,7 +56,7 @@ var setting = {
 		dataFilter : dataFilter,
 		type : "post",
 		autoParam : [ "id" ],
-		url : "cases/casesTree"
+		url : "token/cases/casesTree"
 	}
 };
 var newCount = 1;
@@ -118,7 +122,7 @@ function doubleItemFunction(event, treeId, treeNode) {
 		return true;
 	}
 	tree_Node = treeNode.getParentNode();
-	resetForm();
+	resetForm("kill");
 	// tree_dbElementId = treeNode;
 	if (treeNode.type == 0) {
 		showForm(1, 0, 1, 0, 0, 1, 1);
@@ -271,7 +275,8 @@ function removeStep(e) {
  * init tree
  */
 function initTree() {
-	Network.maskSend("cases/casesTree", {}, function(data, textStatus, jqXHR) {
+
+	Network.maskSend("token/cases/casesTree", {projectId:$.cookie("projectId")}, function(data, textStatus, jqXHR) {
 		data = typeToIsparent(data);
 		// console.log(data.data);
 		$.fn.zTree.init($("#treeDemo"), setting, data.data);
@@ -342,7 +347,7 @@ $(document).ready(
 				var data = new Object();
 				var id = tree_Node.id;
 				data.id = id;
-				Network.maskSend("cases/delCase", data, fun);
+				Network.maskSend("token/cases/delCase", data, fun);
 				event.preventDefault();
 			});
 			// 监控name值变化,动态更新树名称
@@ -360,11 +365,12 @@ $(document).ready(
 			// });
 		});
 // 重置表单
+//null,'kill'
 function resetForm(e) {
-	$("#steps").find("button.btn-danger").click();
+	$("#steps").find("button.btn-danger").click();//删除自增加的步骤
+	$("#id").removeAttr("value");//清除绑定的id
 	if (e == "kill") {
 		e = null;
-		$("#id").removeAttr("value");
 	}
 	if (e == null) {
 		$("#reset").click();
@@ -400,7 +406,7 @@ function submitForm(form) {
 	function fun(data, textStatus, jqXHR) {
 		resetForm("kill");
 		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		if (tree_Node == null || tree_Node.id == 0) {
+		if (tree_Node == null || tree_Node.id == rootId) {
 			initTree();
 		} else {
 			zTree.reAsyncChildNodes(tree_Node, "refresh");
@@ -408,10 +414,10 @@ function submitForm(form) {
 	}
 	var id = parseInt($(form.id).val());
 	if (isNaN(id)) {
-		Network.maskSend("cases/addCase", data, fun);
+		Network.maskSend("token/cases/addCase", data, fun);
 	} else {
 		data.id = id;
-		Network.maskSend("cases/updateCase", data, fun);
+		Network.maskSend("token/cases/updateCase", data, fun);
 	}
 
 }

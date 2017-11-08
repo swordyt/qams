@@ -46,17 +46,12 @@
 		</bean> -->
 	<!-- aop 日志记录器 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<bean id="logAopAction"
-		class="com.qams.aop.LogAopAction" />
+	<bean id="logAopAction" class="com.qams.aop.LogAopAction" />
 	<!--aop执行操作的类 -->
 	<!-- 登录态拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/cases/*" /> <!-- /case/* -->
-			<bean class="com.qams.interceptor.TokenInterceptor"></bean>
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/user/*" /> <!-- /user/* -->
+			<mvc:mapping path="/token/**/*" /> <!-- /case/* -->
 			<bean class="com.qams.interceptor.TokenInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

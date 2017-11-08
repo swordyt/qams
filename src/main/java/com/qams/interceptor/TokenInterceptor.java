@@ -24,7 +24,7 @@ import com.qams.util.JwtUtil;
 import com.qams.util.NetworkUtil;
 
 public class TokenInterceptor extends HandlerInterceptorAdapter {
-	private static final Logger Log=Logger.getLogger(TokenInterceptor.class);
+	private static final Logger Log = Logger.getLogger(TokenInterceptor.class);
 	@Autowired
 	JwtUtil jwt;
 	@Autowired
@@ -38,16 +38,19 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
+		Log.info("======拦截器start======");
 		recodeLog(request);
 		boolean flag = true;
-		Integer userId=null;
+		Integer userId = null;
 		try {
 			String token = request.getParameter("tokenId");// 获取客服端token
 			if (token == null) {// 如果为携带tokenId参数，将从cookie中获取
 				Cookie[] cookies = request.getCookies();
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("tokenId")) {
-						token = cookie.getValue();
+				if (cookies != null) {
+					for (Cookie cookie : cookies) {
+						if (cookie.getName().equals("tokenId")) {
+							token = cookie.getValue();
+						}
 					}
 				}
 
@@ -57,7 +60,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 			} else {
 				Claims claims = jwt.parseJWT(token);
 				Long expTime = Long.parseLong(claims.get("exp") + "") * 1000; // 获取token中保存过期时间
-				userId = Integer.parseInt(jwt.parseSubject(jwt,token, "userId")+"");
+				userId = Integer.parseInt(jwt
+						.parseSubject(jwt, token, "userId") + "");
 				Long now = System.currentTimeMillis();
 				userKey.setId(userId);
 				// 查询userid在数据库中是否存在
@@ -80,7 +84,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect(basePath + UrlMapping.IndexController_Index);
 		}
 		request.setAttribute("userid", userId);
-		Log.info("userid="+userId);
+		Log.info("userid=" + userId);
+		Log.info("======拦截器end======");
 		return flag;
 	}
 
@@ -88,6 +93,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		System.out.println(handler);
 		super.postHandle(request, response, handler, modelAndView);
 	}
 
@@ -98,11 +104,12 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 		// Claims claims = jwt.parseJWT(jwtString);
 		super.afterCompletion(request, response, handler, ex);
 	}
+
 	private void recodeLog(HttpServletRequest request) throws IOException {
 		Log.info(request.getRequestURL());
 		String ip = NetworkUtil.getIpAddress(request);
-		Log.info("ip="+ip);
-		String parameter=JSONObject.toJSONString(request.getParameterMap());
-		Log.info("parameter="+parameter);
+		Log.info("ip=" + ip);
+		String parameter = JSONObject.toJSONString(request.getParameterMap());
+		Log.info("parameter=" + parameter);
 	}
 }

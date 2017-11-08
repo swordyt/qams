@@ -2,6 +2,7 @@
 .classpath
 test-output/
 target/
+.externalToolBuilders/
 .settings/
 .mymetadata
 .myumldata

@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.qams.domain.Case">
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="userId" jdbcType="INTEGER" property="userid" />
+		<result column="projectId" jdbcType="INTEGER" property="projectid" />
 		<result column="pid" jdbcType="INTEGER" property="pid" />
 		<result column="type" jdbcType="INTEGER" property="type" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
@@ -16,9 +17,9 @@
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, userId, pid, type, name, level, description, json_extract(step,'$') step,
-		file, status,
-		createtime,
+		id, userId, projectId, pid, type, name, level, description,
+		json_extract(step,'$') step, file,
+		status, createtime,
 		update_time
 	</sql>
 	<select id="selectAll" resultMap="BaseResultMap">
@@ -27,7 +28,15 @@
 		from t_case
 		where status = 1
 	</select>
-	<select id="selectCases" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	<select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_case
+		where status = 1 AND
+		projectId=#{projectId,jdbcType=INTEGER}
+	</select>
+	<select id="selectCasesByPid" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_case
@@ -46,21 +55,21 @@
 	</delete>
 	<insert id="insert" parameterType="com.qams.domain.Case">
 		insert into t_case (id,
-		userId, pid,
-		type, name, level,
+		userId, projectId,
+		pid, type, name, level,
 		description, step, file,
-		status,
-		createtime, update_time
+		status, createtime, update_time
 		)
 		values (#{id,jdbcType=INTEGER},
 		#{userid,jdbcType=INTEGER},
-		#{pid,jdbcType=INTEGER},
-		#{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{projectid,jdbcType=INTEGER},
+		#{pid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
 		#{level,jdbcType=INTEGER},
-		#{description,jdbcType=VARCHAR},
-		#{step,jdbcType=CHAR},
+		#{description,jdbcType=VARCHAR}, #{step,jdbcType=CHAR},
 		#{file,jdbcType=VARCHAR},
-		#{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP},
 		#{updateTime,jdbcType=TIMESTAMP}
 		)
 	</insert>
@@ -72,6 +81,9 @@
 			</if>
 			<if test="userid != null">
 				userId,
+			</if>
+			<if test="projectid != null">
+				projectId,
 			</if>
 			<if test="pid != null">
 				pid,
@@ -111,6 +123,9 @@
 			<if test="userid != null">
 				#{userid,jdbcType=INTEGER},
 			</if>
+			<if test="projectid != null">
+				#{projectid,jdbcType=INTEGER},
+			</if>
 			<if test="pid != null">
 				#{pid,jdbcType=INTEGER},
 			</if>
@@ -149,6 +164,9 @@
 			<if test="userid != null">
 				userId = #{userid,jdbcType=INTEGER},
 			</if>
+			<if test="projectid != null">
+				projectId = #{projectid,jdbcType=INTEGER},
+			</if>
 			<if test="pid != null">
 				pid = #{pid,jdbcType=INTEGER},
 			</if>
@@ -186,11 +204,14 @@
 		update t_case
 		set
 		userId = #{userid,jdbcType=INTEGER},
+		projectId =
+		#{projectid,jdbcType=INTEGER},
 		pid = #{pid,jdbcType=INTEGER},
-		type = #{type,jdbcType=INTEGER},
+		type =
+		#{type,jdbcType=INTEGER},
 		name = #{name,jdbcType=VARCHAR},
-		level
-		= #{level,jdbcType=INTEGER},
+		level =
+		#{level,jdbcType=INTEGER},
 		description =
 		#{description,jdbcType=VARCHAR},
 		step = #{step,jdbcType=CHAR},

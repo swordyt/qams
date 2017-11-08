@@ -7,7 +7,7 @@ function submit() {
 				$.cookie('tokenId', data.data.tokinId, {
 					path : '/Qams'
 				});
-				location.href="cases/index?tokenId="+data.data.tokinId;
+				location.href="token/cases/index?tokenId="+data.data.tokinId;
 			} else {
 				$("#myAlert").css("display", "block");
 				$("#alertMessage").html(data.message);

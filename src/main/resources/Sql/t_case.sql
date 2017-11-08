@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-03 11:22:08
+Date: 2017-11-08 17:12:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,8 +21,9 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `t_case`;
 CREATE TABLE `t_case` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL COMMENT '创建用户id',
-  `pid` int(11) NOT NULL COMMENT '父级id',
+  `userId` int(32) NOT NULL COMMENT '创建用户id',
+  `projectId` int(32) DEFAULT NULL,
+  `pid` int(32) DEFAULT NULL COMMENT '父级id',
   `type` int(11) NOT NULL COMMENT '0:目录，1:用例',
   `name` varchar(500) NOT NULL,
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用例等级，0：无实际效用，供目录使用。1：最高，2：高，3：中，4：低，5：最低',
@@ -34,5 +35,7 @@ CREATE TABLE `t_case` (
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  KEY `projectId` (`projectId`),
+  CONSTRAINT `projectId` FOREIGN KEY (`projectId`) REFERENCES `t_project` (`id`),
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;

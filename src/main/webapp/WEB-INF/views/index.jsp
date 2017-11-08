@@ -17,7 +17,10 @@
 <script type="text/javascript"
 	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
+	src="resources/js/jquery/jquery.cookie.js"></script>
+<script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
+<script src="resources/js/common.js"></script>
 <title>QAMS</title>
 </head>
 <body>
@@ -31,27 +34,32 @@
 							<span class="sr-only">切换导航</span> <span class="icon-bar"></span>
 							<span class="icon-bar"></span> <span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">QAMS</a>
+						<a class="navbar-brand active" href="#">QAMS</a>
 					</div>
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="javascript:void(0);"
-								name="nav-casemanger">用例管理</a>
+							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理 </a>
 							</li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>
 							</li>
 							<li><a href="javascript:void(0);" name="nav-usermanger">用户管理</a>
 							</li>
 						</ul>
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<select class="form-control pull-right" id="projectSelect">
+								</select>
+							</div>
+						</form>
 					</div>
+
 				</div>
 			</nav>
 		</div>
-	</div>
-	<div style="clear: both;"></div>
-	<div class="row">
-		<div id="myAlert">
-			<span id="alertMessage"></span>
+		<div class="row">
+			<div id="myAlert">
+				<span id="alertMessage"></span>
+			</div>
 		</div>
 	</div>
 	<iframe src="javascript:void(0);" frameborder="0" id="content_iframe"></iframe>

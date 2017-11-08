@@ -15,7 +15,9 @@ public interface CaseMapper {
 
 	List<Case> selectAll();
 
-	List<Case> selectCases(Integer id);
+	List<Case> selectCasesByPid(Integer id);
+
+	Case selectByProjectId(Integer id);
 
 	int updateByPrimaryKeySelective(Case record);
 

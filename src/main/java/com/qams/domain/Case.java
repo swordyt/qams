@@ -1,6 +1,5 @@
 package com.qams.domain;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import org.springframework.stereotype.Repository;
@@ -9,6 +8,8 @@ public class Case {
     private Integer id;
 
     private Integer userid;
+
+    private Integer projectid;
 
     private Integer pid;
 
@@ -44,6 +45,14 @@ public class Case {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public Integer getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(Integer projectid) {
+        this.projectid = projectid;
     }
 
     public Integer getPid() {
@@ -90,7 +99,7 @@ public class Case {
         return step;
     }
 
-    public void setStep(String step) throws UnsupportedEncodingException {
+    public void setStep(String step) {
         this.step = step == null ? null : step.trim();
     }
 
