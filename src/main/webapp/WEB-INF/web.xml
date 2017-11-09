@@ -9,15 +9,9 @@
 		<param-value>/WEB-INF/classes/log4j.properties</param-value>
 	</context-param>
 	<!-- 配置log4j.xml变量，如果需要动态的就使用下面方式，使用方法${name} -->
-	<!--<context-param>
-		<param-name>controller</param-name>
-		<param-value>controller-log</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>loggingLevel</param-name>
-		<param-value>info</param-value>
-	</context-param>  -->
+	<!--<context-param> <param-name>controller</param-name> <param-value>controller-log</param-value> 
+		</context-param> <context-param> <param-name>loggingLevel</param-name> <param-value>info</param-value> 
+		</context-param> -->
 	<!-- 加载log4j配置文件 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -50,6 +44,10 @@
 			<param-value>spring-mvc</param-value>
 		</init-param>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ico</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.woff</url-pattern>

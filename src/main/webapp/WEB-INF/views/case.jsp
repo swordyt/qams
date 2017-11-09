@@ -14,6 +14,11 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="resources/css/case.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/css/dropzone/basic.min.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/css/dropzone/dropzone.min.css">
 <script type="text/javascript"
 	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
@@ -30,7 +35,14 @@
 <script type="text/javascript"
 	src="resources/js/tree/jquery.ztree.exedit.js"></script>
 <script src="resources/js/common.js"></script>
-<!-- <script src="resources/js/dropzone.min.js"></script> -->
+<link rel="shortcut icon" href="/favicon.ico" />
+<script src="resources/js/dropzone/dropzone.min.js"></script>
+<script src="resources/js/dropzone/dropzone-amd-module.min.js"></script>
+<style type="text/css">
+.dz-preview .dz-processing .dz-success .dz-complete .dz-image-preview {
+	
+}
+</style>
 <title>QAMS</title>
 </head>
 <body>
@@ -75,9 +87,10 @@
 							<label for="name">名称</label> <input type="text" name="name"
 								class="form-control" id="name" required="">
 						</div>
-						<input type="hidden" name="id" id="id" style="display:none"/><input
-							type="hidden" name="pid" value="0" id="pid" style="display:none"/> <input
-							type="hidden" name="type" value="0" id="type" style="display:none"/>
+						<input type="hidden" name="id" id="id" style="display:none" /><input
+							type="hidden" name="pid" value="0" id="pid" style="display:none" />
+						<input type="hidden" name="type" value="0" id="type"
+							style="display:none" />
 						<div class="form-group">
 							<label for="level">优先级</label> <select class="form-control"
 								name="level" id="level">
@@ -123,8 +136,19 @@
 					</div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
-							<label>附件</label> <input type="file" name="file" id="file"
-								class="form-control" />
+							<label>附件</label>
+							<!--<input type="file" name="file" id="file"
+								class="form-control" />  -->
+							<div id="dropz">文件上传</div>
+							<script>
+								Dropzone.autoDiscover = false;
+								$("#dropz").dropzone({
+									url : "token/upload",
+									maxFiles : 10,
+									maxFilesize : 512,
+									acceptedFiles : ".js,.obj,.dae,.jpg,.png"
+								});
+							</script>
 						</div>
 						<div class="form-group pull-right">
 							<label>创建者</label><span>

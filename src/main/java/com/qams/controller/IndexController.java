@@ -28,7 +28,14 @@ public class IndexController {
 		view.setViewName("login");
 		return view;
 	}
-
+	@ResponseBody
+	@RequestMapping("token/upload")
+	public Response upload(HttpServletRequest request) {
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData("上传成功");
+		return response;
+	}
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Response login(String email, String password) {

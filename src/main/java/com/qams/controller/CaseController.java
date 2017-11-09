@@ -35,6 +35,11 @@ public class CaseController {
 		return mav;
 	}
 
+	@RequestMapping("/home")
+	public ModelAndView home() {
+		return new ModelAndView("home");
+	}
+
 	@RequestMapping("/case")
 	// 用例管理页
 	public ModelAndView testCase(HttpServletRequest request) {
@@ -81,7 +86,7 @@ public class CaseController {
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 			return response;
 		}
-		response.setData(caseService.getCases(id,projectId));
+		response.setData(caseService.getCases(id, projectId));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		return response;

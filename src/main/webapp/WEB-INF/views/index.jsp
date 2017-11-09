@@ -21,7 +21,13 @@
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <script src="resources/js/common.js"></script>
+<link rel="shortcut icon" href="/favicon.ico" />
 <title>QAMS</title>
+<style type="text/css">
+.navInteraction {
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<div class="container" style="padding: 0">
@@ -34,15 +40,16 @@
 							<span class="sr-only">切换导航</span> <span class="icon-bar"></span>
 							<span class="icon-bar"></span> <span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand active" href="#">QAMS</a>
+						<a class="navbar-brand active" href="javascript:void(0);"
+							name="nav-home">QAMS</a>
 					</div>
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理 </a>
-							</li>
+							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理
+							</a></li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>
 							</li>
-							<li><a href="javascript:void(0);" name="nav-usermanger">用户管理</a>
+							<li><a href="javascript:void(0);" name="nav-usermanger">系统管理</a>
 							</li>
 						</ul>
 						<form class="navbar-form navbar-right" role="search">
