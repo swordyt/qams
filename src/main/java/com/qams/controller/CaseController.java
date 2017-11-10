@@ -53,6 +53,12 @@ public class CaseController {
 	// 增加case
 	public Response addCase(Case cs, HttpServletRequest request)
 			throws UnsupportedEncodingException {
+		if (cs.getName() == null || cs.getName().equalsIgnoreCase("")) {
+			response.setData("名称不能为空！");
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
 		cs.setUserid((Integer) request.getAttribute("userid"));
 		response.setData(caseService.addCase(cs));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
@@ -64,6 +70,12 @@ public class CaseController {
 	@RequestMapping("/updateCase")
 	// 更新case
 	public Response updateCase(Case cs) throws UnsupportedEncodingException {
+		if (cs.getName() == null || cs.getName().equalsIgnoreCase("")) {
+			response.setData("名称不能为空！");
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
 		boolean flag = caseService.updateCase(cs);
 		if (flag) {
 			response.setData(flag);

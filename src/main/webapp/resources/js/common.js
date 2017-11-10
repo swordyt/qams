@@ -76,7 +76,6 @@ function date(timestamp){// 比如需要这样的格式 yyyy-MM-dd hh:mm:ss
  * level 1:成功 0:失败 message:提示信息
  */
 function timeOut() {
-	console.log("timeout");
 	$("#myAlert").alert('close');
 };
 function showAlert(level, message) {

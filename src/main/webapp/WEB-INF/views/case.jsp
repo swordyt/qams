@@ -16,9 +16,7 @@
 	href="resources/css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="resources/css/case.css">
 <link rel="stylesheet" type="text/css"
-	href="resources/css/dropzone/basic.min.css">
-<link rel="stylesheet" type="text/css"
-	href="resources/css/dropzone/dropzone.min.css">
+	href="resources/css/dropzone/dropzone.css">
 <script type="text/javascript"
 	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
@@ -37,11 +35,6 @@
 <script src="resources/js/common.js"></script>
 <link rel="shortcut icon" href="/favicon.ico" />
 <script src="resources/js/dropzone/dropzone.min.js"></script>
-<script src="resources/js/dropzone/dropzone-amd-module.min.js"></script>
-<style type="text/css">
-.dz-preview .dz-processing .dz-success .dz-complete .dz-image-preview {
-	
-}
 </style>
 <title>QAMS</title>
 </head>
@@ -53,8 +46,7 @@
 				<div>
 					<ul id="treeDemo" class="ztree"></ul>
 				</div>
-				<ul class="dropdown-menu" role="menu"
-					aria-labelledby="dropdownMenu1" style="position: fixed;"
+				<ul class="dropdown-menu" role="menu" style="position: fixed;"
 					id="treeRightMenu">
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCreateCase"><span
@@ -66,10 +58,12 @@
 					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCopy"><span class="glyphicon glyphicon-plus"
-							style="color: #269abc"></span>复制</a></li>
+							style="color: #269abc"></span>复制</a>
+					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuCut"><span class="glyphicon glyphicon-plus"
-							style="color: #d58512"></span>剪切</a></li>
+							style="color: #d58512"></span>剪切</a>
+					</li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="#" id="menuDrop"><span
 							class="glyphicon glyphicon-remove" style="color: #ac2925"></span>删除</a>
@@ -85,7 +79,7 @@
 					<div>
 						<div class="form-group">
 							<label for="name">名称</label> <input type="text" name="name"
-								class="form-control" id="name" required="">
+								class="form-control" id="name" required="required">
 						</div>
 						<input type="hidden" name="id" id="id" style="display:none" /><input
 							type="hidden" name="pid" value="0" id="pid" style="display:none" />
@@ -102,11 +96,10 @@
 							</select>
 						</div>
 						<div class="form-group pull-right">
+							<input class="btn btn-warning form-control" type="reset"
+								id="reset" onclick="resetForm(this)" value="重置" />
 							<button type="button" class="form-control btn btn-success"
-								onclick="submitForm(this.form);return false;">
-								提交
-								<!-- <span class="glyphicon glyphicon-ok"></span> -->
-							</button>
+								onclick="submitForm(this.form);return false;">提交</button>
 						</div>
 					</div>
 					<div>
@@ -136,19 +129,15 @@
 					</div>
 					<div style="margin-top: 20px">
 						<div class="form-group pull-left">
-							<label>附件</label>
-							<!--<input type="file" name="file" id="file"
-								class="form-control" />  -->
-							<div id="dropz">文件上传</div>
-							<script>
-								Dropzone.autoDiscover = false;
-								$("#dropz").dropzone({
-									url : "token/upload",
-									maxFiles : 10,
-									maxFilesize : 512,
-									acceptedFiles : ".js,.obj,.dae,.jpg,.png"
-								});
-							</script>
+							<div class="dropdown">
+								<button type="button" class="btn dropdown-toggle"
+									id="dropdownMenu1" data-toggle="dropdown">
+									点击查看已上传附件 <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu"
+									aria-labelledby="dropdownMenu1" id="dropdownMenu1-ul">
+								</ul>
+							</div>
 						</div>
 						<div class="form-group pull-right">
 							<label>创建者</label><span>
@@ -166,13 +155,12 @@
 							<p class="form-control-static" id="createTime"></p>
 						</div>
 					</div>
-					<div style="clear:both">
-						<div class="form-group pull-right">
-							<input class="btn btn-warning form-control" type="reset"
-								id="reset" onclick="resetForm(this)" value="重置" />
-						</div>
+					<div style="clear:both"></div>
+					<div class="form-group">
+						<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
 					</div>
 				</form>
+
 			</div>
 		</div>
 	</div>

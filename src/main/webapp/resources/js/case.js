@@ -1,10 +1,38 @@
 var tree_Node;
 var rootId;
+Dropzone.autoDiscover = false;
+Dropzone.options.myAwesomeDropzone = false;
+var maxFiles = 4;
+var dropz = new Dropzone("#dropzone", {
+	init : function() {
+		this.on("removedfile", function(file) {
+			console.log(file.fileKey+"==="+file.fileName);
+		});
+		this.on("success", function(file, data) {
+			file.fileKey=data.data.key;
+			file.fileName=data.data.name;
+			file.fileType=data.data.type;
+		});
+	},
+	maxFiles : maxFiles,
+	maxFilesize : 2,
+	acceptedFiles : ".jpg,.png,.docx,.xlsx",
+	addRemoveLinks : true,
+	dictCancelUpload : "取消上传",
+	dictCancelUploadConfirmation : "您确定要取消该文件的上传？",
+	dictRemoveFile : "删除",
+	dictFileTooBig : "拒绝上传：文件大小超过最大上传限制2M。",
+	dictMaxFilesExceeded : "拒绝上传：文件数目超过最多上传文件数4。",
+	dictResponseError : "服务器无响应，请删除后重新上传！",
+	dictDefaultMessage : "请将附件拖动到该区域进行上传，最多上传四个附件，每个附件最多2M！",
+	dictInvalidFileType : "拒绝上传：文件类型不符合支持类型jpg、png、docx、xlsx",
+	url : "token/upload"
+});
 function typeToIsparent(data) {
 	$.each(data.data, function(k, v) {
 		data.data[k].grade = data.data[k].level;
-		if(data.data[k].pid == null&&data.data[k].projectId !=null){
-			rootId=data.data[k].id;
+		if (data.data[k].pid == null && data.data[k].projectId != null) {
+			rootId = data.data[k].id;
 		}
 		if (data.data[k].id == 0) {
 			data.data[k].open = true;
@@ -91,7 +119,6 @@ function rightFunctionMenu(event, treeId, treeNode) {
 		console.log("为空！");
 		return true;
 	}
-	console.log(treeNode);
 	if (treeNode.id == 0) {
 		showMenu([ "block", "block", "none", "none", "none" ]);
 		return true;
@@ -130,7 +157,6 @@ function doubleItemFunction(event, treeId, treeNode) {
 	if (treeNode.type == 1) {
 		showForm(1, 1, 1, 1, 1, 1, 1);
 	}
-	console.log(treeNode);
 	fillForm(treeNode.name, treeNode.type, treeNode.pid, treeNode.grade,
 			treeNode.description, treeNode.step, treeNode.file,
 			treeNode.userid, date(treeNode.createtime),
@@ -140,7 +166,6 @@ function doubleItemFunction(event, treeId, treeNode) {
 function fillForm(name, type, pid, grade, description, steps, file, userId,
 		createTime, updatetime, id) {
 	// steps=decodeURI(steps, "utf-8");
-	console.log("steps=" + steps);
 	if (name != null) {
 		$("#name").val(name);
 	}
@@ -170,7 +195,7 @@ function fillForm(name, type, pid, grade, description, steps, file, userId,
 		// $("#steps").val(steps);
 	}
 	if (file != null) {
-		$("#file").val(file);
+		fillFile(file);
 	}
 	if (userId != null) {
 		$("#userId").html(userId);
@@ -189,7 +214,6 @@ function fillForm(name, type, pid, grade, description, steps, file, userId,
  * 填充用例步骤字段
  */
 function fillStep(step, expect) {
-	console.log("fillStep");
 	if (step == null || expect == null) {
 		$("#steps")
 				.append(
@@ -228,6 +252,25 @@ function fillStep(step, expect) {
 								+ "</div>");
 	}
 }
+/**
+ * 填充已上传的附件列表
+ * */
+function fillFile(files){
+	if(files==null||files==""){
+		return null;
+	}
+	$.each(JSON.parse(files),function(k,v){
+		$("#dropdownMenu1-ul").append("<li role=\"presentation\">"+
+									"<a role=\"menuitem\" tabindex=\"-1\""+
+										"href=\"javascript:void(0);\" style=\"padding-left:0px;\">"+
+										"<p style=\"margin-bottom:0px;font-size: 17px\" key=\""+v.key+
+										"\" type=\""+v.type+
+										"\"><span class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"+v.name+
+										"</p>"+
+										"</span></a></li>");
+	});
+	
+}
 $("form").hide();
 function showForm(name, level, description, steps, file, createTime, updatetime) {
 	$("form").show();
@@ -252,9 +295,11 @@ function showForm(name, level, description, steps, file, createTime, updatetime)
 		$("#steps").parent().css("display", "block");
 	}
 	if (file == null || file == 0 || file == false) {
-		$("#file").parent().css("display", "none");
+		$("#dropzone").parent().css("visibility", "hidden");
+		$("#dropdownMenu1").parent().css("display","none");
 	} else {
-		$("#file").parent().css("display", "inline-block");
+		$("#dropzone").parent().css("visibility", "visible");
+		$("#dropdownMenu1").parent().css("display","block");
 	}
 	if (createTime == null || createTime == 0 || createTime == false) {
 		$("#createTime").parent().css("display", "none");
@@ -276,7 +321,9 @@ function removeStep(e) {
  */
 function initTree() {
 
-	Network.maskSend("token/cases/casesTree", {projectId:$.cookie("projectId")}, function(data, textStatus, jqXHR) {
+	Network.maskSend("token/cases/casesTree", {
+		projectId : $.cookie("projectId")
+	}, function(data, textStatus, jqXHR) {
 		data = typeToIsparent(data);
 		// console.log(data.data);
 		$.fn.zTree.init($("#treeDemo"), setting, data.data);
@@ -365,10 +412,17 @@ $(document).ready(
 			// });
 		});
 // 重置表单
-//null,'kill'
+// null,'kill'
 function resetForm(e) {
-	$("#steps").find("button.btn-danger").click();//删除自增加的步骤
-	$("#id").removeAttr("value");//清除绑定的id
+	$("#steps").find("button.btn-danger").click();// 删除自增加的步骤
+	$("#id").removeAttr("value");// 清除绑定的id
+	dropz.removeAllFiles(true);
+	//$("#dropzone>div.dz-preview").remove();
+	//$("#dropzone").removeClass();
+	//$("#dropzone").addClass("dropzone needsclick dz-clickable");
+	$("#dropdownMenu1-ul li").each(function(k,v){
+		$(v).remove();
+	});
 	if (e == "kill") {
 		e = null;
 	}
@@ -387,18 +441,37 @@ function submitForm(form) {
 	$.each(stepes, function(index, domEle) {
 		var obj = new Object();
 		obj.step = $(domEle).val();
-		console.log("step=" + obj.step);
 		obj.expect = $(expectes[index]).val();
-		console.log(obj);
 		step.push(obj);
 
 	});
 	// console.log(decodeURI($(step).stringify(), "utf-8"));
 	// data.step = decodeURI($(step).stringify(), "utf-8");
 	data.step = JSON.stringify(step);
-	console.log("data.step=" + data.step);
 	data.name = $(form.name).val();
-	data.file = $(form.file).val();
+//	$("#dropdownMenu1-ul li p").each(function(){
+//		console.log($(this).html());
+//	});
+	var files=dropz.getAcceptedFiles();
+	var file=new Array();
+	$.each(files,function(k,v){
+		var obj=new Object();
+		obj.name=v.fileName;
+		obj.type=v.fileType;
+		obj.key=v.fileKey;
+		file.push(obj);
+	});
+	$("#dropdownMenu1-ul li a p").each(function(k,v){
+		var obj=new Object();
+		obj.name=$(v).text();
+		obj.type=$(v).attr("type");
+		obj.key=$(v).attr("key");
+		file.push(obj);
+	});
+	
+	
+	
+	data.file = JSON.stringify(file);
 	data.level = $(form.level).val();
 	data.pid = $(form.pid).val();
 	data.type = $(form.type).val();

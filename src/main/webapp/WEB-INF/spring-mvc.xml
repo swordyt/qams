@@ -31,6 +31,9 @@
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<!-- 静态资源过滤 -->
 	<!--<mvc:resources location="/resources/" mapping="/resources/**"/> -->
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	<!-- 视图渲染 jsp/freemaker/velocity -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
