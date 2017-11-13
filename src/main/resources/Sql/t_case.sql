@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-08 17:12:02
+Date: 2017-11-10 18:05:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,7 @@ CREATE TABLE `t_case` (
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用例等级，0：无实际效用，供目录使用。1：最高，2：高，3：中，4：低，5：最低',
   `description` varchar(1000) DEFAULT NULL,
   `step` json DEFAULT NULL,
-  `file` varchar(200) DEFAULT NULL COMMENT '上传附件地址',
+  `file` varchar(1000) DEFAULT NULL COMMENT '上传附件地址',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0:无效，1:有效',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -38,4 +38,4 @@ CREATE TABLE `t_case` (
   KEY `projectId` (`projectId`),
   CONSTRAINT `projectId` FOREIGN KEY (`projectId`) REFERENCES `t_project` (`id`),
   CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;

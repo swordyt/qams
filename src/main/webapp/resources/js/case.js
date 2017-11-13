@@ -265,7 +265,7 @@ function fillFile(files){
 										"href=\"javascript:void(0);\" style=\"padding-left:0px;\">"+
 										"<p style=\"margin-bottom:0px;font-size: 17px\" key=\""+v.key+
 										"\" type=\""+v.type+
-										"\"><span class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"+v.name+
+										"\"><span onclick=\"removeFile(this)\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"+v.name+
 										"</p>"+
 										"</span></a></li>");
 	});
@@ -492,5 +492,8 @@ function submitForm(form) {
 		data.id = id;
 		Network.maskSend("token/cases/updateCase", data, fun);
 	}
-
+}
+//删除已上传附件列表
+function removeFile(e){
+	$(e).parent().parent().parent().remove();
 }
