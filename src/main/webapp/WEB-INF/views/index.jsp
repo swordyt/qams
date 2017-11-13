@@ -49,7 +49,7 @@
 							</a></li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>
 							</li>
-							<li><a href="javascript:void(0);" name="nav-usermanger">系统管理</a>
+							<li><a href="javascript:void(0);" name="nav-systemmanger">系统管理</a>
 							</li>
 						</ul>
 						<form class="navbar-form navbar-right" role="search">

@@ -21,7 +21,6 @@
 	src="resources/js/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="resources/js/jquery/jquery.cookie.js"></script>
-<!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <link rel="stylesheet"

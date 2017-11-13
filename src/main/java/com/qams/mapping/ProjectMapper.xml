@@ -27,7 +27,7 @@
 		t_project
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.qams.domain.Project">
+	<insert id="insert" parameterType="com.qams.domain.Project" keyProperty="id">
 		insert into t_project (id,
 		name, description,
 		file, userId, createtime,
@@ -39,7 +39,7 @@
 		#{userid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
 		#{updatetime,jdbcType=TIMESTAMP})
 	</insert>
-	<insert id="insertSelective" parameterType="com.qams.domain.Project">
+	<insert id="insertSelective" parameterType="com.qams.domain.Project" keyProperty="id">
 		insert into t_project
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">

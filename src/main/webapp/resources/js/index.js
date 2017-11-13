@@ -36,6 +36,10 @@ $(document)
 									$("#content_iframe").attr("src",
 											"token/cases/case");
 								}
+								if(name == "nav-systemmanger"){
+									$("#content_iframe").attr("src",
+									"token/system/systemmange");	
+								}
 							});
 					$("#projectSelect")
 							.change(
