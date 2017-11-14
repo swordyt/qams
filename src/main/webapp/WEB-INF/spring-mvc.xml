@@ -54,8 +54,12 @@
 	<!-- 登录态拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/token/**/*" /> <!-- /case/* -->
+			<mvc:mapping path="/token/**/*" />
 			<bean class="com.qams.interceptor.TokenInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/token/**/*" />
+			<bean class="com.qams.interceptor.AuthInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 

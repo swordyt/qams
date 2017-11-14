@@ -25,10 +25,9 @@
 						</div>
 						<div class="form-group">
 							<label>描述</label>
-							<textarea rows="4" cols="60" class="form-control"></textarea>
+							<textarea rows="4" cols="60" class="form-control" name="description"></textarea>
 						</div>
 					</div>
-					<input type="hidden" name="file" style="clear:both" />
 					<div class="form-group">
 						<label>附件</label>
 						<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
@@ -38,7 +37,7 @@
 					<input type="text" name="rootTree" class="form-control" required="required"/>
 					</div>
 					<div class="form-group">
-					<button class="btn btn-success form-control">提交</button>
+					<button class="btn btn-success form-control" onclick="createProject_submit(this.form);return false;">提交</button>
 					</div>
 				</form>
 					

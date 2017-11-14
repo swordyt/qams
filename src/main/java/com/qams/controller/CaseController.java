@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qams.annotation.PermissionAuth;
 import com.qams.config.Constant;
+import com.qams.config.Permission;
 import com.qams.domain.Case;
 import com.qams.response.Response;
 import com.qams.service.CaseService;
@@ -25,10 +27,12 @@ public class CaseController {
 	CaseService caseService;
 	@Autowired
 	Response response;
+	@Autowired
+	HttpServletRequest request;
 
 	@RequestMapping("/index")
 	// 登录后首页
-	public ModelAndView testIndex(HttpServletRequest request) {
+	public ModelAndView testIndex() {
 		// org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index");
@@ -42,17 +46,17 @@ public class CaseController {
 
 	@RequestMapping("/case")
 	// 用例管理页
-	public ModelAndView testCase(HttpServletRequest request) {
+	public ModelAndView testCase() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("case");
 		return mav;
 	}
 
+	@PermissionAuth(auth = { Permission.CC })
 	@ResponseBody
 	@RequestMapping("/addCase")
 	// 增加case
-	public Response addCase(Case cs, HttpServletRequest request)
-			throws UnsupportedEncodingException {
+	public Response addCase(Case cs) throws UnsupportedEncodingException {
 		if (cs.getName() == null || cs.getName().equalsIgnoreCase("")) {
 			response.setData("名称不能为空！");
 			response.setCode(Constant.CODE.RESCODE_FALSE);
@@ -66,6 +70,7 @@ public class CaseController {
 		return response;
 	}
 
+	@PermissionAuth(auth = { Permission.EC })
 	@ResponseBody
 	@RequestMapping("/updateCase")
 	// 更新case

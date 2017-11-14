@@ -1,10 +1,12 @@
 package com.qams.response;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSONObject;
 
 @Repository
+@Scope("prototype")
 public class Response {
 	private String code;
 	private Object data;

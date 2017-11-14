@@ -40,9 +40,12 @@ public class ProjectService {
 
 	public int addProject(Project p, String rootTree) {
 		int id = projectDao.insertSelective(p);
-		cs.setProjectid(id);
+		cs.setType(0);
+		cs.setStatus(1);
+		cs.setUserid(p.getUserid());
+		cs.setProjectid(p.getId());
 		cs.setName(rootTree);
 		caseDao.insertSelective(cs);
-		return id;
+		return p.getId();
 	}
 }

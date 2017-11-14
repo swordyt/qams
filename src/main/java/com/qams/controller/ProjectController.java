@@ -20,10 +20,12 @@ public class ProjectController {
 	ProjectService projectService;
 	@Autowired
 	Response response;
+	@Autowired
+	HttpServletRequest request;
 
 	@ResponseBody
 	@RequestMapping("getprojects")
-	public Response getProjects(HttpServletRequest request) {
+	public Response getProjects() {
 		Object obj = request.getAttribute("userid");
 		if (obj == null) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
@@ -35,14 +37,18 @@ public class ProjectController {
 		response.setData(projectService.getProjects((Integer) obj));
 		return response;
 	}
+
 	@ResponseBody
 	@RequestMapping("addproject")
-	public Response addProject(Project p,String rootTree){
-		if(rootTree==null||p==null){
+	public Response addProject(Project p,
+			String rootTree) {
+		if (rootTree == null || p == null) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 			return response;
 		}
+		p.setStatus(1);
+		p.setUserid((Integer) request.getAttribute("userid"));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(projectService.addProject(p, rootTree));

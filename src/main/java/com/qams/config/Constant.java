@@ -21,7 +21,7 @@ public class Constant {
 		public static final String RESMES_EXCEPTION = "服务异常";
 		public static final String RESMES_NOLOGIN = "请登陆。";
 		public static final String RESMES_NOEXIST = "查询结果为空";
-		public static final String RESMES_NOAUTH = "误操作权限";
+		public static final String RESMES_NOAUTH = "无操作权限";
 	}
 
 	/**

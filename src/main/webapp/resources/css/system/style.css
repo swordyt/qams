@@ -315,9 +315,9 @@ body blockquote {
   color: rgba(0, 0, 0, 0.7);
 }
 body a {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 0, 0, 0.5);
   text-decoration: underline;
 }
 body a:hover {
-  color: #ffffff;
+  color: #ff0000;
 }

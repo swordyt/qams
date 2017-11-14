@@ -36,9 +36,11 @@ public class IndexController {
 	FileUploadResponse fileUpload;
 	@Value("${upload.path}")
 	private String uploadPath;
+	@Autowired
+	HttpServletRequest request;
 
 	@RequestMapping("/index")
-	public ModelAndView index(HttpServletRequest request) {
+	public ModelAndView index() {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("login");
 		return view;
@@ -55,10 +57,9 @@ public class IndexController {
 		}
 		InputStream in = file.getInputStream();
 		String fileMd5 = FileUtil.getMd5ByFile((FileInputStream) in,
-				file.getSize());//计算文件md5
-		String fileSuffix=FileUtil.getFileSuffix(file.getOriginalFilename());//计算文件后缀
-		String fileName = fileMd5 + "."
-				+fileSuffix ;
+				file.getSize());// 计算文件md5
+		String fileSuffix = FileUtil.getFileSuffix(file.getOriginalFilename());// 计算文件后缀
+		String fileName = fileMd5 + "." + fileSuffix;
 		System.out.println(fileName);
 		File filePath = new File(uploadPath + fileName);
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);

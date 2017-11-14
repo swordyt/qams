@@ -9,6 +9,7 @@ import io.jsonwebtoken.Claims;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.alibaba.fastjson.JSONObject;
 import com.qams.config.UrlMapping;
 import com.qams.dao.UserMapper;
+import com.qams.domain.User;
 import com.qams.domain.UserKey;
 import com.qams.response.Response;
 import com.qams.util.JwtUtil;
@@ -38,10 +40,11 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		Log.info("======拦截器start======");
+		Log.info("======Token start======");
 		recodeLog(request);
 		boolean flag = true;
 		Integer userId = null;
+		User user = null;
 		try {
 			String token = request.getParameter("tokenId");// 获取客服端token
 			if (token == null) {// 如果为携带tokenId参数，将从cookie中获取
@@ -66,8 +69,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 				userKey.setId(userId);
 				// 查询userid在数据库中是否存在
 				// 判断token时间是否过期
-				if (userDao.selectByPrimaryKey(userKey) == null
-						|| (now - expTime) > 0) {
+				user = userDao.selectByPrimaryKey(userKey);
+				if (user == null || (now - expTime) > 0) {
 					flag = false;
 				}
 			}
@@ -82,10 +85,15 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 					+ request.getServerName() + ":" + request.getServerPort()
 					+ path + "/";
 			response.sendRedirect(basePath + UrlMapping.IndexController_Index);
+		} else {
+			request.setAttribute("userid", userId);
+			HttpSession session = request.getSession();
+			session.setAttribute("userid", userId);
+			session.setAttribute("auth", user.getAuth());
+			Log.info("userid=" + userId);
+			Log.info("用户权限：" + user.getAuth());
 		}
-		request.setAttribute("userid", userId);
-		Log.info("userid=" + userId);
-		Log.info("======拦截器end======");
+		Log.info("======Token end======");
 		return flag;
 	}
 
