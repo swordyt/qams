@@ -43,12 +43,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 					Log.info(permission.getValue() + "权限验证start");
 					if ((auth & permission.getValue()) != permission.getValue()) {
 						result = false;
-						Log.info("需要权限"+permission.getValue() + "，权限验证false");
+						Log.info("需要权限" + permission.getValue() + "，权限验证false");
 						resp.setCode(Constant.CODE.RESCODE_NOAUTH);
 						resp.setMessage(Constant.MESSAGE.RESMES_NOAUTH);
 						break;
 					}
-					Log.info("需要权限："+permission.getValue() + "，权限验证pass");
+					Log.info("需要权限：" + permission.getValue() + "，权限验证pass");
 				}
 			}
 

@@ -59,18 +59,18 @@ public class CaseService {
 	 * 获取目录树
 	 * */
 	public List<Case> getCases(Integer id, Integer projectId) {
-		List<Case> list=new ArrayList<Case>();
-		Case cs=null;
+		List<Case> list = new ArrayList<Case>();
+		Case cs = null;
 		if (id != null) {
-			list= caseDao.selectCasesByPid(id);
+			list = caseDao.selectCasesByPid(id);
 			return list;
 		}
-		
-		cs=caseDao.selectByProjectId(projectId);
-		if(cs == null){
+
+		cs = caseDao.selectByProjectId(projectId);
+		if (cs == null) {
 			return null;
 		}
-		list= caseDao.selectCasesByPid(cs.getId());
+		list = caseDao.selectCasesByPid(cs.getId());
 		list.add(cs);
 		return list;
 	}

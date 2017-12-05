@@ -19,7 +19,6 @@
 	src="resources/js/jquery/jquery.cookie.js"></script>
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
-<script src="resources/js/common.js"></script>
 </head>
 <body>
 	<div class="container">这里是home页，恭喜你回家了，Welcome to home!</div>

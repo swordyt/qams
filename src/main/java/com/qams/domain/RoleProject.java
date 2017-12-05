@@ -5,14 +5,12 @@ import java.util.Date;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Project {
+public class RoleProject {
 	private Integer id;
 
-	private String name;
+	private Integer roleid;
 
-	private String description;
-
-	private String file;
+	private Integer projectid;
 
 	private Integer status;
 
@@ -30,28 +28,20 @@ public class Project {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Integer getRoleid() {
+		return roleid;
 	}
 
-	public void setName(String name) {
-		this.name = name == null ? null : name.trim();
+	public void setRoleid(Integer roleid) {
+		this.roleid = roleid;
 	}
 
-	public String getDescription() {
-		return description;
+	public Integer getProjectid() {
+		return projectid;
 	}
 
-	public void setDescription(String description) {
-		this.description = description == null ? null : description.trim();
-	}
-
-	public String getFile() {
-		return file;
-	}
-
-	public void setFile(String file) {
-		this.file = file == null ? null : file.trim();
+	public void setProjectid(Integer projectid) {
+		this.projectid = projectid;
 	}
 
 	public Integer getStatus() {

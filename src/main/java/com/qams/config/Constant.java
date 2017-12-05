@@ -12,6 +12,7 @@ public class Constant {
 		public static final String RESCODE_NOEXIST = "000004"; // 查询结果为空
 		public static final String RESCODE_NOAUTH = "000005"; // 无操作权限
 	}
+
 	/**
 	 * message消息
 	 * */

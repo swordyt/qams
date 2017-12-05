@@ -12,9 +12,11 @@ import java.security.MessageDigest;
 public class FileUtil {
 	public static String getMd5ByFile(File file) throws FileNotFoundException {
 		FileInputStream in = new FileInputStream(file);
-		return getMd5ByFile(in,file.length());
+		return getMd5ByFile(in, file.length());
 	}
-	public static String getMd5ByFile(FileInputStream in,long size) throws FileNotFoundException {
+
+	public static String getMd5ByFile(FileInputStream in, long size)
+			throws FileNotFoundException {
 		String value = null;
 		try {
 			MappedByteBuffer byteBuffer = in.getChannel().map(
@@ -36,11 +38,12 @@ public class FileUtil {
 		}
 		return value;
 	}
+
 	/**
 	 * 返回文件后缀
 	 * */
-	public static String getFileSuffix(String originalFilename){
-		String []nameSplit=originalFilename.split("\\.");
-		return nameSplit[nameSplit.length-1];
+	public static String getFileSuffix(String originalFilename) {
+		String[] nameSplit = originalFilename.split("\\.");
+		return nameSplit[nameSplit.length - 1];
 	}
 }

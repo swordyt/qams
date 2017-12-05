@@ -94,7 +94,7 @@ public class JwtUtil {
 	/**
 	 * 获取sub中指定key值
 	 * */
-	public static Object parseSubject(JwtUtil jwt,String token,String key )
+	public static Object parseSubject(JwtUtil jwt, String token, String key)
 			throws Exception {
 		Claims claims = jwt.parseJWT(token);
 		String sub = claims.getSubject();

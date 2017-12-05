@@ -14,5 +14,5 @@ import com.qams.config.Permission;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PermissionAuth {
-	Permission []auth();
+	Permission[] auth();
 }

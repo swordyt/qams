@@ -23,8 +23,19 @@
 	src="resources/js/jquery/jquery.cookie.js"></script>
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
-<script src="resources/js/common.js"></script>
 <script src="resources/js/dropzone/dropzone.min.js"></script>
+<script type="text/javascript"
+	src="resources/js/common.js"></script>
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -34,8 +45,7 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top"
 			id="sidebar-wrapper" role="navigation">
 			<ul class="nav sidebar-nav">
-				<li class="sidebar-brand"><a href="#">功能菜单</a>
-				</li>
+				<li class="sidebar-brand"><a href="#">功能菜单</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 项目管理 <span
 						class="caret"></span> </a>
@@ -43,23 +53,23 @@
 						<li class="dropdown-header">项目管理相关功能</li>
 						<li><a href="token/system/systemmange?url=createProject">创建项目</a>
 						</li>
-						<li><a href="#">编辑项目</a></li>
-					</ul>
-				</li>
+						<li><a href="token/system/systemmange?url=listProject">项目列表</a>
+						</li>
+					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 用户管理<span
 						class="caret"></span> </a>
 					<ul class="dropdown-menu" role="menu">
 						<li class="dropdown-header">用户管理相关功能</li>
-						<li><a href="#">创建角色</a></li>
-						<li><a href="#">创建用户</a></li>
-					</ul>
-				</li>
+						<li><a href="token/system/systemmange?url=createRole">创建角色</a>
+						</li>
+						<li><a href="token/system/systemmange?url=createUser">创建用户</a>
+						</li>
+					</ul></li>
 				<li><a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>
 				</li>
 				<li><a href="#"><i class="fa fa-fw fa-file-o"></i> Second
-						page</a>
-				</li>
+						page</a></li>
 				<li><a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
 				</li>
 				<li><a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>
@@ -67,8 +77,7 @@
 				<li><a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>
 				</li>
 				<li><a href="#"><i class="fa fa-fw fa-twitter"></i> Last
-						page</a>
-				</li>
+						page</a></li>
 			</ul>
 		</nav>
 		<!-- /#sidebar-wrapper -->

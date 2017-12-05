@@ -7,7 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qams.annotation.PermissionAuth;
+import com.qams.bean.ProjectSearchBean;
 import com.qams.config.Constant;
+import com.qams.config.Permission;
 import com.qams.dao.ProjectMapper;
 import com.qams.domain.Project;
 import com.qams.response.Response;
@@ -25,33 +28,31 @@ public class ProjectController {
 
 	@ResponseBody
 	@RequestMapping("getprojects")
-	public Response getProjects() {
-		Object obj = request.getAttribute("userid");
-		if (obj == null) {
-			response.setCode(Constant.CODE.RESCODE_FALSE);
-			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
-			return response;
+	public Response getProjects(ProjectSearchBean search) {
+		if (search.getSearch() == null || search.getSearch().equals("")) {
+			search.setSearch(null);
 		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(projectService.getProjects((Integer) obj));
+		response.setData(projectService.getProjects(search));
 		return response;
 	}
 
+	@PermissionAuth(auth = { Permission.CP })
 	@ResponseBody
 	@RequestMapping("addproject")
-	public Response addProject(Project p,
-			String rootTree) {
+	public Response addProject(Project p, String rootTree) {
 		if (rootTree == null || p == null) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 			return response;
 		}
 		p.setStatus(1);
-		p.setUserid((Integer) request.getAttribute("userid"));
+		p.setCreater((Integer) request.getAttribute("userid"));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(projectService.addProject(p, rootTree));
 		return response;
 	}
+
 }

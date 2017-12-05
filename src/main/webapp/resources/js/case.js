@@ -321,7 +321,7 @@ function removeStep(e) {
  */
 function initTree() {
 
-	Network.maskSend("token/cases/casesTree", {
+	parent.Network.maskSend("token/cases/casesTree", {
 		projectId : $.cookie("projectId")
 	}, function(data, textStatus, jqXHR) {
 		data = typeToIsparent(data);
@@ -394,7 +394,7 @@ $(document).ready(
 				var data = new Object();
 				var id = tree_Node.id;
 				data.id = id;
-				Network.maskSend("token/cases/delCase", data, fun);
+				parent.Network.maskSend("token/cases/delCase", data, fun);
 				event.preventDefault();
 			});
 			// 监控name值变化,动态更新树名称
@@ -487,10 +487,10 @@ function submitForm(form) {
 	}
 	var id = parseInt($(form.id).val());
 	if (isNaN(id)) {
-		Network.maskSend("token/cases/addCase", data, fun);
+		parent.Network.maskSend("token/cases/addCase", data, fun);
 	} else {
 		data.id = id;
-		Network.maskSend("token/cases/updateCase", data, fun);
+		parent.Network.maskSend("token/cases/updateCase", data, fun);
 	}
 }
 //删除已上传附件列表

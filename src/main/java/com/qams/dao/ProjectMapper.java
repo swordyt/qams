@@ -1,17 +1,21 @@
 package com.qams.dao;
 
+import java.util.List;
+
+import com.qams.bean.ProjectSearchBean;
 import com.qams.domain.Project;
 
 public interface ProjectMapper {
-    int deleteByPrimaryKey(Integer id);
+	/**
+	 * 通过项目id获取项目的详细信息
+	 * */
+	Project selectByPrimaryKey(Integer id);
 
-    int insert(Project record);
+	/**
+	 * 插入实体类中非null数据，并返回数据id
+	 * */
+	int insertSelective(Project record);
 
-    int insertSelective(Project record);
-
-    Project selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Project record);
-
-    int updateByPrimaryKey(Project record);
+	/** 获取project 中status=1的所有项 */
+	List<Project> selectAll(ProjectSearchBean search);
 }

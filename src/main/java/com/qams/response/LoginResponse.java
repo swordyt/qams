@@ -3,7 +3,7 @@ package com.qams.response;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class LoginResponse{
+public class LoginResponse {
 	private String tokinId;
 
 	public String getTokinId() {

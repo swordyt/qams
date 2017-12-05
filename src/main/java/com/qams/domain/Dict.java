@@ -5,14 +5,16 @@ import java.util.Date;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Project {
+public class Dict {
 	private Integer id;
+
+	private String type;
 
 	private String name;
 
-	private String description;
+	private String value;
 
-	private String file;
+	private String tableName;
 
 	private Integer status;
 
@@ -20,7 +22,7 @@ public class Project {
 
 	private Date createtime;
 
-	private Date updatetime;
+	private Date updateTime;
 
 	public Integer getId() {
 		return id;
@@ -28,6 +30,14 @@ public class Project {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type == null ? null : type.trim();
 	}
 
 	public String getName() {
@@ -38,20 +48,20 @@ public class Project {
 		this.name = name == null ? null : name.trim();
 	}
 
-	public String getDescription() {
-		return description;
+	public String getValue() {
+		return value;
 	}
 
-	public void setDescription(String description) {
-		this.description = description == null ? null : description.trim();
+	public void setValue(String value) {
+		this.value = value == null ? null : value.trim();
 	}
 
-	public String getFile() {
-		return file;
+	public String getTableName() {
+		return tableName;
 	}
 
-	public void setFile(String file) {
-		this.file = file == null ? null : file.trim();
+	public void setTableName(String tableName) {
+		this.tableName = tableName == null ? null : tableName.trim();
 	}
 
 	public Integer getStatus() {
@@ -78,11 +88,11 @@ public class Project {
 		this.createtime = createtime;
 	}
 
-	public Date getUpdatetime() {
-		return updatetime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdatetime(Date updatetime) {
-		this.updatetime = updatetime;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 }

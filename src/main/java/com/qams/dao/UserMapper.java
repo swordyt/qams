@@ -1,20 +1,13 @@
 package com.qams.dao;
 
 import com.qams.domain.User;
-import com.qams.domain.UserKey;
 
 public interface UserMapper {
-	int deleteByPrimaryKey(UserKey key);
+	//
+	User selectByPrimaryKey(Integer id);
 
-	int insert(User record);
-
-	int insertSelective(User record);
-
-	User selectByPrimaryKey(UserKey key);
-
+	/**
+	 * 通过邮箱和密码查询用户详细信息
+	 * */
 	User selectByEmailAndPassword(User record);
-
-	int updateByPrimaryKeySelective(User record);
-
-	int updateByPrimaryKey(User record);
 }

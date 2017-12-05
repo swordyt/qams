@@ -3,65 +3,86 @@ package com.qams.domain;
 import java.util.Date;
 
 import org.springframework.stereotype.Repository;
+
 @Repository
-public class User extends UserKey {
-    private String name;
+public class User {
+	private Integer id;
 
-    private String password;
+	private String email;
 
-    private Integer auth;
+	private String name;
 
-    private Integer status;
+	private String password;
 
-    private Date createTime;
+	private Integer roleid;
 
-    private Date updateTime;
+	private Integer status;
 
-    public String getName() {
-        return name;
-    }
+	private Date createTime;
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	private Date updateTime;
 
-    public String getPassword() {
-        return password;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getAuth() {
-        return auth;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setAuth(Integer auth) {
-        this.auth = auth;
-    }
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public Integer getRoleid() {
+		return roleid;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setRoleid(Integer roleid) {
+		this.roleid = roleid;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 }

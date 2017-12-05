@@ -21,7 +21,7 @@
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <script src="resources/js/common.js"></script>
-<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="shortcut icon" href="favicon.ico" />
 <title>QAMS</title>
 <style type="text/css">
 .navInteraction {
@@ -46,7 +46,8 @@
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
 							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理
-							</a></li>
+							</a>
+							</li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>
 							</li>
 							<li><a href="javascript:void(0);" name="nav-systemmanger">系统管理</a>
@@ -62,6 +63,24 @@
 
 				</div>
 			</nav>
+			<button id="index_messageModel" class="btn btn-primary btn-lg hidden"
+				data-toggle="modal" data-target="#index_Modal">开始演示模态框</button>
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="index_Modal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body" id="index_toast"></div>
+						<div class="modal-footer hidden" >
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal" id="index_messageModelClose">关闭</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
 		</div>
 		<div class="row">
 			<div id="myAlert">

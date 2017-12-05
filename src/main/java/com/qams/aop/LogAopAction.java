@@ -37,8 +37,8 @@ public class LogAopAction {
 	public Object controllerAround(ProceedingJoinPoint pjp) throws Throwable {
 		Log.info("======Controller start======");
 		recodeLog(pjp);
-		Object obj=pjp.proceed();
-		Log.info("return="+obj.getClass().getName());
+		Object obj = pjp.proceed();
+		Log.info("return=" + obj.getClass().getName());
 		Log.info("======Controller end======");
 		return obj;
 	}
@@ -47,8 +47,8 @@ public class LogAopAction {
 	public Object serviceAround(ProceedingJoinPoint pjp) throws Throwable {
 		Log.info("======Service start======");
 		recodeLog(pjp);
-		Object obj=pjp.proceed();
-		Log.info("return="+JSONObject.toJSONString(obj));
+		Object obj = pjp.proceed();
+		Log.info("return=" + JSONObject.toJSONString(obj));
 		Log.info("======Service end======");
 		return obj;
 	}
@@ -56,12 +56,13 @@ public class LogAopAction {
 	private void recodeLog(ProceedingJoinPoint pjp) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes()).getRequest();
-//		Log.debug(request.getRequestURL());
-		Log.info("userid="+request.getAttribute("userid"));
-//		String ip = NetworkUtil.getIpAddress(request);
-//		Log.debug("ip=" + ip);
-//		String parameter = JSONObject.toJSONString(request.getParameterMap());
-//		Log.debug("parameter=" + parameter);
+		// Log.debug(request.getRequestURL());
+		Log.info("userid=" + request.getAttribute("userid"));
+		// String ip = NetworkUtil.getIpAddress(request);
+		// Log.debug("ip=" + ip);
+		// String parameter =
+		// JSONObject.toJSONString(request.getParameterMap());
+		// Log.debug("parameter=" + parameter);
 		Object obj = pjp.getTarget();
 		Log.info("Class=" + obj.getClass().getName());
 		Signature sig = pjp.getSignature();
@@ -70,7 +71,7 @@ public class LogAopAction {
 		MethodSignature msig = (MethodSignature) sig;
 		Class[] parameterTypes = msig.getMethod().getParameterTypes();
 		Log.info("parameterType=" + JSONObject.toJSONString(parameterTypes));
-//		Object[] args = pjp.getArgs();
-//		Log.debug("parameter=" + JSONObject.toJSONString(args));
+		// Object[] args = pjp.getArgs();
+		// Log.debug("parameter=" + JSONObject.toJSONString(args));
 	}
 }

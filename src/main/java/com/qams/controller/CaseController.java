@@ -63,14 +63,14 @@ public class CaseController {
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 			return response;
 		}
-		cs.setUserid((Integer) request.getAttribute("userid"));
+		cs.setCreater((Integer) request.getAttribute("userid"));
 		response.setData(caseService.addCase(cs));
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		return response;
 	}
 
-	@PermissionAuth(auth = { Permission.EC })
+	@PermissionAuth(auth = { Permission.UC })
 	@ResponseBody
 	@RequestMapping("/updateCase")
 	// 更新case
@@ -109,6 +109,7 @@ public class CaseController {
 		return response;
 	}
 
+	@PermissionAuth(auth = { Permission.DC })
 	@ResponseBody
 	@RequestMapping("/delCase")
 	// 删除case

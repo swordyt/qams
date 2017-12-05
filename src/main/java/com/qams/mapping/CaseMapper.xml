@@ -3,7 +3,6 @@
 <mapper namespace="com.qams.dao.CaseMapper">
 	<resultMap id="BaseResultMap" type="com.qams.domain.Case">
 		<id column="id" jdbcType="INTEGER" property="id" />
-		<result column="userId" jdbcType="INTEGER" property="userid" />
 		<result column="projectId" jdbcType="INTEGER" property="projectid" />
 		<result column="pid" jdbcType="INTEGER" property="pid" />
 		<result column="type" jdbcType="INTEGER" property="type" />
@@ -13,28 +12,17 @@
 		<result column="step" jdbcType="CHAR" property="step" />
 		<result column="file" jdbcType="VARCHAR" property="file" />
 		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creater" jdbcType="INTEGER" property="creater" />
 		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, userId, projectId, pid, type, name, level, description,
-		json_extract(step,'$') step, file,
-		status, createtime,
-		update_time
+		id, projectId, pid, type, name, level, description, step,
+		file, status,
+		creater,
+		createtime, update_time
 	</sql>
-	<select id="selectAll" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from t_case
-		where status = 1
-	</select>
-	<select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-		select
-		<include refid="Base_Column_List" />
-		from t_case
-		where status = 1 AND
-		projectId=#{projectId,jdbcType=INTEGER}
-	</select>
+	<!-- 通过用例父id获取该id下的所有用例 -->
 	<select id="selectCasesByPid" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
@@ -42,45 +30,13 @@
 		from t_case
 		where pid=#{id,jdbcType=INTEGER} AND status =1
 	</select>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from t_case
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from t_case
-		where id = #{id,jdbcType=INTEGER}
-	</delete>
-	<insert id="insert" parameterType="com.qams.domain.Case">
-		insert into t_case (id,
-		userId, projectId,
-		pid, type, name, level,
-		description, step, file,
-		status, createtime, update_time
-		)
-		values (#{id,jdbcType=INTEGER},
-		#{userid,jdbcType=INTEGER},
-		#{projectid,jdbcType=INTEGER},
-		#{pid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
-		#{name,jdbcType=VARCHAR},
-		#{level,jdbcType=INTEGER},
-		#{description,jdbcType=VARCHAR}, #{step,jdbcType=CHAR},
-		#{file,jdbcType=VARCHAR},
-		#{status,jdbcType=INTEGER},
-		#{createtime,jdbcType=TIMESTAMP},
-		#{updateTime,jdbcType=TIMESTAMP}
-		)
-	</insert>
-	<insert id="insertSelective" parameterType="com.qams.domain.Case">
+	<!-- 插入实体类中非空字段数据 -->
+	<insert id="insertSelective" parameterType="com.qams.domain.Case"
+		keyProperty="id">
 		insert into t_case
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
-			</if>
-			<if test="userid != null">
-				userId,
 			</if>
 			<if test="projectid != null">
 				projectId,
@@ -109,6 +65,9 @@
 			<if test="status != null">
 				status,
 			</if>
+			<if test="creater != null">
+				creater,
+			</if>
 			<if test="createtime != null">
 				createtime,
 			</if>
@@ -119,9 +78,6 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
-			</if>
-			<if test="userid != null">
-				#{userid,jdbcType=INTEGER},
 			</if>
 			<if test="projectid != null">
 				#{projectid,jdbcType=INTEGER},
@@ -150,6 +106,9 @@
 			<if test="status != null">
 				#{status,jdbcType=INTEGER},
 			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=INTEGER},
+			</if>
 			<if test="createtime != null">
 				#{createtime,jdbcType=TIMESTAMP},
 			</if>
@@ -158,12 +117,27 @@
 			</if>
 		</trim>
 	</insert>
+	<!-- 通过主键id获取该case -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_case
+		where id = #{id,jdbcType=INTEGER} and status =1
+	</select>
+	<!-- 通过projectid获取该项目的主目录 -->
+	<select id="selectByProjectId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_case
+		where status = 1 AND
+		projectId=#{projectId,jdbcType=INTEGER}
+	</select>
+	<!-- 更新该id下的case信息 -->
 	<update id="updateByPrimaryKeySelective" parameterType="com.qams.domain.Case">
 		update t_case
 		<set>
-			<if test="userid != null">
-				userId = #{userid,jdbcType=INTEGER},
-			</if>
 			<if test="projectid != null">
 				projectId = #{projectid,jdbcType=INTEGER},
 			</if>
@@ -191,6 +165,9 @@
 			<if test="status != null">
 				status = #{status,jdbcType=INTEGER},
 			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=INTEGER},
+			</if>
 			<if test="createtime != null">
 				createtime = #{createtime,jdbcType=TIMESTAMP},
 			</if>
@@ -198,29 +175,6 @@
 				update_time = #{updateTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.qams.domain.Case">
-		update t_case
-		set
-		userId = #{userid,jdbcType=INTEGER},
-		projectId =
-		#{projectid,jdbcType=INTEGER},
-		pid = #{pid,jdbcType=INTEGER},
-		type =
-		#{type,jdbcType=INTEGER},
-		name = #{name,jdbcType=VARCHAR},
-		level =
-		#{level,jdbcType=INTEGER},
-		description =
-		#{description,jdbcType=VARCHAR},
-		step = #{step,jdbcType=CHAR},
-		file =
-		#{file,jdbcType=VARCHAR},
-		status = #{status,jdbcType=INTEGER},
-		createtime = #{createtime,jdbcType=TIMESTAMP},
-		update_time =
-		#{updateTime,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>

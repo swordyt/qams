@@ -6,6 +6,7 @@ import java.util.Date;
 
 import io.jsonwebtoken.Claims;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qams.config.UrlMapping;
+import com.qams.dao.RoleMapper;
 import com.qams.dao.UserMapper;
 import com.qams.domain.User;
-import com.qams.domain.UserKey;
 import com.qams.response.Response;
 import com.qams.util.JwtUtil;
 import com.qams.util.NetworkUtil;
@@ -31,11 +32,11 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	JwtUtil jwt;
 	@Autowired
 	UserMapper userDao;
-	@Autowired
-	UserKey userKey;
 	String jwtString;
 	@Autowired
 	Response res;
+	@Resource
+	RoleMapper roleDao;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -66,10 +67,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 				userId = Integer.parseInt(jwt
 						.parseSubject(jwt, token, "userId") + "");
 				Long now = System.currentTimeMillis();
-				userKey.setId(userId);
-				// 查询userid在数据库中是否存在
-				// 判断token时间是否过期
-				user = userDao.selectByPrimaryKey(userKey);
+				user = userDao.selectByPrimaryKey(userId);
 				if (user == null || (now - expTime) > 0) {
 					flag = false;
 				}
@@ -89,9 +87,11 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 			request.setAttribute("userid", userId);
 			HttpSession session = request.getSession();
 			session.setAttribute("userid", userId);
-			session.setAttribute("auth", user.getAuth());
+			Integer auth = roleDao.selectByPrimaryKey(user.getRoleid())
+					.getAuth();
+			session.setAttribute("auth", auth);
 			Log.info("userid=" + userId);
-			Log.info("用户权限：" + user.getAuth());
+			Log.info("用户权限：" + auth);
 		}
 		Log.info("======Token end======");
 		return flag;

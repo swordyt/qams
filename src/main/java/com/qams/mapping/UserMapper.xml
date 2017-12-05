@@ -3,136 +3,32 @@
 <mapper namespace="com.qams.dao.UserMapper">
 	<resultMap id="BaseResultMap" type="com.qams.domain.User">
 		<id column="id" jdbcType="INTEGER" property="id" />
-		<id column="email" jdbcType="VARCHAR" property="email" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="password" jdbcType="VARCHAR" property="password" />
-		<result column="auth" jdbcType="INTEGER" property="auth" />
+		<result column="roleId" jdbcType="INTEGER" property="roleid" />
 		<result column="status" jdbcType="INTEGER" property="status" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, email, name, password, auth, status, create_time, update_time
+		id, email, name, password, roleId, status, create_time, update_time
 	</sql>
-	<select id="selectByEmailAndPassword" parameterType="com.qams.domain.UserKey"
+	<select id="selectByEmailAndPassword" parameterType="com.qams.domain.User"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_user
 		where password = PASSWORD(#{password})
 		and email =
-		#{email,jdbcType=VARCHAR}
+		#{email,jdbcType=VARCHAR} and status=1
 	</select>
-	<select id="selectByPrimaryKey" parameterType="com.qams.domain.UserKey"
+	<!-- 通过用户id，查询该用户详细信息 -->
+	<select id="selectByPrimaryKey" parameterType="com.qams.domain.User"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_user
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="com.qams.domain.UserKey">
-		delete from t_user
-		where id = #{id,jdbcType=INTEGER}
-		and email = #{email,jdbcType=VARCHAR}
-	</delete>
-	<insert id="insert" parameterType="com.qams.domain.User">
-		insert into t_user (id, email, name,
-		password, auth, status,
-		create_time, update_time)
-		values (#{id,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
-		#{name,jdbcType=VARCHAR},
-		#{password,jdbcType=VARCHAR}, #{auth,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-	</insert>
-	<insert id="insertSelective" parameterType="com.qams.domain.User">
-		insert into t_user
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="email != null">
-				email,
-			</if>
-			<if test="name != null">
-				name,
-			</if>
-			<if test="password != null">
-				password,
-			</if>
-			<if test="auth != null">
-				auth,
-			</if>
-			<if test="status != null">
-				status,
-			</if>
-			<if test="createTime != null">
-				create_time,
-			</if>
-			<if test="updateTime != null">
-				update_time,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=INTEGER},
-			</if>
-			<if test="email != null">
-				#{email,jdbcType=VARCHAR},
-			</if>
-			<if test="name != null">
-				#{name,jdbcType=VARCHAR},
-			</if>
-			<if test="password != null">
-				#{password,jdbcType=VARCHAR},
-			</if>
-			<if test="auth != null">
-				#{auth,jdbcType=INTEGER},
-			</if>
-			<if test="status != null">
-				#{status,jdbcType=INTEGER},
-			</if>
-			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateTime != null">
-				#{updateTime,jdbcType=TIMESTAMP},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.qams.domain.User">
-		update t_user
-		<set>
-			<if test="name != null">
-				name = #{name,jdbcType=VARCHAR},
-			</if>
-			<if test="password != null">
-				password = #{password,jdbcType=VARCHAR},
-			</if>
-			<if test="auth != null">
-				auth = #{auth,jdbcType=INTEGER},
-			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=INTEGER},
-			</if>
-			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateTime != null">
-				update_time = #{updateTime,jdbcType=TIMESTAMP},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-		and email = #{email,jdbcType=VARCHAR}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.qams.domain.User">
-		update t_user
-		set name = #{name,jdbcType=VARCHAR},
-		password = #{password,jdbcType=VARCHAR},
-		auth = #{auth,jdbcType=INTEGER},
-		status = #{status,jdbcType=INTEGER},
-		create_time = #{createTime,jdbcType=TIMESTAMP},
-		update_time = #{updateTime,jdbcType=TIMESTAMP}
-		where id = #{id,jdbcType=INTEGER}
-		and email = #{email,jdbcType=VARCHAR}
-	</update>
 </mapper>

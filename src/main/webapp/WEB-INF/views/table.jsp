@@ -1,6 +1,14 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 <head>
+<base href="<%=basePath%>">
 <base href="http://localhost:8080/Qams/">
 <title>QACS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,44 +20,20 @@
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-
-<!-- Latest compiled and minified Locales -->
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
 	<div class="container">
-		<table id="table"></table>
-		<button id="modal-content" data-toggle="modal" data-target="#myModal"
-			style="display:none"></button>
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
-					</div>
-					<div class="modal-body">在这里添加一些文本</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-						</button>
-						<button type="button" class="btn btn-primary">提交更改</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
+		
 		<script>
+			function edit() {
+				$("#modal-content").click();
+				$("#myModalLabel").text("编辑");
+			};
+			function add() {
+				$("#modal-content").click();
+				$("#myModalLabel").text("添加");
+			};
 			$('#table')
 					.bootstrapTable(
 							{
@@ -73,8 +57,8 @@
 											formatter : function(value, row,
 													index) {
 												return [
-														'<a href="javascript:void(0)"  onclick="edit("编辑")><i class="glyphicon glyphicon-edit"></i></a>',
-														'<a href="javascript:void(0)"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+														'<a href="javascript:void(0)"  onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+														'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
 														.join('');
 											},
 										} ],
@@ -85,13 +69,16 @@
 								pageList : [ 5, 10, 15, 20, 25 ], //记录数可选列表 
 								striped : true, //表格显示条纹  
 								pagination : true, //启动分页  
-								pageSize : 1, //每页显示的记录数  
+								pageSize : 10, //每页显示的记录数  
 								pageNumber : 1, //当前第几页  
+								responseHandler : function(data) {
+									return {
+										"total" : data.data.total,//总页数
+										"rows" : data.data.rows
+									//数据
+									};
+								}
 							});
-			function edit(title) {
-				$("#modal-content").click();
-				$("#myModalLabel").text(title);
-			};
 		</script>
 	</div>
 </body>

@@ -24,10 +24,11 @@ public class UserService {
 	public Object login(String email, String password) {
 		user.setEmail(email);
 		user.setPassword(password);
-		User u=userDao.selectByEmailAndPassword(user);
-		if(u==null){
+		User u = userDao.selectByEmailAndPassword(user);
+		if (u == null) {
 			return null;
-		};
+		}
+		;
 		loginResponse.setTokinId(jwt.createJWT(Constant.JWT_ID,
 				jwt.generalSubject(u), Constant.JWT_TTL));
 		return loginResponse;

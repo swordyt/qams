@@ -5,18 +5,14 @@ import java.util.Date;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Project {
+public class Role {
 	private Integer id;
 
 	private String name;
 
-	private String description;
-
-	private String file;
+	private Integer auth;
 
 	private Integer status;
-
-	private Integer creater;
 
 	private Date createtime;
 
@@ -38,20 +34,12 @@ public class Project {
 		this.name = name == null ? null : name.trim();
 	}
 
-	public String getDescription() {
-		return description;
+	public Integer getAuth() {
+		return auth;
 	}
 
-	public void setDescription(String description) {
-		this.description = description == null ? null : description.trim();
-	}
-
-	public String getFile() {
-		return file;
-	}
-
-	public void setFile(String file) {
-		this.file = file == null ? null : file.trim();
+	public void setAuth(Integer auth) {
+		this.auth = auth;
 	}
 
 	public Integer getStatus() {
@@ -60,14 +48,6 @@ public class Project {
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public Integer getCreater() {
-		return creater;
-	}
-
-	public void setCreater(Integer creater) {
-		this.creater = creater;
 	}
 
 	public Date getCreatetime() {

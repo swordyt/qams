@@ -2,6 +2,9 @@ Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = false;
 var createProject_dropz;
 function initDropzone() {
+	if ($("#dropzone").length != 1) {
+		return null;
+	}
 	var maxFiles = 4;
 	createProject_dropz = new Dropzone("#dropzone", {
 		init : function() {
@@ -9,6 +12,11 @@ function initDropzone() {
 				console.log(file.fileKey + "===" + file.fileName);
 			});
 			this.on("success", function(file, data) {
+				if (data.code != "000000") {
+					this.removeFile(file);
+					alert(data.message);
+					return null;
+				}
 				file.fileKey = data.data.key;
 				file.fileName = data.data.name;
 				file.fileType = data.data.type;
@@ -29,11 +37,13 @@ function initDropzone() {
 		url : "token/upload"
 	});
 }
+/** 创建项目的提交 */
 function createProject_submit(e) {
-	var name=$(e.name).val().trim();
-	var description=$(e.description).val().trim();
-	var rootTree=$(e.rootTree).val().trim();
-	if(name==null||name==undefined||name==""||rootTree==null||rootTree==undefined||rootTree==""){
+	var name = $(e.name).val().trim();
+	var description = $(e.description).val().trim();
+	var rootTree = $(e.rootTree).val().trim();
+	if (name == null || name == undefined || name == "" || rootTree == null
+			|| rootTree == undefined || rootTree == "") {
 		return false;
 	}
 	var files = createProject_dropz.getAcceptedFiles();
@@ -49,16 +59,60 @@ function createProject_submit(e) {
 		obj.type = v.fileType;
 		file.push(obj);
 	});
-	data.file=JSON.stringify(file);
-	function fun(data, textStatus, jqXHR){
-		if(data.code=="000000"){
+	data.file = JSON.stringify(file);
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
 			e.reset();
 			createProject_dropz.removeAllFiles(true);
 		}
 	}
-	Network.maskSend("token/project/addproject", data, fun);
+	parent.Network.maskSend("token/project/addproject", data, fun);
 	return false;
 }
+function edit() {
+	$("#modal-content").click();
+	$("#myModalLabel").text("编辑");
+};
+function add() {
+	$("#modal-content").click();
+	$("#myModalLabel").text("添加");
+};
+/** 初始化项目列表 */
+function initBootstrapTable(id, url, columns) {
+	$(id).bootstrapTable({
+		url : url,
+		columns : columns,
+		/*
+		 * [ { field : 'id', title : 'Item ID' }, { field : 'name', title :
+		 * 'Item Name' }, { field : 'price', title : 'Item Price' }, { field :
+		 * 'opt', title : '操作', formatter : function(value, row, index) { return [ '<a
+		 * href="javascript:void(0)" onclick="edit()"><i class="glyphicon
+		 * glyphicon-edit"></i></a>', '<a href="javascript:void(0)"
+		 * onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+		 * .join(''); }, } ],
+		 */
+		sidePagination : "server", // 设置在哪里进行分页，可选值为 'client'
+		// 或者 'server'。设置
+		// 'server'时，必须设置
+		// 服务器数据地址（url）或者重写ajax方法
+		search : true, // 是否启用查询
+		showColumns : true, // 显示下拉框勾选要显示的列
+		showRefresh : true, // 显示刷新按钮
+		pageList : [ 5, 10, 15, 20, 25 ], // 记录数可选列表
+		striped : true, // 表格显示条纹
+		pagination : true, // 启动分页
+		pageSize : 10, // 每页显示的记录数
+		pageNumber : 1, // 当前第几页
+		responseHandler : function(data) {
+			return {
+				"total" : data.data.total,// 总页数
+				"rows" : data.data.rows
+			// 数据
+			};
+		}
+	});
+}
+
 $(document)
 		.ready(
 				function() {
@@ -89,13 +143,58 @@ $(document)
 							"#sidebar-wrapper ul li:not(.dropdown) a,ul.dropdown-menu li a")
 							.click(
 									function(e) {
+										var url_content = $(this).attr("href");
 										$("#container_context")
 												.load(
-														$(this).attr("href")
+														url_content
 																+ " #container",
 														function(response,
 																status, xhr) {
-															initDropzone();
+															if (url_content == "token/system/systemmange?url=listProject") {
+																var data = [
+																		{
+																			field : 'id',
+																			title : '项目编号'
+																		},
+																		{
+																			field : 'name',
+																			title : '项目名称'
+																		},
+																		{
+																			field : 'creater',
+																			title : '创建者'
+																		},
+																		{
+																			field : 'createtime',
+																			title : '创建时间',
+																			formatter : function(
+																					value,
+																					row,
+																					index) {
+																				return date(value);
+																			}
+																		},
+																		{
+																			field : 'opt',
+																			title : '操作',
+																			formatter : function(
+																					value,
+																					row,
+																					index) {
+																				return [
+																						'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+																						'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+																						.join('');
+																			},
+																		} ]
+																initBootstrapTable(
+																		"#table",
+																		"token/project/getprojects",
+																		data);
+															} else {
+																initDropzone();
+															}
+
 														});
 										e.preventDefault();
 										// initDropzone();
