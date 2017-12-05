@@ -35,13 +35,14 @@ public class ProjectService {
 	ListResponse listResponse;
 
 	public ListResponse getProjects(ProjectSearchBean search) {
+		
 		List<Project> list = projectDao.selectAll(search);
 		for (int i = 0; i < list.size(); i++) {
 			Project p = list.get(i);
-			System.out.println(p.getCreatetime());
 		}
 		listResponse.setRows(list);
-		listResponse.setTotal((long) list.size());
+		search.setLimit(0);
+		listResponse.setTotal((long) projectDao.selectAll(search).size());
 		return listResponse;
 	}
 

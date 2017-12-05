@@ -33,7 +33,11 @@
 			and name like concat(concat('%',#{search}),'%')
 		</if>
 		order by createtime desc
-		LIMIT #{offset},#{limit}
+		<if test="limit != 0">
+			LIMIT #{offset},#{limit}
+		</if>
+
+
 	</select>
 	<!-- 插入实体类中非null数据，并返回数据id -->
 	<insert id="insertSelective" parameterType="com.qams.domain.Project"

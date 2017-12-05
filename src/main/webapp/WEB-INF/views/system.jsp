@@ -24,8 +24,7 @@
 <script type="text/javascript"
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <script src="resources/js/dropzone/dropzone.min.js"></script>
-<script type="text/javascript"
-	src="resources/js/common.js"></script>
+<script type="text/javascript" src="resources/js/common.js"></script>
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
 
@@ -66,8 +65,20 @@
 						<li><a href="token/system/systemmange?url=createUser">创建用户</a>
 						</li>
 					</ul></li>
-				<li><a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>
-				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i>MOCK管理<span
+						class="caret"></span> </a>
+					<ul class="dropdown-menu" role="menu">
+						<li class="dropdown-header">Mock系统相关功能</li>
+						<li><a href="token/system/systemmange?url=createMockProject">创建MOCK项目</a>
+						</li>
+						<li><a href="token/system/systemmange?url=listMockProject">MOCK项目列表</a>
+						</li>
+						<li><a href="token/system/systemmange?url=createMockApi">创建MockApi</a>
+						</li>
+						<li><a href="token/system/systemmange?url=listMockApi">MockApi列表</a>
+						</li>
+					</ul></li>
 				<li><a href="#"><i class="fa fa-fw fa-file-o"></i> Second
 						page</a></li>
 				<li><a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
