@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qams.annotation.PermissionAuth;
-import com.qams.bean.ProjectSearchBean;
+import com.qams.bean.SearchBean;
 import com.qams.config.Constant;
 import com.qams.config.Permission;
 import com.qams.dao.ProjectMapper;
@@ -28,7 +28,7 @@ public class ProjectController {
 
 	@ResponseBody
 	@RequestMapping("getprojects")
-	public Response getProjects(ProjectSearchBean search) {
+	public Response getProjects(SearchBean search) {
 		if (search.getSearch() == null || search.getSearch().equals("")) {
 			search.setSearch(null);
 		}

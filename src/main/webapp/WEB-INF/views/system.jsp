@@ -44,7 +44,8 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top"
 			id="sidebar-wrapper" role="navigation">
 			<ul class="nav sidebar-nav">
-				<li class="sidebar-brand"><a href="#">功能菜单</a></li>
+				<li class="sidebar-brand"><a href="#">功能菜单</a>
+				</li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 项目管理 <span
 						class="caret"></span> </a>
@@ -54,7 +55,8 @@
 						</li>
 						<li><a href="token/system/systemmange?url=listProject">项目列表</a>
 						</li>
-					</ul></li>
+					</ul>
+				</li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 用户管理<span
 						class="caret"></span> </a>
@@ -64,7 +66,8 @@
 						</li>
 						<li><a href="token/system/systemmange?url=createUser">创建用户</a>
 						</li>
-					</ul></li>
+					</ul>
+				</li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i>MOCK管理<span
 						class="caret"></span> </a>
@@ -78,9 +81,11 @@
 						</li>
 						<li><a href="token/system/systemmange?url=listMockApi">MockApi列表</a>
 						</li>
-					</ul></li>
+					</ul>
+				</li>
 				<li><a href="#"><i class="fa fa-fw fa-file-o"></i> Second
-						page</a></li>
+						page</a>
+				</li>
 				<li><a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
 				</li>
 				<li><a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>
@@ -88,7 +93,8 @@
 				<li><a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>
 				</li>
 				<li><a href="#"><i class="fa fa-fw fa-twitter"></i> Last
-						page</a></li>
+						page</a>
+				</li>
 			</ul>
 		</nav>
 		<!-- /#sidebar-wrapper -->

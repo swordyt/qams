@@ -3,7 +3,7 @@ package com.qams.bean;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProjectSearchBean {
+public class SearchBean {
 	private String search;
 	private int offset;
 	private int limit;

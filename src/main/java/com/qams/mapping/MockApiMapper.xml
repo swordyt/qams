@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qams.dao.MockApiMapper">
+	<resultMap id="BaseResultMap" type="com.qams.domain.MockApi">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<id column="projectId" jdbcType="INTEGER" property="projectid" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="method" jdbcType="INTEGER" property="method" />
+		<result column="urlType" jdbcType="INTEGER" property="urltype" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="resultCode" jdbcType="VARCHAR" property="resultcode" />
+		<result column="resultType" jdbcType="INTEGER" property="resulttype" />
+		<result column="headers" jdbcType="CHAR" property="headers" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creater" jdbcType="INTEGER" property="creater" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.qams.domain.MockApi">
+		<result column="resultValue" jdbcType="LONGVARCHAR" property="resultvalue" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, projectId,name, method, urlType, url, resultValue,resultCode, resultType,
+		headers, status,
+		creater,
+		createtime,
+		updatetime
+	</sql>
+	<select id="selectAll" parameterType="com.qams.bean.SearchBean"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		from t_mock_api
+		where status=1
+		<if test="search != null">
+			and name like concat(concat('%',#{search}),'%') or url
+			like concat(concat('%',#{search}),'%')
+		</if>
+		order by createtime desc
+		<if test="limit != 0">
+			LIMIT #{offset},#{limit}
+		</if>
+
+	</select>
+
+	<insert id="insertSelective" parameterType="com.qams.domain.MockApi" keyProperty="id" useGeneratedKeys="true">
+		insert into t_mock_api
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="projectid != null">
+				projectId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="method != null">
+				method,
+			</if>
+			<if test="urltype != null">
+				urlType,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="resultcode != null">
+				resultCode,
+			</if>
+			<if test="resulttype != null">
+				resultType,
+			</if>
+			<if test="headers != null">
+				headers,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="resultvalue != null">
+				resultValue,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectid != null">
+				#{projectid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				#{method,jdbcType=INTEGER},
+			</if>
+			<if test="urltype != null">
+				#{urltype,jdbcType=INTEGER},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="resultcode != null">
+				#{resultcode,jdbcType=VARCHAR},
+			</if>
+			<if test="resulttype != null">
+				#{resulttype,jdbcType=INTEGER},
+			</if>
+			<if test="headers != null">
+				#{headers,jdbcType=CHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resultvalue != null">
+				#{resultvalue,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+</mapper>

@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qams.bean.ProjectSearchBean;
+import com.qams.bean.SearchBean;
 import com.qams.dao.CaseMapper;
 import com.qams.dao.ProjectMapper;
 import com.qams.dao.RoleProjectMapper;
@@ -34,7 +34,7 @@ public class ProjectService {
 	@Autowired
 	ListResponse listResponse;
 
-	public ListResponse getProjects(ProjectSearchBean search) {
+	public ListResponse getProjects(SearchBean search) {
 		
 		List<Project> list = projectDao.selectAll(search);
 		for (int i = 0; i < list.size(); i++) {

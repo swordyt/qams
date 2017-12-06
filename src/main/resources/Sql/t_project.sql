@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-10 18:06:08
+Date: 2017-12-06 18:18:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,11 +24,9 @@ CREATE TABLE `t_project` (
   `name` varchar(200) NOT NULL COMMENT '项目名',
   `description` varchar(1000) DEFAULT NULL COMMENT '项目描述',
   `file` varchar(1000) DEFAULT NULL COMMENT '附件',
-  `userId` int(32) NOT NULL COMMENT '创建者',
   `status` int(32) NOT NULL DEFAULT '0',
+  `creater` int(32) NOT NULL COMMENT '创建用户id',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `userId_idx` (`userId`),
-  CONSTRAINT `user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;

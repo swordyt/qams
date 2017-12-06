@@ -17,30 +17,46 @@
 	<div class="container" style="padding:0px" id="container">
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
-				<form class="form-horizontal pull-right" role="form" onload="initDropzone()">
+				<form class="form-inline pull-right" role="form" method="post" action="token/mockproject/add">
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;启用：</label>
+							<input type="checkbox" name="enabled" class="form-control" value="1"> <span
+								class="help-block">当勾选上启用时，保存项目后将立即创建mock服务。</span>
+						</div>
+					</div>
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目名称：</label> <input
+								type="text" class="form-control" placeholder="请尽量使用英文名称。" required="required" name="name">
+						</div>
+					</div>
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目描述：</label> 
+							<textarea class="form-control" rows="3" cols="35" name="description"></textarea>
+						</div>
+					</div>
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>项目负责人：</label> <input type="text" class="form-control" name="projectleader">
+						</div>
+					</div>
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;协议：</label>
+							<select name="protocol" class="form-control">
+								<option selected="selected" value="http">HTTP</option>
+								<option value="https">HTTPS</option>
+							</select>
+						</div>
+					</div>
 					<div>
-						<div class="form-group">
-							<label>项目名</label> <input type="text" class="form-control"
-								name="name" required="required"/>
+						<div class="form-group pull-right">
+							<button class="btn btn-success form-control">提交</button>
 						</div>
-						<div class="form-group">
-							<label>描述</label>
-							<textarea rows="4" cols="60" class="form-control" name="description"></textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label>附件</label>
-						<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
-					</div>
-					<div class="form-group">
-					<label>用例主目录名</label>
-					<input type="text" name="rootTree" class="form-control" required="required"/>
-					</div>
-					<div class="form-group">
-					<button class="btn btn-success form-control" onclick="createProject_submit(this.form);return false;">提交</button>
 					</div>
 				</form>
-					
 			</div>
 		</div>
 	</div>

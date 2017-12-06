@@ -2,7 +2,7 @@ package com.qams.dao;
 
 import java.util.List;
 
-import com.qams.bean.ProjectSearchBean;
+import com.qams.bean.SearchBean;
 import com.qams.domain.Project;
 
 public interface ProjectMapper {
@@ -17,5 +17,5 @@ public interface ProjectMapper {
 	int insertSelective(Project record);
 
 	/** 获取project 中status=1的所有项 */
-	List<Project> selectAll(ProjectSearchBean search);
+	List<Project> selectAll(SearchBean search);
 }

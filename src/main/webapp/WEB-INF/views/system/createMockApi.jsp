@@ -16,66 +16,71 @@
 	<div class="container" style="padding:0px" id="container">
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
-				<form class="form-inline pull-right" role="form">
+				<form class="form-inline pull-right" role="form" method="post" action="token/mock/addapi">
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目：</label><select name="" class="form-control">
-								<option selected="selected">盈米</option>
-								<option>诺诺磅客</option>
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目：</label><select
+								name="projectid" class="form-control" id="mockProjectId">
 							</select>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接口名称：</label>
-								<input type="text" class="form-control" placeholder="购买基金">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接口名称：</label>
+							<input type="text" class="form-control" placeholder="购买基金" name="name">
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方法：</label>
-							<select name="" class="form-control">
-							<option selected="selected">GET</option>
-							<option>POST</option>
+							<select name="method" class="form-control" id="method">
+							</select>
+						</div>
+					</div>
+					<div style="margin-bottom: 5px;">
+						<div class="form-group">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL类型：</label>
+							<select name="urltype" class="form-control">
+								<option selected="selected" value="1">URL</option>
+								<option value="2">URL正则</option>
 							</select>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL：</label>
-								<input type="text" class="form-control" placeholder="token/cases/index">
+							<input type="text" class="form-control"
+								placeholder="token/cases/index" name="url">
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回码：</label>
-								<input type="text" class="form-control" placeholder="200">
+							<input type="text" class="form-control" placeholder="200" name="resultcode">
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>返回结果类型：</label>
-								<select class="form-control" name="">
-								<option selected="selected">JSON</option>
-								</select>
+							<label>返回结果类型：</label> <select class="form-control" name="resulttype" id="resultType">
+							</select>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回结果：</label>
-							<textarea cols="50" rows="10" name="" class="form-control"></textarea>
+							<textarea cols="50" rows="10" name="resultvalue" class="form-control" placeholder="Enter valid JSON"></textarea>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Headers：</label>
-							<textarea cols="50" rows="10" name="" class="form-control" placeholder="{}"></textarea>
+							<textarea cols="50" rows="10" name="headers" class="form-control"
+								placeholder="{}"></textarea>
 						</div>
 					</div>
 					<div>
 						<div class="form-group pull-right">
-							<button class="btn btn-success form-control"
-								onclick="createProject_submit(this.form);return false;">提交</button>
+							<button class="btn btn-success form-control">提交</button>
 						</div>
 					</div>
 				</form>

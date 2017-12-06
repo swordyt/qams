@@ -1,5 +1,7 @@
 package com.qams.dao;
 
+import java.util.List;
+
 import com.qams.domain.Dict;
 
 public interface DictMapper {
@@ -10,6 +12,8 @@ public interface DictMapper {
 	int insertSelective(Dict record);
 
 	Dict selectByPrimaryKey(Integer id);
+
+	List<Dict> selectByNotnull(Dict record);
 
 	int updateByPrimaryKeySelective(Dict record);
 

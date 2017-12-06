@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qams.dao.ProjectMapper">
-	<resultMap id="BaseResultMap" type="com.qams.domain.Project">
+<mapper namespace="com.qams.dao.MockProjectMapper">
+	<resultMap id="BaseResultMap" type="com.qams.domain.MockProject">
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="description" jdbcType="VARCHAR" property="description" />
-		<result column="file" jdbcType="VARCHAR" property="file" />
+		<result column="projectLeader" jdbcType="VARCHAR" property="projectleader" />
+		<result column="protocol" jdbcType="VARCHAR" property="protocol" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
 		<result column="status" jdbcType="INTEGER" property="status" />
 		<result column="creater" jdbcType="INTEGER" property="creater" />
 		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
 		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name, description, file, status, creater, createtime,
-		updatetime
+		id, name, description, projectLeader, protocol,enabled,
+		status, creater,
+		createtime, updatetime
 	</sql>
-	<!-- 通过项目id获取项目的详细信息 -->
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
-		resultMap="BaseResultMap">
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.qams.bean.SearchBean">
 		select
 		<include refid="Base_Column_List" />
-		from t_project
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-	<select id="selectAll" resultMap="BaseResultMap"
-		parameterType="com.qams.bean.SearchBean">
-		select
-		<include refid="Base_Column_List" />
-		from t_project
+		from t_mock_project
 		where status=1
 		<if test="search != null">
 			and name like concat(concat('%',#{search}),'%')
 		</if>
-		order by createtime desc
+		order by id desc
 		<if test="limit != 0">
 			LIMIT #{offset},#{limit}
 		</if>
 	</select>
-	<!-- 插入实体类中非null数据，并返回数据id -->
-	<insert id="insertSelective" parameterType="com.qams.domain.Project"
+	<insert id="insertSelective" parameterType="com.qams.domain.MockProject"
 		keyProperty="id" useGeneratedKeys="true">
-		insert into t_project
+		insert into t_mock_project
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
@@ -51,8 +44,14 @@
 			<if test="description != null">
 				description,
 			</if>
-			<if test="file != null">
-				file,
+			<if test="projectleader != null">
+				projectLeader,
+			</if>
+			<if test="protocol != null">
+				protocol,
+			</if>
+			<if test="enabled != null">
+				enabled,
 			</if>
 			<if test="status != null">
 				status,
@@ -77,8 +76,14 @@
 			<if test="description != null">
 				#{description,jdbcType=VARCHAR},
 			</if>
-			<if test="file != null">
-				#{file,jdbcType=VARCHAR},
+			<if test="projectleader != null">
+				#{projectleader,jdbcType=VARCHAR},
+			</if>
+			<if test="protocol != null">
+				#{protocol,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=INTEGER},
 			</if>
 			<if test="status != null">
 				#{status,jdbcType=INTEGER},
@@ -94,4 +99,6 @@
 			</if>
 		</trim>
 	</insert>
+
+
 </mapper>

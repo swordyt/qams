@@ -1,3 +1,169 @@
+var URLMAPPING = {};
+URLMAPPING["token/system/systemmange?url=listProject"] = function() {
+	var data = [
+			{
+				field : 'id',
+				title : '项目编号'
+			},
+			{
+				field : 'name',
+				title : '项目名称'
+			},
+			{
+				field : 'creater',
+				title : '创建者'
+			},
+			{
+				field : 'createtime',
+				title : '创建时间',
+				formatter : function(value, row, index) {
+					return date(value);
+				}
+			},
+			{
+				field : 'opt',
+				title : '操作',
+				formatter : function(value, row, index) {
+					return [
+							'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+							'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+							.join('');
+				},
+			} ];
+	initBootstrapTable("#table", "token/project/getprojects", data);
+}
+URLMAPPING["token/system/systemmange?url=listMockProject"] = function() {
+	var data = [
+			{
+				field : 'id',
+				title : '项目编号'
+			},
+			{
+				field : 'name',
+				title : '项目名称'
+			},
+			{
+				field : 'projectleader',
+				title : '项目负责人'
+			},
+			{
+				field : 'protocol',
+				title : '请求协议'
+			},
+			{
+				field : 'enabled',
+				title : '是否启用',
+				formatter : function(value, row, index) {
+					if (value == 1) {
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				field : 'creater',
+				title : '创建者'
+			},
+			{
+				field : 'createtime',
+				title : '创建时间',
+				formatter : function(value, row, index) {
+					return date(value);
+				}
+			},
+			{
+				field : 'opt',
+				title : '操作',
+				formatter : function(value, row, index) {
+					return [
+							'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+							'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+							.join('');
+				},
+			} ];
+	initBootstrapTable("#table", "token/mockproject/getprojects", data);
+}
+URLMAPPING["token/system/systemmange?url=createProject"] = function() {
+	initDropzone();
+}
+URLMAPPING["token/system/systemmange?url=createMockProject"] = function() {
+
+}
+URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
+	function fillProject(data, textStatus, jqXHR) {
+		$.each(data.data.rows, function(k, v) {
+			$("#mockProjectId").append(
+					'<option  value="' + v.id + '">'
+							+ v.name + '</option>');
+		});
+	}
+	function fillMethod(data, textStatus, jqXHR) {
+		$.each(data.data,function(k, v) {
+			$("#method").append(
+					'<option value="' + v.value + '">'
+							+ v.name + '</option>');
+		});
+	}
+	function fillResultType(data, textStatus, jqXHR) {
+		$.each(data.data,function(k, v) {
+			$("#resultType").append(
+					'<option value="' + v.value + '">'
+					+ v.name + '</option>');
+		});
+	}
+	
+	Network.maskSend("token/mockproject/getprojects", {
+		offset : "0",
+		limit : "0"
+	}, fillProject);
+	Network.maskSend("token/dict/getdicts", {
+		tableName : "t_mock_api",
+		type : "method"
+	}, fillMethod);
+	Network.maskSend("token/dict/getdicts", {
+		tableName : "t_mock_api",
+		type : "resultType"
+	}, fillResultType);
+}
+URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
+	var data = [
+				{
+					field : 'id',
+					title : '编号'
+				},
+				{
+					field : 'name',
+					title : '接口名称'
+				},
+				{
+					field : 'creater',
+					title : '创建者'
+				},
+				{
+					field : 'createtime',
+					title : '创建时间',
+					formatter : function(value, row, index) {
+						return date(value);
+					}
+				},
+				{
+					field : 'opt',
+					title : '操作',
+					formatter : function(value, row, index) {
+						return [
+								'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+								'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+								.join('');
+					},
+				} ];
+		initBootstrapTable("#table", "token/project/getprojects", data);
+}
+URLMAPPING["token/system/systemmange?url=createRole"] = function() {
+
+}
+URLMAPPING["token/system/systemmange?url=createUser"] = function() {
+
+}
 Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = false;
 var createProject_dropz;
@@ -150,50 +316,8 @@ $(document)
 																+ " #container",
 														function(response,
 																status, xhr) {
-															if (url_content == "token/system/systemmange?url=listProject") {
-																var data = [
-																		{
-																			field : 'id',
-																			title : '项目编号'
-																		},
-																		{
-																			field : 'name',
-																			title : '项目名称'
-																		},
-																		{
-																			field : 'creater',
-																			title : '创建者'
-																		},
-																		{
-																			field : 'createtime',
-																			title : '创建时间',
-																			formatter : function(
-																					value,
-																					row,
-																					index) {
-																				return date(value);
-																			}
-																		},
-																		{
-																			field : 'opt',
-																			title : '操作',
-																			formatter : function(
-																					value,
-																					row,
-																					index) {
-																				return [
-																						'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-																						'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-																						.join('');
-																			},
-																		} ]
-																initBootstrapTable(
-																		"#table",
-																		"token/project/getprojects",
-																		data);
-															} else {
-																initDropzone();
-															}
+															URLMAPPING[url_content]
+																	();
 
 														});
 										e.preventDefault();

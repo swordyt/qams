@@ -1,5 +1,4 @@
 function initProjects(data, textStatus, jqXHR) {
-
 	$.each(data.data, function(k, v) {
 		var option = "<option value=\"" + v.id + "\">" + v.name + "</option>";
 		if (k == 1) {// cookie记录项目id
