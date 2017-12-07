@@ -1,19 +1,12 @@
 package com.qams.controller;
 
-import java.awt.Container;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.alibaba.fastjson.JSON;
 import com.qams.annotation.PermissionAuth;
 import com.qams.config.Constant;
-import com.qams.config.Constant.CODE;
-import com.qams.config.Constant.MESSAGE;
 import com.qams.config.Permission;
 import com.qams.response.FileUploadResponse;
 import com.qams.response.ListResponse;
@@ -113,32 +102,6 @@ public class IndexController {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 		}
-		return response;
-	}
-
-	@RequestMapping("table")
-	public ModelAndView table() {
-		ModelAndView v = new ModelAndView("table");
-		return v;
-	}
-
-	@ResponseBody
-	@RequestMapping("data1.json")
-	public Response data1() {
-		Long id = 100000l;
-		List<Map> list = new ArrayList<Map>();
-		for (int i = 0; i < 20; i++) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("id", "" + id++);
-			map.put("name", "小明" + id);
-			map.put("price", "￥" + id);
-			list.add(map);
-		}
-		listResponse.setRows(list);
-		listResponse.setTotal((long) list.size());
-		response.setCode(Constant.CODE.RESCODE_SUCCESS);
-		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(listResponse);
 		return response;
 	}
 }

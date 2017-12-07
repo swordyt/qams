@@ -130,6 +130,12 @@ URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
 				{
 					field : 'id',
 					title : '编号'
+				},{
+					field : 'projectid',
+					title : '项目ID'
+				},{
+					field : 'url',
+					title : '接口地址'
 				},
 				{
 					field : 'name',
@@ -156,7 +162,7 @@ URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
 								.join('');
 					},
 				} ];
-		initBootstrapTable("#table", "token/project/getprojects", data);
+		initBootstrapTable("#table", "token/mock/getapis", data);
 }
 URLMAPPING["token/system/systemmange?url=createRole"] = function() {
 

@@ -14,9 +14,19 @@ public class Role {
 
 	private Integer status;
 
+	private Integer parentid;
+
 	private Date createtime;
 
 	private Date updatetime;
+
+	public Integer getParentid() {
+		return parentid;
+	}
+
+	public void setParentid(Integer parentid) {
+		this.parentid = parentid;
+	}
 
 	public Integer getId() {
 		return id;

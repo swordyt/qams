@@ -21,6 +21,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("adduser")
 	public Response addUser() {
+		String s;
 		return null;
 	}
 

@@ -1,6 +1,7 @@
 package com.qams.interceptor;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,42 +15,45 @@ import com.alibaba.fastjson.JSONObject;
 import com.qams.annotation.PermissionAuth;
 import com.qams.config.Constant;
 import com.qams.config.Permission;
+import com.qams.dao.RoleUrlRelationMapper;
+import com.qams.dao.UrlMappingMapper;
+import com.qams.domain.RoleUrlRelation;
+import com.qams.domain.UrlMapping;
 import com.qams.response.Response;
 import com.qams.util.Log;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	Response resp;
+	@Autowired
+	RoleUrlRelationMapper roleUrlRelationDao;
+	@Autowired
+	UrlMappingMapper urlMappingDao;
+	@Autowired
+	RoleUrlRelation roleUrlRelation;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		Log.info("======Permission start======");
-		HttpSession session = request.getSession();
-		int auth = (Integer) session.getAttribute("auth");// 获取session中保存的权限
-		Log.info("用户权限：" + auth);
-
 		boolean result = true;
+		HttpSession session = request.getSession();
+		Integer roleId = (Integer) session.getAttribute("role");// 获取session中保存的权限
+		Log.info("用户角色：" + roleId);
+		/** 未登录用户无需验证访问权限 */
+		if (roleId == null) {
+			return result;
+		}
 		PrintWriter out = null;
 		try {
-			// 不需要进行权限校验
-			if (!handler.getClass().isAssignableFrom(HandlerMethod.class)) {
-			}
-			PermissionAuth permissionAuth = ((HandlerMethod) handler)
-					.getMethodAnnotation(PermissionAuth.class);
-			// 声明的权限为null
-			if (permissionAuth != null) {
-				for (Permission permission : permissionAuth.auth()) {
-					Log.info(permission.getValue() + "权限验证start");
-					if ((auth & permission.getValue()) != permission.getValue()) {
-						result = false;
-						Log.info("需要权限" + permission.getValue() + "，权限验证false");
-						resp.setCode(Constant.CODE.RESCODE_NOAUTH);
-						resp.setMessage(Constant.MESSAGE.RESMES_NOAUTH);
-						break;
-					}
-					Log.info("需要权限：" + permission.getValue() + "，权限验证pass");
-				}
+			UrlMapping urlMapping = urlMappingDao.selectByUrl(request
+					.getServletPath());
+			roleUrlRelation.setRoleid(roleId);
+			roleUrlRelation.setUrlid(urlMapping.getId());
+			if (roleUrlRelationDao.selectByAll(roleUrlRelation).size() < 1) {
+				resp.setCode(Constant.CODE.RESCODE_NOAUTH);
+				resp.setMessage(Constant.MESSAGE.RESMES_NOAUTH);
+				result = false;
 			}
 
 		} catch (Exception e) {
@@ -68,5 +72,4 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		Log.info("======Permission end======");
 		return result;
 	}
-
 }

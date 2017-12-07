@@ -20,7 +20,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.alibaba.fastjson.JSONObject;
 import com.qams.config.UrlMapping;
 import com.qams.dao.RoleMapper;
+import com.qams.dao.RoleUrlRelationMapper;
 import com.qams.dao.UserMapper;
+import com.qams.domain.Role;
 import com.qams.domain.User;
 import com.qams.response.Response;
 import com.qams.util.JwtUtil;
@@ -37,6 +39,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 	Response res;
 	@Resource
 	RoleMapper roleDao;
+	@Resource
+	RoleUrlRelationMapper roleUrlRelationDao;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -90,8 +94,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 			Integer auth = roleDao.selectByPrimaryKey(user.getRoleid())
 					.getAuth();
 			session.setAttribute("auth", auth);
+			session.setAttribute("role", user.getRoleid());
 			Log.info("userid=" + userId);
-			Log.info("用户权限：" + auth);
+			Log.info("用户角色：" + user.getRoleid());
 		}
 		Log.info("======Token end======");
 		return flag;

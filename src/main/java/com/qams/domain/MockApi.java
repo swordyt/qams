@@ -2,6 +2,8 @@ package com.qams.domain;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Repository;
+@Repository
 public class MockApi {
 	private Integer id;
 	
