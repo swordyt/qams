@@ -1,7 +1,7 @@
 function initProjects(data, textStatus, jqXHR) {
 	$.each(data.data, function(k, v) {
 		var option = "<option value=\"" + v.id + "\">" + v.name + "</option>";
-		if (k == 1) {// cookie记录项目id
+		if (k == 0) {// cookie记录项目id
 			$.cookie('projectId', v.id, {
 				path : '/Qams'
 			});
@@ -11,7 +11,7 @@ function initProjects(data, textStatus, jqXHR) {
 		$("#projectSelect").append(option);
 	});
 }
-Network.maskSend("token/project/getprojects", {}, initProjects);
+Network.maskSend("token/user/getprojects", {}, initProjects);
 $(document)
 		.ready(
 				function() {

@@ -56,13 +56,7 @@ public class LogAopAction {
 	private void recodeLog(ProceedingJoinPoint pjp) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes()).getRequest();
-		// Log.debug(request.getRequestURL());
 		Log.info("userid=" + request.getAttribute("userid"));
-		// String ip = NetworkUtil.getIpAddress(request);
-		// Log.debug("ip=" + ip);
-		// String parameter =
-		// JSONObject.toJSONString(request.getParameterMap());
-		// Log.debug("parameter=" + parameter);
 		Object obj = pjp.getTarget();
 		Log.info("Class=" + obj.getClass().getName());
 		Signature sig = pjp.getSignature();

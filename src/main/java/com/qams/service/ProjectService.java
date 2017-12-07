@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.qams.bean.SearchBean;
 import com.qams.dao.CaseMapper;
 import com.qams.dao.ProjectMapper;
-import com.qams.dao.RoleProjectMapper;
 import com.qams.dao.UserMapper;
 import com.qams.domain.Case;
 import com.qams.domain.Project;
@@ -21,8 +20,6 @@ import com.qams.response.ListResponse;
 
 @Service
 public class ProjectService {
-	@Resource
-	RoleProjectMapper roleProjectDao;
 	@Resource
 	ProjectMapper projectDao;
 	@Resource
