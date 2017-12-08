@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qams.annotation.PermissionAuth;
 import com.qams.config.Constant;
 import com.qams.config.Permission;
+import com.qams.domain.User;
 import com.qams.response.Response;
 import com.qams.service.UserService;
+import com.qams.util.ParaUtil;
 
 @RequestMapping("/token/user")
 @Controller
@@ -24,12 +26,22 @@ public class UserController {
 	@Autowired
 	Response response;
 
-	@PermissionAuth(auth = { Permission.CU })
 	@ResponseBody
 	@RequestMapping("adduser")
-	public Response addUser() {
-		String s;
-		return null;
+	public Response addUser(User user) {
+		response.setCode(Constant.CODE.RESCODE_FALSE);
+		response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+		if (!ParaUtil.notEmpty(user.getEmail())
+				|| !ParaUtil.notEmpty(user.getName())
+				|| !ParaUtil.notEmpty(user.getPassword())
+				|| !ParaUtil.notNull(user.getRoleid())) {
+			response.setData("字段均不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(userService.addUser(user));
+		return response;
 	}
 
 	@PermissionAuth(auth = { Permission.CR })
@@ -58,7 +70,8 @@ public class UserController {
 	public Response getProjects() {
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(userService.getProjects((Integer) request.getAttribute("userid")));
+		response.setData(userService.getProjects((Integer) request
+				.getAttribute("userid")));
 		return response;
 	}
 }

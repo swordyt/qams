@@ -67,8 +67,6 @@
 						href="#" id="menuDrop"><span
 							class="glyphicon glyphicon-remove" style="color: #ac2925"></span>删除</a>
 					</li>
-					<!-- <li role="presentation" class="divider"></li> -->
-					<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">åç¦»çé¾æ¥</a></li> -->
 				</ul>
 			</div>
 			<div class="col-xs-8"

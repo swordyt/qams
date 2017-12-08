@@ -5,13 +5,15 @@
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="parentId" jdbcType="INTEGER" property="parentid" />
+		<result column="communal" jdbcType="INTEGER" property="communal" />
 		<result column="auth" jdbcType="INTEGER" property="auth" />
 		<result column="status" jdbcType="INTEGER" property="status" />
 		<result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
 		<result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name,parentId, auth, status, createTime, updateTime
+		id, name,parentId,communal, auth, status, createTime,
+		updateTime
 	</sql>
 	<!-- 根据role id获取role详细信息 -->
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
@@ -20,6 +22,20 @@
 		<include refid="Base_Column_List" />
 		from t_role
 		where id = #{id,jdbcType=INTEGER} and status=1
+	</select>
+	<select id="selectAll" parameterType="com.qams.bean.SearchBean"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_role
+		where status=1
+		<if test="search != null">
+			and name like concat(concat('%',#{search}),'%')
+		</if>
+		order by communal desc, createtime desc
+		<if test="limit != 0">
+			LIMIT #{offset},#{limit}
+		</if>
 	</select>
 	<insert id="insertSelective" parameterType="com.qams.domain.Role"
 		keyProperty="id" useGeneratedKeys="true">
@@ -33,6 +49,9 @@
 			</if>
 			<if test="parentid != null">
 				parentId,
+			</if>
+			<if test="communal != null">
+				communal,
 			</if>
 			<if test="auth != null">
 				auth,
@@ -59,6 +78,9 @@
 			</if>
 			<if test="parentid != null">
 				#{parentid,jdbcType=VARCHAR},
+			</if>
+			<if test="communal != null">
+				#{communal,jdbcType=INTEGER},
 			</if>
 			<if test="auth != null">
 				#{auth,jdbcType=INTEGER},

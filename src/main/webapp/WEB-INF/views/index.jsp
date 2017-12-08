@@ -46,8 +46,7 @@
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
 							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理
-							</a>
-							</li>
+							</a></li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>
 							</li>
 							<li><a href="javascript:void(0);" name="nav-systemmanger">系统管理</a>
@@ -59,8 +58,8 @@
 								</select>
 							</div>
 						</form>
+						<p class="navbar-text navbar-right" ><a href="index" id="index_userName"></a></p>
 					</div>
-
 				</div>
 			</nav>
 			<button id="index_messageModel" class="btn btn-primary btn-lg hidden"
@@ -71,7 +70,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-body" id="index_toast"></div>
-						<div class="modal-footer hidden" >
+						<div class="modal-footer hidden">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal" id="index_messageModelClose">关闭</button>
 						</div>

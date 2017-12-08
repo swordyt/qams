@@ -1,7 +1,7 @@
 var Mask = {
-	popMask : function(data) {
+	popMask : function(message) {
 		$("#index_Modal").modal('hide');
-		$("#index_toast").html(data.message);
+		$("#index_toast").html(message);
 		$("#index_messageModel").click();
 	},
 	shutMask : function() {
@@ -13,7 +13,7 @@ var Network = {
 	maskSend : function(url, data, callback) {
 		data.tokenId = $.cookie("tokenId");
 		$.post(url, data, function(data, textStatus, jqXHR) {
-			Mask.popMask(data);
+			Mask.popMask(data.message);
 			callback(data, textStatus, jqXHR);
 			setTimeout("Mask.shutMask()",1000);
 		});
@@ -21,6 +21,19 @@ var Network = {
 };
 $.fn.stringify = function() {
 	return JSON.stringify(this);
+}
+/**
+ * 全局显示提示信息
+ * */
+function promptMessage(e){
+	Mask.popMask(e);
+	setTimeout("Mask.shutMask()",1000);
+}
+function notEmpty(e){
+	if(e==null||e==undefined||e==""){
+		return false;
+	}
+	return true;
 }
 /**
  *  * 和PHP一样的时间戳格式化函数  * date('Y-m-d','1350052653');//很方便的将时间戳转换成了2012-10-11

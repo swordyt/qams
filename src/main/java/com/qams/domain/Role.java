@@ -15,10 +15,20 @@ public class Role {
 	private Integer status;
 
 	private Integer parentid;
+	
+	private Integer communal;
 
 	private Date createtime;
 
 	private Date updatetime;
+
+	public Integer getCommunal() {
+		return communal;
+	}
+
+	public void setCommunal(Integer communal) {
+		this.communal = communal;
+	}
 
 	public Integer getParentid() {
 		return parentid;

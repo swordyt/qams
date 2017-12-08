@@ -10,6 +10,7 @@ function initProjects(data, textStatus, jqXHR) {
 		}
 		$("#projectSelect").append(option);
 	});
+	$("#index_userName").text($.cookie("name"));
 }
 Network.maskSend("token/user/getprojects", {}, initProjects);
 $(document)

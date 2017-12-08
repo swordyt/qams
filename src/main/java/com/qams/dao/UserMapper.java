@@ -10,4 +10,6 @@ public interface UserMapper {
 	 * 通过邮箱和密码查询用户详细信息
 	 * */
 	User selectByEmailAndPassword(User record);
+
+	Integer insertSelective(User record);
 }

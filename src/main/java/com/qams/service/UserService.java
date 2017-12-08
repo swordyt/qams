@@ -40,20 +40,27 @@ public class UserService {
 		if (u == null) {
 			return null;
 		}
-		;
 		loginResponse.setTokinId(jwt.createJWT(Constant.JWT_ID,
 				jwt.generalSubject(u), Constant.JWT_TTL));
+		loginResponse.setName(u.getName());
+		loginResponse.setUserid(u.getId());
 		return loginResponse;
 	}
 
 	public List<Project> getProjects(Integer userId) {
 		User user = userDao.selectByPrimaryKey(userId);
-		List<RoleProjectRelation> listRoleProject = roleProjectRelDao.selectByRoleid(user
-				.getRoleid());
+		List<RoleProjectRelation> listRoleProject = roleProjectRelDao
+				.selectByRoleid(user.getRoleid());
 		List<Project> listProject = new ArrayList<Project>();
 		for (RoleProjectRelation rp : listRoleProject) {
 			listProject.add(projectDao.selectByPrimaryKey(rp.getProjectid()));
 		}
 		return listProject;
+	}
+
+	public Integer addUser(User user) {
+		user.setStatus(1);
+		userDao.insertSelective(user);
+		return user.getId();
 	}
 }

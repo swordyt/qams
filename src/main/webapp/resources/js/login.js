@@ -7,13 +7,21 @@ function submit() {
 				$.cookie('tokenId', data.data.tokinId, {
 					path : '/Qams'
 				});
-				location.href="token/cases/index?tokenId="+data.data.tokinId;
+				$.cookie('userId', data.data.userId, {
+					path : '/Qams'
+				});
+				$.cookie('name', data.data.name, {
+					path : '/Qams'
+				});
+				location.href = "token/cases/index?tokenId="
+						+ data.data.tokinId;
 			} else {
 				$("#myAlert").css("display", "block");
 				$("#alertMessage").html(data.message);
 			}
 		}
-	};
+	}
+	;
 	Network.maskSend("login", {
 		"email" : email,
 		"password" : password
@@ -22,7 +30,7 @@ function submit() {
 };
 $().ready(function() {
 	$(".btn-success").click(submit);
-	$("#email,#password").focus(function(){
+	$("#email,#password").focus(function() {
 		$("#myAlert").css("display", "none");
 	});
 });

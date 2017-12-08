@@ -93,25 +93,22 @@ URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
 	function fillProject(data, textStatus, jqXHR) {
 		$.each(data.data.rows, function(k, v) {
 			$("#mockProjectId").append(
-					'<option  value="' + v.id + '">'
-							+ v.name + '</option>');
+					'<option  value="' + v.id + '">' + v.name + '</option>');
 		});
 	}
 	function fillMethod(data, textStatus, jqXHR) {
-		$.each(data.data,function(k, v) {
+		$.each(data.data, function(k, v) {
 			$("#method").append(
-					'<option value="' + v.value + '">'
-							+ v.name + '</option>');
+					'<option value="' + v.value + '">' + v.name + '</option>');
 		});
 	}
 	function fillResultType(data, textStatus, jqXHR) {
-		$.each(data.data,function(k, v) {
+		$.each(data.data, function(k, v) {
 			$("#resultType").append(
-					'<option value="' + v.value + '">'
-					+ v.name + '</option>');
+					'<option value="' + v.value + '">' + v.name + '</option>');
 		});
 	}
-	
+
 	Network.maskSend("token/mockproject/getprojects", {
 		offset : "0",
 		limit : "0"
@@ -127,48 +124,58 @@ URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
 }
 URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
 	var data = [
-				{
-					field : 'id',
-					title : '编号'
-				},{
-					field : 'projectid',
-					title : '项目ID'
-				},{
-					field : 'url',
-					title : '接口地址'
+			{
+				field : 'id',
+				title : '编号'
+			},
+			{
+				field : 'projectid',
+				title : '项目ID'
+			},
+			{
+				field : 'url',
+				title : '接口地址'
+			},
+			{
+				field : 'name',
+				title : '接口名称'
+			},
+			{
+				field : 'creater',
+				title : '创建者'
+			},
+			{
+				field : 'createtime',
+				title : '创建时间',
+				formatter : function(value, row, index) {
+					return date(value);
+				}
+			},
+			{
+				field : 'opt',
+				title : '操作',
+				formatter : function(value, row, index) {
+					return [
+							'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
+							'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
+							.join('');
 				},
-				{
-					field : 'name',
-					title : '接口名称'
-				},
-				{
-					field : 'creater',
-					title : '创建者'
-				},
-				{
-					field : 'createtime',
-					title : '创建时间',
-					formatter : function(value, row, index) {
-						return date(value);
-					}
-				},
-				{
-					field : 'opt',
-					title : '操作',
-					formatter : function(value, row, index) {
-						return [
-								'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-								'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-								.join('');
-					},
-				} ];
-		initBootstrapTable("#table", "token/mock/getapis", data);
+			} ];
+	initBootstrapTable("#table", "token/mock/getapis", data);
 }
 URLMAPPING["token/system/systemmange?url=createRole"] = function() {
-
+	
 }
 URLMAPPING["token/system/systemmange?url=createUser"] = function() {
-
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			$.each(data.data.rows, function(k, v) {
+				$("#roleid").append(
+						'<option  value="' + v.id + '">' + v.name + '</option>');
+			});
+		}
+	}
+	parent.Network.maskSend("token/role/getroles", {offset:"0",limit:"0"}, fun);
 }
 Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = false;
@@ -216,6 +223,7 @@ function createProject_submit(e) {
 	var rootTree = $(e.rootTree).val().trim();
 	if (name == null || name == undefined || name == "" || rootTree == null
 			|| rootTree == undefined || rootTree == "") {
+		parent.promptMessage("项目名或目录树不能为空！");
 		return false;
 	}
 	var files = createProject_dropz.getAcceptedFiles();
@@ -239,6 +247,35 @@ function createProject_submit(e) {
 		}
 	}
 	parent.Network.maskSend("token/project/addproject", data, fun);
+	return false;
+}
+function createUser_submit(e) {
+	var name = $(e.name).val().trim();
+	var email = $(e.email).val().trim();
+	var password = $(e.password).val().trim();
+	var confirmPassword = $(e.confirmPassword).val().trim();
+	var roleid = $(e.roleid).val().trim();
+	if (!parent.notEmpty(name) || !parent.notEmpty(email)
+			|| !parent.notEmpty(password) || !parent.notEmpty(confirmPassword)
+			|| !parent.notEmpty(roleid)) {
+		parent.promptMessage("字段均不能为空！");
+		return false;
+	}
+	if (password != confirmPassword) {
+		parent.promptMessage("两次密码不一致！");
+		return false;
+	}
+	var data = new Object();
+	data.name = name;
+	data.email = email;
+	data.password = password;
+	data.roleid = roleid;
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			e.reset();
+		}
+	}
+	parent.Network.maskSend("token/user/adduser", data, fun);
 	return false;
 }
 function edit() {
