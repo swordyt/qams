@@ -163,19 +163,69 @@ URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
 			} ];
 	initBootstrapTable("#table", "token/mock/getapis", data);
 }
+function initMultiselect(id, url, data) {
+	function fun(data, textStatus, jqXHR) {
+		var items = new Array();
+		if (data.code == '000000') {
+			$.each(data.data.rows, function(k, v) {
+				var obj = new Object();
+				obj.label = v.name;
+				obj.value = v.id;
+				items.push(obj);
+			});
+		}
+		$(id).multiselect({
+			nonSelectedText : '请选择',
+			filterPlaceholder : '搜索',
+			buttonWidth : '220px', // button宽度
+			dropRight : true,// 超出时横向滚动条初始在右边
+			includeSelectAllOption : true,
+			selectAllText : '选中全部',
+			selectAllNumber : false,// 全部选中时不显示后面的数字
+			enableFiltering : true,// 启用过滤
+			disableIfEmpty : true,// 无选项时禁用
+			maxHeight : 200,
+			dropUp : true,// 超出时纵向滚动条初始在上方
+		});
+		$(id).multiselect("dataprovider", items);
+	}
+	parent.Network.send(url, data, fun);
+
+}
 URLMAPPING["token/system/systemmange?url=createRole"] = function() {
-	
+	initMultiselect("#example-getting-role", 'token/role/getroles', {
+		offset : "0",
+		limit : "0"
+	});
+	setTimeout(function() {
+		initMultiselect("#example-getting-project",
+				'token/project/getprojects', {
+					offset : "0",
+					limit : "0"
+				})
+	}, 500);
+	setTimeout(function() {
+	initMultiselect("#example-getting-permission",
+			'token/permission/getpermissions', {
+				offset : "0",
+				limit : "0"
+			})},1000);
 }
 URLMAPPING["token/system/systemmange?url=createUser"] = function() {
 	function fun(data, textStatus, jqXHR) {
 		if (data.code == "000000") {
 			$.each(data.data.rows, function(k, v) {
-				$("#roleid").append(
-						'<option  value="' + v.id + '">' + v.name + '</option>');
+				$("#roleid")
+						.append(
+								'<option  value="' + v.id + '">' + v.name
+										+ '</option>');
 			});
 		}
 	}
-	parent.Network.maskSend("token/role/getroles", {offset:"0",limit:"0"}, fun);
+	parent.Network.maskSend("token/role/getroles", {
+		offset : "0",
+		limit : "0"
+	}, fun);
 }
 Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = false;

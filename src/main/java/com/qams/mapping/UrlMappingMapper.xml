@@ -1,92 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qams.dao.UrlMappingMapper">
-  <resultMap id="BaseResultMap" type="com.qams.domain.UrlMapping">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="parentId" jdbcType="INTEGER" property="parentid" />
-    <result column="portal" jdbcType="INTEGER" property="portal" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="creater" jdbcType="INTEGER" property="creater" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, name, url, parentId, portal, status, creater, createtime, updatetime
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_url_mapping
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByUrl" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_url_mapping
-    where url = #{url,jdbcType=VARCHAR} and status =1
-  </select>
-
-  <insert id="insertSelective" parameterType="com.qams.domain.UrlMapping" keyProperty="id" useGeneratedKeys="true">
-    insert into t_url_mapping
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="parentid != null">
-        parentId,
-      </if>
-      <if test="portal != null">
-        portal,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="creater != null">
-        creater,
-      </if>
-      <if test="createtime != null">
-        createtime,
-      </if>
-      <if test="updatetime != null">
-        updatetime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="parentid != null">
-        #{parentid,jdbcType=INTEGER},
-      </if>
-      <if test="portal != null">
-        #{portal,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="creater != null">
-        #{creater,jdbcType=INTEGER},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
+	<resultMap id="BaseResultMap" type="com.qams.domain.UrlMapping">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="parentId" jdbcType="INTEGER" property="parentid" />
+		<result column="portal" jdbcType="INTEGER" property="portal" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creater" jdbcType="INTEGER" property="creater" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, url, parentId, portal, status, creater, createtime, updatetime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_url_mapping
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByUrl" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_url_mapping
+		where url = #{url,jdbcType=VARCHAR} and status =1
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.qams.bean.SearchBean">
+		select
+		<include refid="Base_Column_List" />
+		from t_url_mapping
+		where status=1
+		<if test="search != null">
+			and name like concat(concat('%',#{search}),'%')
+		</if>
+		order by portal desc
+		<if test="limit != 0">
+			LIMIT #{offset},#{limit}
+		</if>
+	</select>
+	<insert id="insertSelective" parameterType="com.qams.domain.UrlMapping"
+		keyProperty="id" useGeneratedKeys="true">
+		insert into t_url_mapping
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="parentid != null">
+				parentId,
+			</if>
+			<if test="portal != null">
+				portal,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="parentid != null">
+				#{parentid,jdbcType=INTEGER},
+			</if>
+			<if test="portal != null">
+				#{portal,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
 </mapper>

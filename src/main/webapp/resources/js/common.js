@@ -17,6 +17,12 @@ var Network = {
 			callback(data, textStatus, jqXHR);
 			setTimeout("Mask.shutMask()",1000);
 		});
+	},
+	send : function(url, data, callback) {
+		data.tokenId = $.cookie("tokenId");
+		$.post(url, data, function(data, textStatus, jqXHR) {
+			callback(data, textStatus, jqXHR);
+		});
 	}
 };
 $.fn.stringify = function() {
@@ -24,7 +30,7 @@ $.fn.stringify = function() {
 }
 /**
  * 全局显示提示信息
- * */
+ */
 function promptMessage(e){
 	Mask.popMask(e);
 	setTimeout("Mask.shutMask()",1000);

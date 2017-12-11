@@ -25,6 +25,10 @@
 	src="resources/js/bootstrap/bootstrap.min.js"></script>
 <script src="resources/js/dropzone/dropzone.min.js"></script>
 <script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript"
+	src="resources/js/bootstrap/bootstrap-multiselect.js"></script>
+<link rel="stylesheet"
+	href="resources/css/bootstrap/bootstrap-multiselect.css">
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
 
@@ -35,6 +39,11 @@
 <!-- Latest compiled and minified Locales -->
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<style type="text/css">
+.multiselect .dropdown-toggle .btn .btn-default {
+	color: #000;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">

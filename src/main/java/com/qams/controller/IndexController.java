@@ -45,6 +45,12 @@ public class IndexController {
 		view.setViewName("login");
 		return view;
 	}
+	@RequestMapping("/mul")
+	public ModelAndView mul() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("mul");
+		return view;
+	}
 
 	@PermissionAuth(auth = { Permission.UL })
 	@ResponseBody

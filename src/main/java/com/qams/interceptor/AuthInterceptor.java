@@ -46,6 +46,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		PrintWriter out = null;
 		try {
+			Log.info("拦截请求："+request.getServletPath());
 			UrlMapping urlMapping = urlMappingDao.selectByUrl(request
 					.getServletPath());
 			roleUrlRelation.setRoleid(roleId);
@@ -53,6 +54,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			if (roleUrlRelationDao.selectByAll(roleUrlRelation).size() < 1) {
 				resp.setCode(Constant.CODE.RESCODE_NOAUTH);
 				resp.setMessage(Constant.MESSAGE.RESMES_NOAUTH);
+				Log.warn("请求未通过："+request.getServletPath());
 				result = false;
 			}
 

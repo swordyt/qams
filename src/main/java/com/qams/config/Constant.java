@@ -33,4 +33,9 @@ public class Constant {
 	public static final int JWT_TTL = 60 * 60 * 1000; // millisecond
 	public static final int JWT_REFRESH_INTERVAL = 55 * 60 * 1000; // millisecond
 	public static final int JWT_REFRESH_TTL = 12 * 60 * 60 * 1000; // millisecond
+	public class ATTR{
+		public static final String USERID="userid";
+		public static final String AUTH="auth";
+		public static final String ROLEID="role";
+	}
 }

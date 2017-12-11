@@ -1,6 +1,5 @@
 package com.qams.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,8 @@ import com.qams.dao.ProjectMapper;
 import com.qams.dao.RoleProjectRelationMapper;
 import com.qams.dao.UserMapper;
 import com.qams.domain.Project;
-import com.qams.domain.RoleProject;
-import com.qams.domain.RoleProjectRelation;
 import com.qams.domain.User;
 import com.qams.response.LoginResponse;
-import com.qams.response.Response;
 import com.qams.util.JwtUtil;
 
 @Service
@@ -49,12 +45,8 @@ public class UserService {
 
 	public List<Project> getProjects(Integer userId) {
 		User user = userDao.selectByPrimaryKey(userId);
-		List<RoleProjectRelation> listRoleProject = roleProjectRelDao
-				.selectByRoleid(user.getRoleid());
-		List<Project> listProject = new ArrayList<Project>();
-		for (RoleProjectRelation rp : listRoleProject) {
-			listProject.add(projectDao.selectByPrimaryKey(rp.getProjectid()));
-		}
+		List<Project> listProject = roleProjectRelDao.selectByRoleid(user
+				.getRoleid());
 		return listProject;
 	}
 

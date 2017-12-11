@@ -65,6 +65,9 @@ public class UserController {
 		return null;
 	}
 
+	/**
+	 * 获取该用户可操作的项目
+	 * */
 	@ResponseBody
 	@RequestMapping("getprojects")
 	public Response getProjects() {

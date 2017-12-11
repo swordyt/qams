@@ -2,6 +2,7 @@ package com.qams.dao;
 
 import java.util.List;
 
+import com.qams.domain.Project;
 import com.qams.domain.RoleProjectRelation;
 
 public interface RoleProjectRelationMapper {
@@ -12,6 +13,6 @@ public interface RoleProjectRelationMapper {
 	/**
 	 * 根据传入的角色ID，获取该角色对应的项目
 	 * */
-	List<RoleProjectRelation> selectByRoleid(Integer roleId);
+	List<Project> selectByRoleid(Integer roleId);
 
 }

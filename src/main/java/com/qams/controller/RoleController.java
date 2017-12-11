@@ -38,4 +38,22 @@ public class RoleController {
 		response.setData(roleService.getRoles(search));
 		return response;
 	}
+	/**
+	 * 获取该角色可操作的项目
+	 * */
+	@ResponseBody
+	@RequestMapping("getprojects")
+	public Response getProjects(SearchBean search) {
+		if (!ParaUtil.notNull(search.getLimit())
+				|| !ParaUtil.notNull(search.getOffset())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("limit或offset字段均不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(roleService.getProjects((Integer) request.getAttribute(Constant.ATTR.ROLEID)));
+		return response;
+	}
 }
