@@ -15,6 +15,35 @@
 		id, roleId, urlId, auth, status, creater, createtime,
 		updatetime
 	</sql>
+	<resultMap id="UrlResultMap" type="com.qams.domain.UrlMapping">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="parentId" jdbcType="INTEGER" property="parentid" />
+		<result column="portal" jdbcType="INTEGER" property="portal" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creater" jdbcType="INTEGER" property="creater" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+	</resultMap>
+	<sql id="Url_Column_List">
+		u.id, u.name, u.url, u.parentId, u.portal, u.status,
+		u.creater, u.createtime, u.updatetime
+	</sql>
+
+	<select id="selectByRoleids" resultMap="UrlResultMap">
+		select distinct
+		<include refid="Url_Column_List" />
+		FROM t_role_url_relation rur
+		JOIN t_url_mapping u
+		ON rur.urlId = u.id
+		WHERE rur.status=1 AND  u.status=1 and  rur.roleId in
+		<foreach collection="list" item="roleIds" index="index"
+			open="(" close=")" separator=",">
+			#{roleIds}
+		</foreach>
+	</select>
+
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select

@@ -26,8 +26,8 @@
 		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
 	</resultMap>
 	<sql id="Project_Column_List">
-		id, name, description, file, status, creater, createtime,
-		updatetime
+		p.id, p.name, p.description, p.file, p.status, p.creater, p.createtime,
+		p.updatetime
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -36,15 +36,17 @@
 		from t_role_project_relation
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<select id="selectByRoleid" parameterType="java.lang.Integer"
-		resultMap="ProjectResultMap">
-		select
+	<select id="selectByRoleids" resultMap="ProjectResultMap">
+		select distinct
 		<include refid="Project_Column_List" />
 		FROM t_project p
 		JOIN t_role_project_relation rpr ON p.id=rpr.projectId
-		WHERE roleId = #{roleId,jdbcType=INTEGER}
-		and rpr.status=1 and
-		p.status=1
+		WHERE rpr.status=1 and p.status=1 and
+		rpr.roleId in 
+		<foreach collection="list" item="roleIds" index="index"
+			open="(" close=")" separator=",">
+			#{roleIds}
+		</foreach>
 	</select>
 	<insert id="insertSelective" parameterType="com.qams.domain.RoleProjectRelation"
 		keyProperty="id" useGeneratedKeys="true">

@@ -1,5 +1,6 @@
 package com.qams.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,10 @@ public class UserService {
 	}
 
 	public List<Project> getProjects(Integer userId) {
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(user.getRoleid());
 		User user = userDao.selectByPrimaryKey(userId);
-		List<Project> listProject = roleProjectRelDao.selectByRoleid(user
-				.getRoleid());
+		List<Project> listProject = roleProjectRelDao.selectByRoleids(list);
 		return listProject;
 	}
 

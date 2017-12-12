@@ -192,24 +192,83 @@ function initMultiselect(id, url, data) {
 	parent.Network.send(url, data, fun);
 
 }
-URLMAPPING["token/system/systemmange?url=createRole"] = function() {
-	initMultiselect("#example-getting-role", 'token/role/getroles', {
+function roleMultiselect() {
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == '000000') {
+			var items = new Array();
+			$.each(data.data.rows, function(k, v) {
+				var obj = new Object();
+				obj.label = v.name;
+				obj.value = v.id;
+				items.push(obj);
+			});
+			$("#example-getting-role").multiselect("dataprovider", items);
+		}
+	}
+	$("#example-getting-role").multiselect({
+		nonSelectedText : '请选择',
+		filterPlaceholder : '搜索',
+		buttonWidth : '220px', // button宽度
+		dropRight : true,// 超出时横向滚动条初始在右边
+		includeSelectAllOption : true,
+		selectAllText : '选中全部',
+		selectAllNumber : false,// 全部选中时不显示后面的数字
+		enableFiltering : true,// 启用过滤
+		disableIfEmpty : true,// 无选项时禁用
+		maxHeight : 200,
+		dropUp : true,// 超出时纵向滚动条初始在上方
+		onDropdownHidden : function(event) {
+			function fun1(data, textStatus, jqXHR){
+				if(data.code=="000000"){
+					var pers=new Array();
+					var projects=new Array();
+					$.each(data.data.projects,function(k,v){
+						projects.push(v.id);
+					});
+					$.each(data.data.urls,function(k,v){
+						pers.push(v.id);
+					});
+					$("#example-getting-project").multiselect('select', projects);
+					$("#example-getting-permission").multiselect('select', pers);
+				}
+			}
+			var selected = [];
+			$('#example-getting-role option:selected').each(function() {
+				selected.push($(this).val());
+			});
+			parent.Network.maskSend("token/role/getproandper", {
+				roleIds:JSON.stringify(selected)
+			}, fun1);
+		}
+	});
+	parent.Network.send("token/role/getroles", {
+		offset : "0",
+		limit : "0"
+	}, fun);
+}
+function projectMultiselect() {
+	initMultiselect("#example-getting-project", 'token/project/getprojects', {
 		offset : "0",
 		limit : "0"
 	});
-	setTimeout(function() {
-		initMultiselect("#example-getting-project",
-				'token/project/getprojects', {
-					offset : "0",
-					limit : "0"
-				})
-	}, 500);
-	setTimeout(function() {
+	
+}
+function permissionMultiselect() {
 	initMultiselect("#example-getting-permission",
 			'token/permission/getpermissions', {
 				offset : "0",
 				limit : "0"
-			})},1000);
+			});
+}
+
+URLMAPPING["token/system/systemmange?url=createRole"] = function() {
+	roleMultiselect();
+	setTimeout(function() {
+		projectMultiselect();
+	}, 500);
+	setTimeout(function() {
+		permissionMultiselect();
+	}, 1000);
 }
 URLMAPPING["token/system/systemmange?url=createUser"] = function() {
 	function fun(data, textStatus, jqXHR) {

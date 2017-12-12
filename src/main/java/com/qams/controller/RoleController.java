@@ -1,5 +1,8 @@
 package com.qams.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.qams.bean.SearchBean;
 import com.qams.config.Constant;
 import com.qams.response.Response;
@@ -38,6 +43,7 @@ public class RoleController {
 		response.setData(roleService.getRoles(search));
 		return response;
 	}
+
 	/**
 	 * 获取该角色可操作的项目
 	 * */
@@ -53,7 +59,32 @@ public class RoleController {
 		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(roleService.getProjects((Integer) request.getAttribute(Constant.ATTR.ROLEID)));
+		response.setData(roleService.getProjects((Integer) request
+				.getAttribute(Constant.ATTR.ROLEID)));
+		return response;
+	}
+
+	/**
+	 * 获取该角色可操作的项目和权限
+	 * */
+	@ResponseBody
+	@RequestMapping("getproandper")
+	public Response getProjectAndPermission(String roleIds) {
+		if (roleIds == null) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("roleid 必传");
+			return response;
+		}
+		List<Integer> roles = new ArrayList<Integer>();
+		int i=0;
+		for(Object obj:JSONArray.parseArray(roleIds).toArray()){
+			roles.add(Integer.parseInt((String)obj));
+		}
+		
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(roleService.getProjectsAndPermission(roles));
 		return response;
 	}
 }

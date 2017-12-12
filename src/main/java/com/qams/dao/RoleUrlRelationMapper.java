@@ -12,4 +12,6 @@ public interface RoleUrlRelationMapper {
 
 	/** 通过传入的record,个字段不为null,and 匹配 */
 	List<RoleUrlRelation> selectByAll(RoleUrlRelation record);
+
+	List<UrlMapping> selectByRoleids(List<Integer> roleIds);
 }

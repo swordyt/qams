@@ -13,6 +13,6 @@ public interface RoleProjectRelationMapper {
 	/**
 	 * 根据传入的角色ID，获取该角色对应的项目
 	 * */
-	List<Project> selectByRoleid(Integer roleId);
-
+	List<Project> selectByRoleids(List<Integer> roleId);
+	
 }
