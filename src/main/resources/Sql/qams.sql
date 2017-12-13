@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-12-11 18:05:44
+Date: 2017-12-13 17:57:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,12 +37,12 @@ CREATE TABLE `t_case` (
   KEY `projectId` (`projectId`),
   KEY `caseCreater` (`creater`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_case
 -- ----------------------------
-INSERT INTO `t_case` VALUES ('159', '45', null, '0', '红高粱三号01Tree', '0', null, null, null, '1', '1000000000', '2017-11-15 12:07:36', '0000-00-00 00:00:00');
+INSERT INTO `t_case` VALUES ('159', '45', null, '0', '红高粱三号01Tree', '0', '', '[{\"step\": \"\", \"expect\": \"\"}]', '[]', '1', '1000000000', '2017-11-15 12:07:36', '2017-12-13 15:21:17');
 INSERT INTO `t_case` VALUES ('160', '46', null, '0', '红高粱三号02Tree', '0', null, null, null, '1', '1000000000', '2017-11-15 12:11:40', '0000-00-00 00:00:00');
 INSERT INTO `t_case` VALUES ('161', '47', null, '0', '我在测试jQuery', '0', null, null, null, '1', '1000000000', '2017-11-15 16:17:17', '0000-00-00 00:00:00');
 INSERT INTO `t_case` VALUES ('162', '48', null, '0', '我在测试jQuery', '0', null, null, null, '1', '1000000000', '2017-11-15 16:20:14', '0000-00-00 00:00:00');
@@ -60,7 +60,10 @@ INSERT INTO `t_case` VALUES ('173', '59', null, '0', 'mock项目07', '0', null, 
 INSERT INTO `t_case` VALUES ('174', null, '159', '0', '红高粱目录一', '1', '', '[{\"step\": \"\", \"expect\": \"\"}]', '[]', '1', '1000000000', '2017-12-07 18:05:16', '0000-00-00 00:00:00');
 INSERT INTO `t_case` VALUES ('175', null, '174', '1', '红高粱第一条用例', '1', '', '[{\"step\": \"������������������������\", \"expect\": \"������������������������\"}]', '[]', '0', '1000000000', '2017-12-07 18:05:38', '2017-12-07 18:05:46');
 INSERT INTO `t_case` VALUES ('176', '60', null, '0', 'rootTree', '0', null, null, null, '1', '1000000000', '2017-12-08 10:48:21', '0000-00-00 00:00:00');
-INSERT INTO `t_case` VALUES ('177', '61', null, '0', 'roottree', '0', null, null, null, '1', '1000000000', '2017-12-08 11:02:04', '0000-00-00 00:00:00');
+INSERT INTO `t_case` VALUES ('177', '61', '0', '0', 'rootTree', '0', '', '[{\"step\": \"\", \"expect\": \"\"}]', '[]', '1', '1000000000', '2017-12-08 11:02:04', '2017-12-13 11:32:53');
+INSERT INTO `t_case` VALUES ('178', null, '177', '1', '第一条用例', '1', '第一条用例第一条用例第一条用例', '[{\"step\": \"���������������\", \"expect\": \"���������������\"}]', '[{\"name\":\"微信图片_20171128115657.jpg\",\"type\":\"jpg\",\"key\":\"9d9897121cc584b3ab79d234ed41a02e\"}]', '0', '1000000011', '2017-12-13 11:24:44', '2017-12-13 11:25:28');
+INSERT INTO `t_case` VALUES ('179', null, '177', '0', '首页', '1', '', '[{\"step\": \"\", \"expect\": \"\"}]', '[]', '0', '1000000011', '2017-12-13 11:25:02', '2017-12-13 11:25:19');
+INSERT INTO `t_case` VALUES ('180', null, '174', '1', '我是一条用例', '1', '我是一条用例我是一条用例', '[{\"step\": \"������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������\", \"expect\": \"������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������\"}]', '[]', '1', '1000000000', '2017-12-13 14:52:56', '2017-12-13 16:14:08');
 
 -- ----------------------------
 -- Table structure for t_dict
@@ -203,18 +206,21 @@ CREATE TABLE `t_role` (
   `name` varchar(100) NOT NULL,
   `parentId` int(32) DEFAULT NULL COMMENT '父角色ID',
   `communal` int(32) NOT NULL DEFAULT '0' COMMENT '是否作为公共角色使用，0：私有，1：公共',
-  `auth` int(32) NOT NULL COMMENT '角色权限',
+  `auth` int(32) NOT NULL DEFAULT '0' COMMENT '角色权限',
   `status` int(32) NOT NULL DEFAULT '0' COMMENT '角色状态',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
 INSERT INTO `t_role` VALUES ('1', 'Administrator', null, '0', '255', '1', '2017-11-15 11:29:43', '2017-12-05 16:37:45');
 INSERT INTO `t_role` VALUES ('2', '默认', null, '1', '0', '1', '2017-12-08 09:13:18', '2017-12-08 11:19:58');
+INSERT INTO `t_role` VALUES ('4', 'roleTest', null, '0', '0', '1', '2017-12-13 10:42:16', null);
+INSERT INTO `t_role` VALUES ('5', '基本用户', null, '0', '0', '1', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role` VALUES ('6', '测试员', null, '0', '0', '1', '2017-12-13 11:22:29', null);
 
 -- ----------------------------
 -- Table structure for t_role_project_relation
@@ -230,12 +236,16 @@ CREATE TABLE `t_role_project_relation` (
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_project_relation
 -- ----------------------------
 INSERT INTO `t_role_project_relation` VALUES ('1', '1', '45', null, '1', '1000000000', '2017-12-07 17:53:44', null);
+INSERT INTO `t_role_project_relation` VALUES ('2', '4', '61', null, '1', '1000000000', '2017-12-13 10:42:16', null);
+INSERT INTO `t_role_project_relation` VALUES ('3', '5', '61', null, '1', '1000000000', '2017-12-13 11:20:29', null);
+INSERT INTO `t_role_project_relation` VALUES ('4', '6', '61', null, '1', '1000000000', '2017-12-13 11:22:30', null);
+INSERT INTO `t_role_project_relation` VALUES ('5', '1', '61', null, '1', '1000000000', '2017-12-13 15:02:05', null);
 
 -- ----------------------------
 -- Table structure for t_role_url_relation
@@ -251,7 +261,7 @@ CREATE TABLE `t_role_url_relation` (
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_url_relation
@@ -278,6 +288,30 @@ INSERT INTO `t_role_url_relation` VALUES ('19', '1', '22', '1', '1', '1000000000
 INSERT INTO `t_role_url_relation` VALUES ('20', '2', '3', '1', '1', '1000000000', '2017-12-08 12:58:55', null);
 INSERT INTO `t_role_url_relation` VALUES ('21', '2', '2', '1', '1', '1000000000', '2017-12-08 12:59:59', null);
 INSERT INTO `t_role_url_relation` VALUES ('22', '1', '23', '1', '1', '1000000000', '2017-12-11 16:27:11', null);
+INSERT INTO `t_role_url_relation` VALUES ('23', '1', '24', '1', '1', '1000000000', '2017-12-12 11:37:54', null);
+INSERT INTO `t_role_url_relation` VALUES ('24', '1', '25', '1', '1', '1000000000', '2017-12-13 10:06:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('25', '1', '3', '1', '1', '1000000000', '2017-12-13 10:38:20', null);
+INSERT INTO `t_role_url_relation` VALUES ('26', '1', '2', '1', '1', '1000000000', '2017-12-13 10:38:20', null);
+INSERT INTO `t_role_url_relation` VALUES ('27', '4', '3', '1', '1', '1000000000', '2017-12-13 10:42:16', null);
+INSERT INTO `t_role_url_relation` VALUES ('28', '4', '2', '1', '1', '1000000000', '2017-12-13 10:42:16', null);
+INSERT INTO `t_role_url_relation` VALUES ('29', '1', '26', '1', '1', '1000000000', '2017-12-13 11:13:00', null);
+INSERT INTO `t_role_url_relation` VALUES ('30', '5', '3', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('31', '5', '4', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('32', '5', '1', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('33', '5', '5', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('34', '5', '6', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('35', '5', '7', '1', '1', '1000000000', '2017-12-13 11:20:28', null);
+INSERT INTO `t_role_url_relation` VALUES ('36', '5', '8', '1', '1', '1000000000', '2017-12-13 11:20:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('37', '5', '20', '1', '1', '1000000000', '2017-12-13 11:20:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('38', '6', '3', '1', '1', '1000000000', '2017-12-13 11:22:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('39', '6', '4', '1', '1', '1000000000', '2017-12-13 11:22:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('40', '6', '1', '1', '1', '1000000000', '2017-12-13 11:22:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('41', '6', '2', '1', '1', '1000000000', '2017-12-13 11:22:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('42', '6', '5', '1', '1', '1000000000', '2017-12-13 11:22:29', null);
+INSERT INTO `t_role_url_relation` VALUES ('43', '6', '6', '1', '1', '1000000000', '2017-12-13 11:22:30', null);
+INSERT INTO `t_role_url_relation` VALUES ('44', '6', '7', '1', '1', '1000000000', '2017-12-13 11:22:30', null);
+INSERT INTO `t_role_url_relation` VALUES ('45', '6', '8', '1', '1', '1000000000', '2017-12-13 11:22:30', null);
+INSERT INTO `t_role_url_relation` VALUES ('46', '6', '20', '1', '1', '1000000000', '2017-12-13 11:22:30', null);
 
 -- ----------------------------
 -- Table structure for t_url_mapping
@@ -294,7 +328,7 @@ CREATE TABLE `t_url_mapping` (
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_url_mapping
@@ -319,6 +353,9 @@ INSERT INTO `t_url_mapping` VALUES ('20', '获取用户所属项目', '/token/us
 INSERT INTO `t_url_mapping` VALUES ('21', '添加用户', '/token/user/adduser', null, '0', '1', '1000000000', '2017-12-08 10:21:43', null);
 INSERT INTO `t_url_mapping` VALUES ('22', '获取角色', '/token/role/getroles', null, '0', '1', '1000000000', '2017-12-08 11:52:20', null);
 INSERT INTO `t_url_mapping` VALUES ('23', '获取功能列表', '/token/permission/getpermissions', null, '0', '1', '1000000000', '2017-12-11 16:26:21', null);
+INSERT INTO `t_url_mapping` VALUES ('24', '获取角色对应的权限项目', '/token/role/getproandper', null, '0', '1', '1000000000', '2017-12-12 11:37:38', null);
+INSERT INTO `t_url_mapping` VALUES ('25', '添加角色', '/token/role/addrole', null, '0', '1', '1000000000', '2017-12-13 10:06:12', null);
+INSERT INTO `t_url_mapping` VALUES ('26', '获取用户', '/token/user/getusers', null, '0', '1', '1000000000', '2017-12-13 11:12:40', null);
 
 -- ----------------------------
 -- Table structure for t_user
@@ -337,7 +374,7 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `id` (`id`),
   KEY `roleId_idx` (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000000009 DEFAULT CHARSET=utf8 COMMENT='用户基本信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000000012 DEFAULT CHARSET=utf8 COMMENT='用户基本信息表';
 
 -- ----------------------------
 -- Records of t_user
@@ -346,3 +383,6 @@ INSERT INTO `t_user` VALUES ('1000000000', 'yinting@nonobank.com', 'yintings', '
 INSERT INTO `t_user` VALUES ('1000000005', 'yinting2@nonobank.com', '第二个角色', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '2', '1', '2017-12-08 10:46:43', '0000-00-00 00:00:00');
 INSERT INTO `t_user` VALUES ('1000000007', 'yinting3@nonobank.com', 'protocol', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '2', '1', '2017-12-08 11:18:56', '0000-00-00 00:00:00');
 INSERT INTO `t_user` VALUES ('1000000008', 'test@nonobank.com', 'test', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '2', '1', '2017-12-08 12:56:23', '0000-00-00 00:00:00');
+INSERT INTO `t_user` VALUES ('1000000009', 'sword@163.com', 'sword', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '4', '1', '2017-12-13 10:47:57', '0000-00-00 00:00:00');
+INSERT INTO `t_user` VALUES ('1000000010', 'test01@163.com', '测试员01', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '5', '1', '2017-12-13 11:21:07', '0000-00-00 00:00:00');
+INSERT INTO `t_user` VALUES ('1000000011', 'test02@163.com', '测试员02', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', '6', '1', '2017-12-13 11:23:12', '0000-00-00 00:00:00');
