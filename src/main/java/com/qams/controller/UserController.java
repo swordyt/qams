@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qams.annotation.PermissionAuth;
+import com.qams.bean.SearchBean;
 import com.qams.config.Constant;
 import com.qams.config.Permission;
 import com.qams.domain.User;
@@ -25,6 +26,22 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	Response response;
+
+	@ResponseBody
+	@RequestMapping("getusers")
+	public Response getUsers(SearchBean search) {
+		if (!ParaUtil.notNull(search.getLimit())
+				|| !ParaUtil.notNull(search.getOffset())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("limit或offset字段均不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(userService.getUsers(search));
+		return response;
+	}
 
 	@ResponseBody
 	@RequestMapping("adduser")

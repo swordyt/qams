@@ -3,86 +3,85 @@ package com.qams.domain;
 import java.util.Date;
 
 import org.springframework.stereotype.Repository;
-
 @Repository
 public class Role {
-	private Integer id;
+    private Integer id;
 
-	private String name;
+    private String name;
 
-	private Integer auth;
+    private Integer parentid;
 
-	private Integer status;
+    private Integer communal;
 
-	private Integer parentid;
-	
-	private Integer communal;
+    private Integer auth;
 
-	private Date createtime;
+    private Integer status;
 
-	private Date updatetime;
+    private Date createtime;
 
-	public Integer getCommunal() {
-		return communal;
-	}
+    private Date updatetime;
 
-	public void setCommunal(Integer communal) {
-		this.communal = communal;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getParentid() {
-		return parentid;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setParentid(Integer parentid) {
-		this.parentid = parentid;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getParentid() {
+        return parentid;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
+    }
 
-	public void setName(String name) {
-		this.name = name == null ? null : name.trim();
-	}
+    public Integer getCommunal() {
+        return communal;
+    }
 
-	public Integer getAuth() {
-		return auth;
-	}
+    public void setCommunal(Integer communal) {
+        this.communal = communal;
+    }
 
-	public void setAuth(Integer auth) {
-		this.auth = auth;
-	}
+    public Integer getAuth() {
+        return auth;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public void setAuth(Integer auth) {
+        this.auth = auth;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public Date getCreatetime() {
-		return createtime;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public void setCreatetime(Date createtime) {
-		this.createtime = createtime;
-	}
+    public Date getCreatetime() {
+        return createtime;
+    }
 
-	public Date getUpdatetime() {
-		return updatetime;
-	}
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
 
-	public void setUpdatetime(Date updatetime) {
-		this.updatetime = updatetime;
-	}
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
 }

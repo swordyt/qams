@@ -38,7 +38,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-success form-control">提交</button>
+						<button class="btn btn-success form-control" onclick="createRole_submit(this.form);return false;">提交</button>
 					</div>
 				</form>
 			</div>

@@ -15,23 +15,23 @@
 <body>
 	<div class="container" style="padding:0px" id="container">
 		<table id="table"></table>
-		<button id="projectModalEditContent" data-toggle="modal"
-			data-target="#projectModalEdit" style="display:none"></button>
+		<button id="modal-content" data-toggle="modal" data-target="#myModal"
+			style="display:none"></button>
 		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="projectModalEdit" tabindex="-1"
-			role="dialog" aria-labelledby="projectModalEditLabel"
-			aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="projectModalEditLabel">编辑</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
 					</div>
-					<div class="modal-body" id="projectModalEditBody">
-						在这里添加文本
-					</div>
+					<div class="modal-body">在这里添加一些文本</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" >提交更改</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary">提交更改</button>
 					</div>
 				</div>
 				<!-- /.modal-content -->

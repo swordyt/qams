@@ -6,12 +6,12 @@ var maxFiles = 4;
 var dropz = new Dropzone("#dropzone", {
 	init : function() {
 		this.on("removedfile", function(file) {
-			console.log(file.fileKey+"==="+file.fileName);
+			console.log(file.fileKey + "===" + file.fileName);
 		});
 		this.on("success", function(file, data) {
-			file.fileKey=data.data.key;
-			file.fileName=data.data.name;
-			file.fileType=data.data.type;
+			file.fileKey = data.data.key;
+			file.fileName = data.data.name;
+			file.fileType = data.data.type;
 		});
 	},
 	maxFiles : maxFiles,
@@ -31,7 +31,7 @@ var dropz = new Dropzone("#dropzone", {
 function typeToIsparent(data) {
 	$.each(data.data, function(k, v) {
 		data.data[k].grade = data.data[k].level;
-		if (data.data[k].pid == null && data.data[k].projectId != null) {
+		if (data.data[k].pid == null && data.data[k].projectid != null) {
 			rootId = data.data[k].id;
 		}
 		if (data.data[k].id == 0) {
@@ -119,7 +119,7 @@ function rightFunctionMenu(event, treeId, treeNode) {
 		console.log("为空！");
 		return true;
 	}
-	if (treeNode.id == 0) {
+	if (parent.notEmpty(treeNode.projectid)) {
 		showMenu([ "block", "block", "none", "none", "none" ]);
 		return true;
 	}
@@ -174,6 +174,8 @@ function fillForm(name, type, pid, grade, description, steps, file, userId,
 	}
 	if (pid != null) {
 		$("#pid").val(pid);
+	}else{
+		$("#pid").val("");
 	}
 	if (grade != null) {
 		// $("#level").find("option[text='"+grade+"']").attr("selected",true);
@@ -254,22 +256,29 @@ function fillStep(step, expect) {
 }
 /**
  * 填充已上传的附件列表
- * */
-function fillFile(files){
-	if(files==null||files==""){
+ */
+function fillFile(files) {
+	if (files == null || files == "") {
 		return null;
 	}
-	$.each(JSON.parse(files),function(k,v){
-		$("#dropdownMenu1-ul").append("<li role=\"presentation\">"+
-									"<a role=\"menuitem\" tabindex=\"-1\""+
-										"href=\"javascript:void(0);\" style=\"padding-left:0px;\">"+
-										"<p style=\"margin-bottom:0px;font-size: 17px\" key=\""+v.key+
-										"\" type=\""+v.type+
-										"\"><span onclick=\"removeFile(this)\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"+v.name+
-										"</p>"+
-										"</span></a></li>");
-	});
-	
+	$
+			.each(
+					JSON.parse(files),
+					function(k, v) {
+						$("#dropdownMenu1-ul")
+								.append(
+										"<li role=\"presentation\">"
+												+ "<a role=\"menuitem\" tabindex=\"-1\""
+												+ "href=\"javascript:void(0);\" style=\"padding-left:0px;\">"
+												+ "<p style=\"margin-bottom:0px;font-size: 17px\" key=\""
+												+ v.key
+												+ "\" type=\""
+												+ v.type
+												+ "\"><span onclick=\"removeFile(this)\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"
+												+ v.name + "</p>"
+												+ "</span></a></li>");
+					});
+
 }
 $("form").hide();
 function showForm(name, level, description, steps, file, createTime, updatetime) {
@@ -296,10 +305,10 @@ function showForm(name, level, description, steps, file, createTime, updatetime)
 	}
 	if (file == null || file == 0 || file == false) {
 		$("#dropzone").parent().css("visibility", "hidden");
-		$("#dropdownMenu1").parent().css("display","none");
+		$("#dropdownMenu1").parent().css("display", "none");
 	} else {
 		$("#dropzone").parent().css("visibility", "visible");
-		$("#dropdownMenu1").parent().css("display","block");
+		$("#dropdownMenu1").parent().css("display", "block");
 	}
 	if (createTime == null || createTime == 0 || createTime == false) {
 		$("#createTime").parent().css("display", "none");
@@ -417,10 +426,10 @@ function resetForm(e) {
 	$("#steps").find("button.btn-danger").click();// 删除自增加的步骤
 	$("#id").removeAttr("value");// 清除绑定的id
 	dropz.removeAllFiles(true);
-	//$("#dropzone>div.dz-preview").remove();
-	//$("#dropzone").removeClass();
-	//$("#dropzone").addClass("dropzone needsclick dz-clickable");
-	$("#dropdownMenu1-ul li").each(function(k,v){
+	// $("#dropzone>div.dz-preview").remove();
+	// $("#dropzone").removeClass();
+	// $("#dropzone").addClass("dropzone needsclick dz-clickable");
+	$("#dropdownMenu1-ul li").each(function(k, v) {
 		$(v).remove();
 	});
 	if (e == "kill") {
@@ -449,28 +458,26 @@ function submitForm(form) {
 	// data.step = decodeURI($(step).stringify(), "utf-8");
 	data.step = JSON.stringify(step);
 	data.name = $(form.name).val();
-//	$("#dropdownMenu1-ul li p").each(function(){
-//		console.log($(this).html());
-//	});
-	var files=dropz.getAcceptedFiles();
-	var file=new Array();
-	$.each(files,function(k,v){
-		var obj=new Object();
-		obj.name=v.fileName;
-		obj.type=v.fileType;
-		obj.key=v.fileKey;
+	// $("#dropdownMenu1-ul li p").each(function(){
+	// console.log($(this).html());
+	// });
+	var files = dropz.getAcceptedFiles();
+	var file = new Array();
+	$.each(files, function(k, v) {
+		var obj = new Object();
+		obj.name = v.fileName;
+		obj.type = v.fileType;
+		obj.key = v.fileKey;
 		file.push(obj);
 	});
-	$("#dropdownMenu1-ul li a p").each(function(k,v){
-		var obj=new Object();
-		obj.name=$(v).text();
-		obj.type=$(v).attr("type");
-		obj.key=$(v).attr("key");
+	$("#dropdownMenu1-ul li a p").each(function(k, v) {
+		var obj = new Object();
+		obj.name = $(v).text();
+		obj.type = $(v).attr("type");
+		obj.key = $(v).attr("key");
 		file.push(obj);
 	});
-	
-	
-	
+
 	data.file = JSON.stringify(file);
 	data.level = $(form.level).val();
 	data.pid = $(form.pid).val();
@@ -493,7 +500,7 @@ function submitForm(form) {
 		parent.Network.maskSend("token/cases/updateCase", data, fun);
 	}
 }
-//删除已上传附件列表
-function removeFile(e){
+// 删除已上传附件列表
+function removeFile(e) {
 	$(e).parent().parent().parent().remove();
 }

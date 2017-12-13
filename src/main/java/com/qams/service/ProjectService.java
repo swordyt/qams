@@ -43,7 +43,7 @@ public class ProjectService {
 		return listResponse;
 	}
 
-	public int addProject(Project p, String rootTree) {
+	public Integer addProject(Project p, String rootTree) {
 		int id = projectDao.insertSelective(p);
 		cs.setType(0);
 		cs.setStatus(1);
@@ -51,6 +51,13 @@ public class ProjectService {
 		cs.setProjectid(p.getId());
 		cs.setName(rootTree);
 		caseDao.insertSelective(cs);
+		return p.getId();
+	}
+	public Integer  delProject(Integer id) {
+		Project p=projectDao.selectByPrimaryKey(id);
+		if(p == null){
+			return null;
+		}
 		return p.getId();
 	}
 }

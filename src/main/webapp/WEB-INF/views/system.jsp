@@ -39,11 +39,6 @@
 <!-- Latest compiled and minified Locales -->
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<style type="text/css">
-.multiselect .dropdown-toggle .btn .btn-default {
-	color: #000;
-}
-</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -73,7 +68,11 @@
 						<li class="dropdown-header">用户管理相关功能</li>
 						<li><a href="token/system/systemmange?url=createRole">创建角色</a>
 						</li>
+						<li><a href="token/system/systemmange?url=listRole">角色列表</a>
+						</li>
 						<li><a href="token/system/systemmange?url=createUser">创建用户</a>
+						</li>
+						<li><a href="token/system/systemmange?url=listUser">用户列表</a>
 						</li>
 					</ul>
 				</li>

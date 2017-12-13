@@ -1,12 +1,11 @@
+var MASK_FLAG=false;
 var Mask = {
 	popMask : function(message) {
-		$("#index_Modal").modal('hide');
+		$("#index_Modal").on('shown.bs.modal',function(){
+			$("#index_Modal").modal('hide');
+		});
 		$("#index_toast").html(message);
-		$("#index_messageModel").click();
-	},
-	shutMask : function() {
-		// alert($("#loadingModal").html());
-		 $("#index_messageModelClose").click();
+		$("#index_Modal").modal('show');
 	}
 };
 var Network = {
@@ -15,7 +14,7 @@ var Network = {
 		$.post(url, data, function(data, textStatus, jqXHR) {
 			Mask.popMask(data.message);
 			callback(data, textStatus, jqXHR);
-			setTimeout("Mask.shutMask()",1000);
+// setTimeout("Mask.shutMask()",100);
 		});
 	},
 	send : function(url, data, callback) {

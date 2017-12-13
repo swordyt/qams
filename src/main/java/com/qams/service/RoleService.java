@@ -15,6 +15,9 @@ import com.qams.dao.RoleMapper;
 import com.qams.dao.RoleProjectRelationMapper;
 import com.qams.dao.RoleUrlRelationMapper;
 import com.qams.domain.Project;
+import com.qams.domain.Role;
+import com.qams.domain.RoleProjectRelation;
+import com.qams.domain.RoleUrlRelation;
 import com.qams.domain.UrlMapping;
 import com.qams.response.ListResponse;
 
@@ -28,6 +31,30 @@ public class RoleService {
 	RoleProjectRelationMapper roleProjectRelationDao;
 	@Autowired
 	RoleUrlRelationMapper roleUrlRelationDao;
+
+	public Integer addRole(Integer creater,Role role,List<Integer> urlList,List<Integer> projectList) {
+		role.setStatus(1);
+		roleDao.insertSelective(role);
+		Integer id=role.getId();
+		for(int i=0;i<urlList.size();i++){
+			RoleUrlRelation rur=new RoleUrlRelation();
+			rur.setCreater(creater);
+			rur.setRoleid(id);
+			rur.setUrlid(urlList.get(i));
+			rur.setStatus(1);
+			roleUrlRelationDao.insertSelective(rur);
+		}
+		for(int i=0;i<projectList.size();i++){
+			RoleProjectRelation rpr=new RoleProjectRelation();
+			rpr.setCreater(creater);
+			rpr.setProjectid(projectList.get(i));
+			rpr.setRoleid(id);
+			rpr.setStatus(1);
+			roleProjectRelationDao.insertSelective(rpr);
+		}
+		
+		return id;
+	}
 
 	public ListResponse getRoles(SearchBean search) {
 		listResponse.setRows(roleDao.selectAll(search));

@@ -32,6 +32,19 @@
 		from t_user
 		where id = #{id,jdbcType=INTEGER}
 	</select>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.qams.bean.SearchBean">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where status=1
+		<if test="search != null">
+			and name like concat(concat('%',#{search}),'%')
+		</if>
+		order by create_time desc
+		<if test="limit != 0">
+			LIMIT #{offset},#{limit}
+		</if>
+	</select>
 	<insert id="insertSelective" parameterType="com.qams.domain.User"
 		keyProperty="id" useGeneratedKeys="true">
 		insert into t_user

@@ -27,7 +27,7 @@
 							aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
 					</div>
-					<div class="modal-body">在这里添加一些文本</div>
+					<div class="modal-body" id="ModalContext">在这里添加一些文本</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qams.dao.RoleMapper">
+<mapper namespace="backups.RoleMapper">
   <resultMap id="BaseResultMap" type="com.qams.domain.Role">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="communal" jdbcType="INTEGER" property="communal" />
     <result column="auth" jdbcType="INTEGER" property="auth" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, auth, status, userId, createTime, updateTime
+    id, name, parentId, communal, auth, status, createTime, updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,12 +25,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qams.domain.Role">
-    insert into t_role (id, name, auth, 
-      status, userId, createTime, 
-      updateTime)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{auth,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updatetime,jdbcType=TIMESTAMP})
+    insert into t_role (id, name, parentId, 
+      communal, auth, status, 
+      createTime, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
+      #{communal,jdbcType=INTEGER}, #{auth,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.qams.domain.Role">
     insert into t_role
@@ -40,14 +41,17 @@
       <if test="name != null">
         name,
       </if>
+      <if test="parentid != null">
+        parentId,
+      </if>
+      <if test="communal != null">
+        communal,
+      </if>
       <if test="auth != null">
         auth,
       </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="userid != null">
-        userId,
       </if>
       <if test="createtime != null">
         createTime,
@@ -63,14 +67,17 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="communal != null">
+        #{communal,jdbcType=INTEGER},
+      </if>
       <if test="auth != null">
         #{auth,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -86,14 +93,17 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="parentid != null">
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="communal != null">
+        communal = #{communal,jdbcType=INTEGER},
+      </if>
       <if test="auth != null">
         auth = #{auth,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null">
-        userId = #{userid,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -107,9 +117,10 @@
   <update id="updateByPrimaryKey" parameterType="com.qams.domain.Role">
     update t_role
     set name = #{name,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=INTEGER},
+      communal = #{communal,jdbcType=INTEGER},
       auth = #{auth,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      userId = #{userid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

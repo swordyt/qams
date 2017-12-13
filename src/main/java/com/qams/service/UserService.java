@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qams.bean.SearchBean;
 import com.qams.config.Constant;
 import com.qams.dao.ProjectMapper;
 import com.qams.dao.RoleProjectRelationMapper;
 import com.qams.dao.UserMapper;
 import com.qams.domain.Project;
 import com.qams.domain.User;
+import com.qams.response.ListResponse;
 import com.qams.response.LoginResponse;
 import com.qams.util.JwtUtil;
 
@@ -29,6 +31,8 @@ public class UserService {
 	RoleProjectRelationMapper roleProjectRelDao;
 	@Autowired
 	ProjectMapper projectDao;
+	@Autowired
+	ListResponse listResponse;
 
 	public Object login(String email, String password) {
 		user.setEmail(email);
@@ -46,8 +50,8 @@ public class UserService {
 
 	public List<Project> getProjects(Integer userId) {
 		List<Integer> list = new ArrayList<Integer>();
-		list.add(user.getRoleid());
 		User user = userDao.selectByPrimaryKey(userId);
+		list.add(user.getRoleid());
 		List<Project> listProject = roleProjectRelDao.selectByRoleids(list);
 		return listProject;
 	}
@@ -56,5 +60,12 @@ public class UserService {
 		user.setStatus(1);
 		userDao.insertSelective(user);
 		return user.getId();
+	}
+
+	public ListResponse getUsers(SearchBean search) {
+		listResponse.setRows(userDao.selectAll(search));
+		search.setLimit(0);
+		listResponse.setTotal((long) userDao.selectAll(search).size());
+		return listResponse;
 	}
 }

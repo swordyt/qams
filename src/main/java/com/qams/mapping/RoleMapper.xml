@@ -12,7 +12,7 @@
 		<result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name,parentId,communal, auth, status, createTime,
+		id, name, parentId, communal, auth, status, createTime,
 		updateTime
 	</sql>
 	<!-- 根据role id获取role详细信息 -->
@@ -37,8 +37,7 @@
 			LIMIT #{offset},#{limit}
 		</if>
 	</select>
-	<insert id="insertSelective" parameterType="com.qams.domain.Role"
-		keyProperty="id" useGeneratedKeys="true">
+	<insert id="insertSelective" parameterType="com.qams.domain.Role" keyProperty="id" useGeneratedKeys="true">
 		insert into t_role
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -59,9 +58,6 @@
 			<if test="status != null">
 				status,
 			</if>
-			<if test="userid != null">
-				userId,
-			</if>
 			<if test="createtime != null">
 				createTime,
 			</if>
@@ -77,7 +73,7 @@
 				#{name,jdbcType=VARCHAR},
 			</if>
 			<if test="parentid != null">
-				#{parentid,jdbcType=VARCHAR},
+				#{parentid,jdbcType=INTEGER},
 			</if>
 			<if test="communal != null">
 				#{communal,jdbcType=INTEGER},
@@ -87,9 +83,6 @@
 			</if>
 			<if test="status != null">
 				#{status,jdbcType=INTEGER},
-			</if>
-			<if test="userid != null">
-				#{userid,jdbcType=INTEGER},
 			</if>
 			<if test="createtime != null">
 				#{createtime,jdbcType=TIMESTAMP},

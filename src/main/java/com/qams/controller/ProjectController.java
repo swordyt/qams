@@ -15,6 +15,7 @@ import com.qams.dao.ProjectMapper;
 import com.qams.domain.Project;
 import com.qams.response.Response;
 import com.qams.service.ProjectService;
+import com.qams.util.ParaUtil;
 
 @Controller
 @RequestMapping("token/project")
@@ -38,7 +39,6 @@ public class ProjectController {
 		return response;
 	}
 
-	@PermissionAuth(auth = { Permission.CP })
 	@ResponseBody
 	@RequestMapping("addproject")
 	public Response addProject(Project p, String rootTree) {
@@ -52,6 +52,19 @@ public class ProjectController {
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(projectService.addProject(p, rootTree));
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping("delproject")
+	public Response delProject(Integer projectId) {
+		if (!ParaUtil.notNull(projectId)) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+//		response.setData(projectService.addProject(p, rootTree));
 		return response;
 	}
 

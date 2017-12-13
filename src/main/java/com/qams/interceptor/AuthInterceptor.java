@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
@@ -73,5 +74,31 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		Log.info("======Permission end======");
 		return result;
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("postHandle>>>"+request.getServletPath());
+		super.postHandle(request, response, handler, modelAndView);
+	}
+
+	@Override
+	public void afterCompletion(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		System.out.println("afterCompletion>>>"+request.getServletPath());
+		// TODO Auto-generated method stub
+		super.afterCompletion(request, response, handler, ex);
+	}
+
+	@Override
+	public void afterConcurrentHandlingStarted(HttpServletRequest request,
+			HttpServletResponse response, Object handler) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("afterConcurrentHandlingStarted>>>"+request.getServletPath());
+		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 }
