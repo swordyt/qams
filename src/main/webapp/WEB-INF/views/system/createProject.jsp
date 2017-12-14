@@ -17,7 +17,7 @@
 	<div class="container" style="padding:0px" id="container">
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
-				<form class="form-horizontal pull-right" role="form" onload="initDropzone()">
+				<form class="form-horizontal pull-right" role="form" onload="initDropzone()" id="createProjectForm">
 					<div>
 						<div class="form-group">
 							<label>项目名</label> <input type="text" class="form-control"

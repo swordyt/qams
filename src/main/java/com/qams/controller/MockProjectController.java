@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qams.bean.SearchBean;
 import com.qams.config.Constant;
 import com.qams.domain.MockProject;
+import com.qams.domain.Role;
 import com.qams.response.Response;
 import com.qams.service.MockProjectService;
 import com.qams.util.ParaUtil;
@@ -47,6 +48,22 @@ public class MockProjectController {
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(mockProjectService.getMockProject(search));
+		return response;
+	}
+
+	@RequestMapping("delmockproject")
+	@ResponseBody
+	public Response delMockProject(MockProject mockProject) {
+		if (!ParaUtil.notNull(mockProject.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id必传！");
+			return response;
+		}
+		mockProject.setStatus(0);
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(mockProjectService.updateMockProject(mockProject));
 		return response;
 	}
 }

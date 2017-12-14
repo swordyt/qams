@@ -54,17 +54,33 @@ public class ProjectController {
 		response.setData(projectService.addProject(p, rootTree));
 		return response;
 	}
+
 	@ResponseBody
 	@RequestMapping("delproject")
-	public Response delProject(Integer projectId) {
-		if (!ParaUtil.notNull(projectId)) {
+	public Response delProject(Project p) {
+		if (!ParaUtil.notNull(p.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
+		p.setStatus(0);
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(projectService.updateProject(p));
+		return response;
+	}
+
+	@ResponseBody
+	@RequestMapping("updateproject")
+	public Response updateProject(Project p) {
+		if (!ParaUtil.notNull(p.getId())) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
 			return response;
 		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-//		response.setData(projectService.addProject(p, rootTree));
+		response.setData(projectService.updateProject(p));
 		return response;
 	}
 

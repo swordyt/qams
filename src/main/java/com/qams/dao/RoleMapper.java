@@ -14,4 +14,6 @@ public interface RoleMapper {
 	Integer insertSelective(Role record);
 
 	List<Role> selectAll(SearchBean search);
+
+	void updateByPrimaryKeySelective(Role record);
 }

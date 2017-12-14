@@ -22,10 +22,18 @@ public class MockProjectService {
 	}
 
 	public ListResponse getMockProject(SearchBean search) {
-		
 		listResponse.setRows(mockProjectDao.selectAll(search));
 		search.setLimit(0);
 		listResponse.setTotal((long) mockProjectDao.selectAll(search).size());
 		return listResponse;
+	}
+
+	public Boolean updateMockProject(MockProject mockProject) {
+		try {
+			mockProjectDao.updateByPrimaryKeySelective(mockProject);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

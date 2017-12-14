@@ -87,4 +87,12 @@ public class RoleService {
 		map.put("projects", projects);
 		return map;
 	}
+	public Boolean updateRole(Role role){
+		try{
+			roleDao.updateByPrimaryKeySelective(role);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+	}
 }

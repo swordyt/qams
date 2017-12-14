@@ -32,7 +32,7 @@ public class ProjectService {
 	ListResponse listResponse;
 
 	public ListResponse getProjects(SearchBean search) {
-		
+
 		List<Project> list = projectDao.selectAll(search);
 		for (int i = 0; i < list.size(); i++) {
 			Project p = list.get(i);
@@ -53,11 +53,13 @@ public class ProjectService {
 		caseDao.insertSelective(cs);
 		return p.getId();
 	}
-	public Integer  delProject(Integer id) {
-		Project p=projectDao.selectByPrimaryKey(id);
-		if(p == null){
-			return null;
+
+	public Boolean updateProject(Project p) {
+		try {
+			projectDao.updateByPrimaryKeySelective(p);
+		} catch (Exception e) {
+			return false;
 		}
-		return p.getId();
+		return true;
 	}
 }

@@ -9,7 +9,7 @@
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="level" jdbcType="INTEGER" property="level" />
 		<result column="description" jdbcType="VARCHAR" property="description" />
-		<result column="step" jdbcType="CHAR" property="step" />
+		<result column="step" jdbcType="VARCHAR" property="step" />
 		<result column="file" jdbcType="VARCHAR" property="file" />
 		<result column="status" jdbcType="INTEGER" property="status" />
 		<result column="creater" jdbcType="INTEGER" property="creater" />
@@ -98,7 +98,7 @@
 				#{description,jdbcType=VARCHAR},
 			</if>
 			<if test="step != null">
-				#{step,jdbcType=CHAR},
+				#{step,jdbcType=VARCHAR},
 			</if>
 			<if test="file != null">
 				#{file,jdbcType=VARCHAR},
@@ -157,7 +157,7 @@
 				description = #{description,jdbcType=VARCHAR},
 			</if>
 			<if test="step != null">
-				step = #{step,jdbcType=CHAR},
+				step = #{step,jdbcType=VARCHAR},
 			</if>
 			<if test="file != null">
 				file = #{file,jdbcType=VARCHAR},

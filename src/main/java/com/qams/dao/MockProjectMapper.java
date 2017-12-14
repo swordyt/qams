@@ -17,6 +17,4 @@ public interface MockProjectMapper {
 	List<MockProject> selectAll(SearchBean record);
 
 	int updateByPrimaryKeySelective(MockProject record);
-
-	int updateByPrimaryKey(MockProject record);
 }

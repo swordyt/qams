@@ -23,8 +23,7 @@
 		from t_project
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<select id="selectAll" resultMap="BaseResultMap"
-		parameterType="com.qams.bean.SearchBean">
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.qams.bean.SearchBean">
 		select
 		<include refid="Base_Column_List" />
 		from t_project
@@ -94,4 +93,25 @@
 			</if>
 		</trim>
 	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.qams.domain.Project">
+		update t_project
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="file != null">
+				file = #{file,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

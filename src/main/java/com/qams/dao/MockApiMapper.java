@@ -6,9 +6,6 @@ import com.qams.bean.SearchBean;
 import com.qams.domain.MockApi;
 
 public interface MockApiMapper {
-	int deleteByPrimaryKey(Integer id);
-
-	int insert(MockApi record);
 
 	int insertSelective(MockApi record);
 
@@ -17,8 +14,4 @@ public interface MockApiMapper {
 	List<MockApi> selectAll(SearchBean record);
 
 	int updateByPrimaryKeySelective(MockApi record);
-
-	int updateByPrimaryKeyWithBLOBs(MockApi record);
-
-	int updateByPrimaryKey(MockApi record);
 }

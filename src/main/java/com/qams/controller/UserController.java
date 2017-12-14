@@ -94,4 +94,21 @@ public class UserController {
 				.getAttribute("userid")));
 		return response;
 	}
+	/**
+	 * 删除指定用户
+	 * */
+	@ResponseBody
+	@RequestMapping("deluser")
+	public Response delUser(User user) {
+		if (!ParaUtil.notNull(user.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			return response;
+		}
+		user.setStatus(0);
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(userService.updateUser(user));
+		return response;
+	}
 }

@@ -1,7 +1,5 @@
 package com.qams.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +26,14 @@ public class MockApiService {
 		record.setLimit(0);
 		listResponse.setTotal((long) mockApiDao.selectAll(record).size());
 		return listResponse;
+	}
+
+	public Boolean updateApi(MockApi record) {
+		try {
+			mockApiDao.updateByPrimaryKeySelective(record);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -53,6 +52,21 @@ public class MockApiController {
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(mockApiService.getApis(search));
+		return response;
+	}
+	@RequestMapping("delapi")
+	@ResponseBody
+	public Response delApi(MockApi mockApi) {
+		if (!ParaUtil.notNull(mockApi.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id必传！");
+			return response;
+		}
+		mockApi.setStatus(0);
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(mockApiService.updateApi(mockApi));
 		return response;
 	}
 }

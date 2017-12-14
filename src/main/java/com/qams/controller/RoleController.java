@@ -123,4 +123,39 @@ public class RoleController {
 		response.setData(roleService.getProjectsAndPermission(roles));
 		return response;
 	}
+	/**
+	 * 删除指定id角色
+	 * */
+	@ResponseBody
+	@RequestMapping("delrole")
+	public Response getProjectAndPermission(Role role) {
+		if (!ParaUtil.notNull(role.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id必传！");
+			return response;
+		}
+		role.setStatus(0);
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(roleService.updateRole(role));
+		return response;
+	}
+	/**
+	 * 更新指定id角色
+	 * */
+	@ResponseBody
+	@RequestMapping("updaterole")
+	public Response updateRole(Role role) {
+		if (!ParaUtil.notNull(role.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id必传！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(roleService.updateRole(role));
+		return response;
+	}
 }

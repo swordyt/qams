@@ -396,7 +396,7 @@ $(document).ready(
 					alert("您正在删除的是目录，请再次确认。");
 				}
 				function fun(data, textStatus, jqXHR) {
-					showAlert(0, data.message);
+					parent.promptMessage(data.message);
 				}
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.removeNode(tree_Node);

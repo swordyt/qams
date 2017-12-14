@@ -32,7 +32,6 @@ $.fn.stringify = function() {
  */
 function promptMessage(e){
 	Mask.popMask(e);
-	setTimeout("Mask.shutMask()",1000);
 }
 function notEmpty(e){
 	if(e==null||e==undefined||e==""){

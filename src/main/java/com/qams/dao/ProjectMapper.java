@@ -18,4 +18,6 @@ public interface ProjectMapper {
 
 	/** 获取project 中status=1的所有项 */
 	List<Project> selectAll(SearchBean search);
+
+	void updateByPrimaryKeySelective(Project record);
 }

@@ -16,7 +16,7 @@
 	<div class="container" style="padding:0px" id="container">
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
-				<form class="form-inline pull-right" role="form" method="post" action="token/mock/addapi">
+				<form class="form-inline pull-right" role="form" >
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
 							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目：</label><select
@@ -80,7 +80,7 @@
 					</div>
 					<div>
 						<div class="form-group pull-right">
-							<button class="btn btn-success form-control">提交</button>
+							<button class="btn btn-success form-control" onclick="createMockApi_submit(this.form);return false;">提交</button>
 						</div>
 					</div>
 				</form>

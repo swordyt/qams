@@ -68,4 +68,12 @@ public class UserService {
 		listResponse.setTotal((long) userDao.selectAll(search).size());
 		return listResponse;
 	}
+	public Boolean updateUser(User user){
+		try{
+			userDao.updateByPrimaryKeySelective(user);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+	}
 }

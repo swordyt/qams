@@ -1,88 +1,4 @@
 var URLMAPPING = {};
-URLMAPPING["token/system/systemmange?url=listProject"] = function() {
-	var data = [
-			{
-				field : 'id',
-				title : '项目编号'
-			},
-			{
-				field : 'name',
-				title : '项目名称'
-			},
-			{
-				field : 'creater',
-				title : '创建者'
-			},
-			{
-				field : 'createtime',
-				title : '创建时间',
-				formatter : function(value, row, index) {
-					return date(value);
-				}
-			},
-			{
-				field : 'id',
-				title : '操作',
-				formatter : function(value, row, index) {
-					return [
-							'<a href="javascript:void(0)" onclick="projectListEdit(\''+value+'\')"><i class="glyphicon glyphicon-edit"></i></a>',
-							'<a href="javascript:void(0)" onclick="projectListDel(\''+value+'\')"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-							.join('');
-				},
-			} ];
-	initBootstrapTable("#table", "token/project/getprojects", data);
-}
-URLMAPPING["token/system/systemmange?url=listMockProject"] = function() {
-	var data = [
-			{
-				field : 'id',
-				title : '项目编号'
-			},
-			{
-				field : 'name',
-				title : '项目名称'
-			},
-			{
-				field : 'projectleader',
-				title : '项目负责人'
-			},
-			{
-				field : 'protocol',
-				title : '请求协议'
-			},
-			{
-				field : 'enabled',
-				title : '是否启用',
-				formatter : function(value, row, index) {
-					if (value == 1) {
-						return "是";
-					}
-					return "否";
-				}
-			},
-			{
-				field : 'creater',
-				title : '创建者'
-			},
-			{
-				field : 'createtime',
-				title : '创建时间',
-				formatter : function(value, row, index) {
-					return date(value);
-				}
-			},
-			{
-				field : 'opt',
-				title : '操作',
-				formatter : function(value, row, index) {
-					return [
-							'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-							'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-							.join('');
-				},
-			} ];
-	initBootstrapTable("#table", "token/mockproject/getprojects", data);
-}
 URLMAPPING["token/system/systemmange?url=createProject"] = function() {
 	initDropzone();
 }
@@ -122,47 +38,6 @@ URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
 		type : "resultType"
 	}, fillResultType);
 }
-URLMAPPING["token/system/systemmange?url=listMockApi"] = function() {
-	var data = [
-			{
-				field : 'id',
-				title : '编号'
-			},
-			{
-				field : 'projectid',
-				title : '项目ID'
-			},
-			{
-				field : 'url',
-				title : '接口地址'
-			},
-			{
-				field : 'name',
-				title : '接口名称'
-			},
-			{
-				field : 'creater',
-				title : '创建者'
-			},
-			{
-				field : 'createtime',
-				title : '创建时间',
-				formatter : function(value, row, index) {
-					return date(value);
-				}
-			},
-			{
-				field : 'opt',
-				title : '操作',
-				formatter : function(value, row, index) {
-					return [
-							'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-							'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-							.join('');
-				},
-			} ];
-	initBootstrapTable("#table", "token/mock/getapis", data);
-}
 function initMultiselect(id, url, data) {
 	function fun(data, textStatus, jqXHR) {
 		var items = new Array();
@@ -189,7 +64,7 @@ function initMultiselect(id, url, data) {
 		});
 		$(id).multiselect("dataprovider", items);
 	}
-	parent.Network.maskSend(url, data, fun);
+	parent.Network.send(url, data, fun);
 
 }
 function roleMultiselect() {
@@ -273,53 +148,7 @@ URLMAPPING["token/system/systemmange?url=createRole"] = function() {
 		permissionMultiselect();
 	}, 1000);
 }
-URLMAPPING["token/system/systemmange?url=listRole"] = function() {
-	var data = [
-				{
-					field : 'id',
-					title : '编号'
-				},
-				{
-					field : 'name',
-					title : '名字'
-				},
-				{
-					field : 'parentid',
-					title : '父编号'
-				},
-				{
-					field : 'communal',
-					title : '是否公用',
-					formatter : function(value, row, index) {
-						if(value==1){
-							return '是';
-						}
-						return '否';
-					}
-				},
-				{
-					field : 'auth',
-					title : '权限'
-				},
-				{
-					field : 'createtime',
-					title : '创建时间',
-					formatter : function(value, row, index) {
-						return date(value);
-					}
-				},
-				{
-					field : 'opt',
-					title : '操作',
-					formatter : function(value, row, index) {
-						return [
-								'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-								'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-								.join('');
-					},
-				} ];
-		initBootstrapTable("#table", "token/role/getroles", data);
-}
+
 URLMAPPING["token/system/systemmange?url=createUser"] = function() {
 	function fun(data, textStatus, jqXHR) {
 		if (data.code == "000000") {
@@ -336,37 +165,6 @@ URLMAPPING["token/system/systemmange?url=createUser"] = function() {
 		limit : "0"
 	}, fun);
 }
-URLMAPPING["token/system/systemmange?url=listUser"] = function() {
-	var data = [
-				{
-					field : 'id',
-					title : '编号'
-				},
-				{
-					field : 'email',
-					title : 'email'
-				},
-				{
-					field : 'name',
-					title : '姓名'
-				},
-				{
-					field : 'roleid',
-					title : '所属角色'
-				},
-				{
-					field : 'opt',
-					title : '操作',
-					formatter : function(value, row, index) {
-						return [
-								'<a href="javascript:void(0)" onclick="edit()"><i class="glyphicon glyphicon-edit"></i></a>',
-								'<a href="javascript:void(0)" onclick="add()"><i class="glyphicon glyphicon-ban-circle"></i></a>' ]
-								.join('');
-					},
-				} ];
-		initBootstrapTable("#table", "token/user/getusers", data);
-}
-
 
 Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = false;
@@ -430,10 +228,11 @@ function createRole_submit(e) {
 			e.reset();
 		}
 	}
-	parent.Network.maskSend("token/role/addrole", {name:name,
-		permissionJson:permissionJson,
-		projectJson:projectJson},
-		fun);
+	parent.Network.maskSend("token/role/addrole", {
+		name : name,
+		permissionJson : permissionJson,
+		projectJson : projectJson
+	}, fun);
 }
 /** 创建项目的提交 */
 function createProject_submit(e) {
@@ -468,6 +267,9 @@ function createProject_submit(e) {
 	parent.Network.maskSend("token/project/addproject", data, fun);
 	return false;
 }
+/**
+ * 创建用户提交
+ */
 function createUser_submit(e) {
 	var name = $(e.name).val().trim();
 	var email = $(e.email).val().trim();
@@ -497,7 +299,43 @@ function createUser_submit(e) {
 	parent.Network.maskSend("token/user/adduser", data, fun);
 	return false;
 }
+/** 创建MOCKPROJECT提交 */
+function createMockProject_submit(e) {
+	var data = new Object();
+	data.enabled = $(e.enabled).val().trim();
+	data.name = $(e.name).val().trim();
+	data.description = $(e.description).val().trim();
+	data.projectleader = $(e.projectleader).val().trim();
+	data.protocol = $(e.protocol).val().trim();
 
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			e.reset();
+		}
+	}
+	parent.Network.maskSend("token/mockproject/add", data, fun);
+}
+/** 创建MOCKPAPI提交 */
+function createMockApi_submit(e) {
+	var data = new Object();
+	data.projectid = $(e.projectid).val().trim();
+	data.name = $(e.name).val().trim();
+	data.method = $(e.method).val().trim();
+	data.urltype = $(e.urltype).val().trim();
+	data.url = $(e.url).val().trim();
+	data.resultcode = $(e.resultcode).val().trim();
+	data.resulttype = $(e.resulttype).val().trim();
+	data.resultvalue = $(e.resultvalue).val().trim();
+	data.headers = $(e.headers).val().trim();
+	data.headers = $(e.headers).val().trim();
+
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			e.reset();
+		}
+	}
+	parent.Network.maskSend("token/mock/addapi", data, fun);
+}
 /** 初始化项目列表 */
 function initBootstrapTable(id, url, columns) {
 	$(id).bootstrapTable({
@@ -571,12 +409,3 @@ $(document)
 										return true;
 									});
 				});
-function projectListEdit(id) {
-	$("#projectModalEditLabel").css("color","rgba(0, 0, 0, 1)");
-	$("#projectModalEditContent").click();
-};
-function projectListDel(id) {
-	$("#myModalLabel").text("删除确认");
-	$("#myModalLabel").css("color","rgba(0, 0, 0, 1)");
-	$("#modal-content").click();
-};
