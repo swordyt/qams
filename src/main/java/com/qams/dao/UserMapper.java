@@ -18,5 +18,5 @@ public interface UserMapper {
 
 	List<User> selectAll(SearchBean search);
 
-	void updateByPrimaryKeySelective(User record);
+	Integer updateByPrimaryKeySelective(User record);
 }

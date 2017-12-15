@@ -61,25 +61,19 @@ public class UserController {
 		return response;
 	}
 
-	@PermissionAuth(auth = { Permission.CR })
-	@ResponseBody
-	@RequestMapping("addrole")
-	public Response addRole() {
-		return null;
-	}
-
-	@PermissionAuth(auth = { Permission.UU })
 	@ResponseBody
 	@RequestMapping("updateuser")
-	public Response updateUser() {
-		return null;
-	}
-
-	@PermissionAuth(auth = { Permission.UR })
-	@ResponseBody
-	@RequestMapping("updaterole")
-	public Response updateRole() {
-		return null;
+	public Response updateUser(User user) {
+		if (!ParaUtil.notNull(user.getId())
+				|| !ParaUtil.notEmpty(user.getName())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("必填字段不能为空！");
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(userService.updateUser(user));
+		return response;
 	}
 
 	/**

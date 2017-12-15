@@ -25,47 +25,31 @@
 					</div>
 					<div class="modal-body" id="userModalEditBody">
 						<form style="margin:auto 5px auto 5px" class="form-horizontal"
-							role="form" onload="initDropzone()" id="createUserForm">
-							<div>
-								<div class="form-group">
-									<label>项目名</label> <input type="text" class="form-control"
-										name="name" required="required" />
-								</div>
-								<div class="form-group">
-									<label>描述</label>
-									<textarea rows="4" cols="60" class="form-control"
-										name="description"></textarea>
-								</div>
+							role="form">
+							<div class="form-group">
+								<input type="hidden" id="editUserId" name="id"> <label>名字</label>
+								<input class="form-control" type="text" name="name"
+									required="required" id="editUserName" />
 							</div>
 							<div class="form-group">
-								<div class="dropdown">
-									<button type="button" class="btn dropdown-toggle"
-										id="dropdownMenu1" data-toggle="dropdown">
-										点击查看已上传附件 <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu"
-										aria-labelledby="dropdownMenu1" id="dropdownMenu1-ul">
-									</ul>
-								</div>
+								<label>邮箱账号</label> <input class="form-control" type="email"
+									id="editUserEmail" name="email" placeholder="请输入有效邮箱账号"
+									required="required" readonly />
 							</div>
+
 							<div class="form-group">
-								<label>附件</label>
-								<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
+								<label>所属角色</label> <select class="form-control" name="roleid"
+									id="editUserRoleid">
+								</select>
 							</div>
-							<div class="form-group">
-								<label>用例主目录名</label> <input type="text" name="rootTree"
-									class="form-control" required="required" />
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary"
+									onclick="return updateUserConfirm(this.form);return false;">提交更改</button>
 							</div>
-							<div class="form-group">
-								<button class="btn btn-success form-control"
-									onclick="createUser_submit(this.form);return false;">提交</button>
-							</div>
+						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary">提交更改</button>
-					</div>
-					</form>
 				</div>
 				<!-- /.modal-content -->
 			</div>
