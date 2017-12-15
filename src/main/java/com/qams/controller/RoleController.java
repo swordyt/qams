@@ -35,9 +35,9 @@ public class RoleController {
 
 	@ResponseBody
 	@RequestMapping("addrole")
-	public Response addRole(Role role, String permissionJson,
-			String projectJson) {
-		if (!ParaUtil.notEmpty(role.getName()) || !ParaUtil.notEmpty(permissionJson)
+	public Response addRole(Role role, String permissionJson, String projectJson) {
+		if (!ParaUtil.notEmpty(role.getName())
+				|| !ParaUtil.notEmpty(permissionJson)
 				|| !ParaUtil.notEmpty(projectJson)) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
@@ -60,10 +60,53 @@ public class RoleController {
 		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(roleService.addRole((Integer) request.getAttribute(Constant.ATTR.USERID),role, urlIds, proIds));
+		response.setData(roleService.addRole(
+				(Integer) request.getAttribute(Constant.ATTR.USERID), role,
+				urlIds, proIds));
 		return response;
 	}
 
+	/**
+	 * 更新指定id角色
+	 * */
+	@ResponseBody
+	@RequestMapping("updaterole")
+	public Response updateRole(Role role, String permissionJson,
+			String projectJson) {
+		if (!ParaUtil.notEmpty(role.getName())
+				|| !ParaUtil.notEmpty(permissionJson)
+				|| !ParaUtil.notEmpty(projectJson)
+				|| !ParaUtil.notNull(role.getId())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("必填字段不能为空！");
+			return response;
+		}
+		JSONArray urlList = JSON.parseArray(permissionJson);
+		JSONArray projectList = JSON.parseArray(projectJson);
+		Iterator<Object> itUrl = urlList.iterator();
+		Iterator<Object> itPro = projectList.iterator();
+		List<Integer> urlIds = new ArrayList<Integer>();
+		List<Integer> proIds = new ArrayList<Integer>();
+		while (itUrl.hasNext()) {
+			String urlId = (String) itUrl.next();
+			urlIds.add(Integer.parseInt(urlId));
+		}
+		while (itPro.hasNext()) {
+			String proId = (String) itPro.next();
+			proIds.add(Integer.parseInt(proId));
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(roleService.editRole(
+				(Integer) request.getAttribute(Constant.ATTR.USERID), role,
+				urlIds, proIds));
+		return response;
+	}
+
+	/**
+	 * 角色搜索
+	 * */
 	@ResponseBody
 	@RequestMapping("getroles")
 	public Response getRoles(SearchBean search) {
@@ -123,6 +166,7 @@ public class RoleController {
 		response.setData(roleService.getProjectsAndPermission(roles));
 		return response;
 	}
+
 	/**
 	 * 删除指定id角色
 	 * */
@@ -136,23 +180,6 @@ public class RoleController {
 			return response;
 		}
 		role.setStatus(0);
-		response.setCode(Constant.CODE.RESCODE_SUCCESS);
-		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
-		response.setData(roleService.updateRole(role));
-		return response;
-	}
-	/**
-	 * 更新指定id角色
-	 * */
-	@ResponseBody
-	@RequestMapping("updaterole")
-	public Response updateRole(Role role) {
-		if (!ParaUtil.notNull(role.getId())) {
-			response.setCode(Constant.CODE.RESCODE_FALSE);
-			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
-			response.setData("id必传！");
-			return response;
-		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		response.setData(roleService.updateRole(role));

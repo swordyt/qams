@@ -3,95 +3,96 @@ package com.qams.domain;
 import java.util.Date;
 
 import org.springframework.stereotype.Repository;
+
 @Repository
 public class UrlMapping {
-    private Integer id;
+	private Integer id;
 
-    private String name;
+	private String name;
 
-    private String url;
+	private String url;
 
-    private Integer parentid;
+	private Integer parentid;
 
-    private Integer portal;
+	private Integer portal;
 
-    private Integer status;
+	private Integer status;
 
-    private Integer creater;
+	private Integer creater;
 
-    private Date createtime;
+	private Date createtime;
 
-    private Date updatetime;
+	private Date updatetime;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
 
-    public Integer getParentid() {
-        return parentid;
-    }
+	public Integer getParentid() {
+		return parentid;
+	}
 
-    public void setParentid(Integer parentid) {
-        this.parentid = parentid;
-    }
+	public void setParentid(Integer parentid) {
+		this.parentid = parentid;
+	}
 
-    public Integer getPortal() {
-        return portal;
-    }
+	public Integer getPortal() {
+		return portal;
+	}
 
-    public void setPortal(Integer portal) {
-        this.portal = portal;
-    }
+	public void setPortal(Integer portal) {
+		this.portal = portal;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public Integer getCreater() {
-        return creater;
-    }
+	public Integer getCreater() {
+		return creater;
+	}
 
-    public void setCreater(Integer creater) {
-        this.creater = creater;
-    }
+	public void setCreater(Integer creater) {
+		this.creater = creater;
+	}
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public Date getCreatetime() {
+		return createtime;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
 
-    public Date getUpdatetime() {
-        return updatetime;
-    }
+	public Date getUpdatetime() {
+		return updatetime;
+	}
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
+	}
 }

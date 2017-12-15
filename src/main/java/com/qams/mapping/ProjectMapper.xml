@@ -21,7 +21,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_project
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER} and status=1
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.qams.bean.SearchBean">
 		select

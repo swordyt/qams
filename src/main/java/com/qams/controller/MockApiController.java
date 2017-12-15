@@ -54,6 +54,7 @@ public class MockApiController {
 		response.setData(mockApiService.getApis(search));
 		return response;
 	}
+
 	@RequestMapping("delapi")
 	@ResponseBody
 	public Response delApi(MockApi mockApi) {

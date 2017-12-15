@@ -1,7 +1,9 @@
 package com.qams.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -61,5 +63,14 @@ public class ProjectService {
 			return false;
 		}
 		return true;
+	}
+
+	public Map getProject(Integer id) {
+		Map map = new HashMap();
+		Case cs = caseDao.selectByProjectId(id);
+		Project project = projectDao.selectByPrimaryKey(id);
+		map.put("case", cs);
+		map.put("project", project);
+		return map;
 	}
 }

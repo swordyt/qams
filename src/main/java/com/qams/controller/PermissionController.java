@@ -22,7 +22,7 @@ public class PermissionController {
 	PermissionService permissionService;
 	@Resource
 	Response response;
-	
+
 	@ResponseBody
 	@RequestMapping("getpermissions")
 	public Response getPermissions(SearchBean search) {

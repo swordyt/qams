@@ -47,7 +47,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		PrintWriter out = null;
 		try {
-			Log.info("拦截请求："+request.getServletPath());
+			Log.info("拦截请求：" + request.getServletPath());
 			UrlMapping urlMapping = urlMappingDao.selectByUrl(request
 					.getServletPath());
 			roleUrlRelation.setRoleid(roleId);
@@ -55,7 +55,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			if (roleUrlRelationDao.selectByAll(roleUrlRelation).size() < 1) {
 				resp.setCode(Constant.CODE.RESCODE_NOAUTH);
 				resp.setMessage(Constant.MESSAGE.RESMES_NOAUTH);
-				Log.warn("请求未通过："+request.getServletPath());
+				Log.warn("请求未通过：" + request.getServletPath());
 				result = false;
 			}
 
@@ -81,7 +81,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("postHandle>>>"+request.getServletPath());
+		System.out.println("postHandle>>>" + request.getServletPath());
 		super.postHandle(request, response, handler, modelAndView);
 	}
 
@@ -89,7 +89,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("afterCompletion>>>"+request.getServletPath());
+		System.out.println("afterCompletion>>>" + request.getServletPath());
 		// TODO Auto-generated method stub
 		super.afterCompletion(request, response, handler, ex);
 	}
@@ -98,7 +98,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public void afterConcurrentHandlingStarted(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("afterConcurrentHandlingStarted>>>"+request.getServletPath());
+		System.out.println("afterConcurrentHandlingStarted>>>"
+				+ request.getServletPath());
 		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 }

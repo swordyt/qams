@@ -40,6 +40,21 @@ public class ProjectController {
 	}
 
 	@ResponseBody
+	@RequestMapping("getproject")
+	public Response getProject(Integer id) {
+		if (!ParaUtil.notNull(id)) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id 不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(projectService.getProject(id));
+		return response;
+	}
+
+	@ResponseBody
 	@RequestMapping("addproject")
 	public Response addProject(Project p, String rootTree) {
 		if (rootTree == null || p == null) {
@@ -76,6 +91,7 @@ public class ProjectController {
 		if (!ParaUtil.notNull(p.getId())) {
 			response.setCode(Constant.CODE.RESCODE_FALSE);
 			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id 不能为空！");
 			return response;
 		}
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);

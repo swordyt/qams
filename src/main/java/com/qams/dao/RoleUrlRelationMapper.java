@@ -14,4 +14,14 @@ public interface RoleUrlRelationMapper {
 	List<RoleUrlRelation> selectByAll(RoleUrlRelation record);
 
 	List<UrlMapping> selectByRoleids(List<Integer> roleIds);
+
+	/**
+	 * 更新同时匹配roleid和urlid的有效数据
+	 * */
+	Integer updateByRoleidAndUrlidSelective(RoleUrlRelation record);
+
+	/**
+	 * 删除和roleid匹配的所有项
+	 * */
+	Integer deleteByRoleid(Integer roleId);
 }

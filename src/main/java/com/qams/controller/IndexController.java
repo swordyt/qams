@@ -45,6 +45,7 @@ public class IndexController {
 		view.setViewName("login");
 		return view;
 	}
+
 	@RequestMapping("/mul")
 	public ModelAndView mul() {
 		ModelAndView view = new ModelAndView();

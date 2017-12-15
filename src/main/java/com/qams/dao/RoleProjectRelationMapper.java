@@ -14,5 +14,13 @@ public interface RoleProjectRelationMapper {
 	 * 根据传入的角色ID，获取该角色对应的项目
 	 * */
 	List<Project> selectByRoleids(List<Integer> roleId);
-	
+
+	/**
+	 * 更新同时匹配roleid和projectid的有效数据项
+	 * */
+	Integer updateByRoleidAndProjectidSelective(RoleProjectRelation record);
+	/**
+	 * 删除该角色id对应的所有数据项
+	 * */
+	Integer deleteByRoleid(Integer roleId);
 }

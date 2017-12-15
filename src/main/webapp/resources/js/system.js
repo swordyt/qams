@@ -67,6 +67,29 @@ function initMultiselect(id, url, data) {
 	parent.Network.send(url, data, fun);
 
 }
+/**
+ * 接收角色ID数组 var selected=[];
+ */
+function assignMulValue(selected) {
+	function fun1(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			var pers = new Array();
+			var projects = new Array();
+			$.each(data.data.projects, function(k, v) {
+				projects.push(v.id);
+			});
+			$.each(data.data.urls, function(k, v) {
+				pers.push(v.id);
+			});
+			$("#example-getting-project").multiselect('select', projects);
+			$("#example-getting-permission").multiselect('select', pers);
+		}
+	}
+	parent.Network.maskSend("token/role/getproandper", {
+		roleIds : JSON.stringify(selected)
+	}, fun1);
+}
+
 function roleMultiselect() {
 	function fun(data, textStatus, jqXHR) {
 		if (data.code == '000000') {
@@ -80,45 +103,26 @@ function roleMultiselect() {
 			$("#example-getting-role").multiselect("dataprovider", items);
 		}
 	}
-	$("#example-getting-role").multiselect(
-			{
-				nonSelectedText : '请选择',
-				filterPlaceholder : '搜索',
-				buttonWidth : '220px', // button宽度
-				dropRight : true,// 超出时横向滚动条初始在右边
-				includeSelectAllOption : true,
-				selectAllText : '选中全部',
-				selectAllNumber : false,// 全部选中时不显示后面的数字
-				enableFiltering : true,// 启用过滤
-				disableIfEmpty : true,// 无选项时禁用
-				maxHeight : 200,
-				dropUp : true,// 超出时纵向滚动条初始在上方
-				onDropdownHidden : function(event) {
-					function fun1(data, textStatus, jqXHR) {
-						if (data.code == "000000") {
-							var pers = new Array();
-							var projects = new Array();
-							$.each(data.data.projects, function(k, v) {
-								projects.push(v.id);
-							});
-							$.each(data.data.urls, function(k, v) {
-								pers.push(v.id);
-							});
-							$("#example-getting-project").multiselect('select',
-									projects);
-							$("#example-getting-permission").multiselect(
-									'select', pers);
-						}
-					}
-					var selected = [];
-					$('#example-getting-role option:selected').each(function() {
-						selected.push($(this).val());
-					});
-					parent.Network.maskSend("token/role/getproandper", {
-						roleIds : JSON.stringify(selected)
-					}, fun1);
-				}
+	$("#example-getting-role").multiselect({
+		nonSelectedText : '请选择',
+		filterPlaceholder : '搜索',
+		buttonWidth : '220px', // button宽度
+		dropRight : true,// 超出时横向滚动条初始在右边
+		includeSelectAllOption : true,
+		selectAllText : '选中全部',
+		selectAllNumber : false,// 全部选中时不显示后面的数字
+		enableFiltering : true,// 启用过滤
+		disableIfEmpty : true,// 无选项时禁用
+		maxHeight : 200,
+		dropUp : true,// 超出时纵向滚动条初始在上方
+		onDropdownHidden : function(event) {
+			var selected = [];
+			$('#example-getting-role option:selected').each(function() {
+				selected.push($(this).val());
 			});
+			assignMulValue(selected);
+		}
+	});
 	parent.Network.maskSend("token/role/getroles", {
 		offset : "0",
 		limit : "0"
@@ -208,8 +212,21 @@ function initDropzone() {
 
 /** 创建角色提交 */
 function createRole_submit(e) {
-	var name = $(e.name).val().trim();
-	if (!parent.notEmpty(name)) {
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			e.reset();
+		}
+	}
+	createRole(e, "token/role/addrole", fun);
+}
+function createRole(e, url, fun) {
+	var data = new Object();
+	var id = $(e.id).val();
+	if (notEmpty(id) || id != "undefined") {
+		data.id = id;
+	}
+	data.name = $(e.name).val();
+	if (!parent.notEmpty(data.name)) {
 		parent.promptMessage("角色名不能为空！");
 		return false;
 	}
@@ -221,18 +238,9 @@ function createRole_submit(e) {
 	$('#example-getting-project option:selected').each(function() {
 		selectedProject.push($(this).val());
 	});
-	var permissionJson = JSON.stringify(selectedPermission);
-	var projectJson = JSON.stringify(selectedProject);
-	function fun(data, textStatus, jqXHR) {
-		if (data.code == "000000") {
-			e.reset();
-		}
-	}
-	parent.Network.maskSend("token/role/addrole", {
-		name : name,
-		permissionJson : permissionJson,
-		projectJson : projectJson
-	}, fun);
+	data.permissionJson = JSON.stringify(selectedPermission);
+	data.projectJson = JSON.stringify(selectedProject);
+	parent.Network.maskSend(url, data, fun);
 }
 /** 创建项目的提交 */
 function createProject_submit(e) {

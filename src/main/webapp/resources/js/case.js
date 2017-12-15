@@ -472,17 +472,17 @@ function submitForm(form) {
 	});
 	$("#dropdownMenu1-ul li a p").each(function(k, v) {
 		var obj = new Object();
-		obj.name = $(v).text();
+		obj.name = $(v).text().trim();
 		obj.type = $(v).attr("type");
 		obj.key = $(v).attr("key");
 		file.push(obj);
 	});
 
 	data.file = JSON.stringify(file);
-	data.level = $(form.level).val();
-	data.pid = $(form.pid).val();
-	data.type = $(form.type).val();
-	data.description = $(form.description).val();
+	data.level = $(form.level).val().trim();
+	data.pid = $(form.pid).val().trim();
+	data.type = $(form.type).val().trim();
+	data.description = $(form.description).val().trim();
 	function fun(data, textStatus, jqXHR) {
 		resetForm("kill");
 		var zTree = $.fn.zTree.getZTreeObj("treeDemo");

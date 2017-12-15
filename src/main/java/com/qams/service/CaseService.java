@@ -64,14 +64,6 @@ public class CaseService {
 		Case cs = null;
 		if (id != null) {
 			list = caseDao.selectCasesByPid(id);
-			for(Case c:list){
-				try {
-					System.out.println(new String(c.getStep().getBytes("utf-8"),"utf-8"));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 			return list;
 		}
 

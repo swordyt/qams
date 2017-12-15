@@ -39,7 +39,9 @@ URLMAPPING["token/system/systemmange?url=listRole"] = function() {
 				formatter : function(value, row, index) {
 					return [
 							'<a href="javascript:void(0)" onclick="roleListEdit(\''
-									+ value
+									+ row.id
+									+ '\',\''
+									+ row.name
 									+ '\')"><i class="glyphicon glyphicon-edit"></i></a>',
 							'<a href="javascript:void(0)" onclick="roleListDel(\''
 									+ row.id
@@ -52,11 +54,22 @@ URLMAPPING["token/system/systemmange?url=listRole"] = function() {
 	initBootstrapTable("#table", "token/role/getroles", data);
 }
 
-function roleListEdit(id) {
+function roleListEdit(id, name) {
+	roleMultiselect();
+	setTimeout(function() {
+		projectMultiselect();
+	}, 100);
+	setTimeout(function() {
+		permissionMultiselect();
+	}, 500);
 	$("#roleModalEditLabel").css("color", "rgba(0, 0, 0, 1)");
 	$('#roleModalEdit').modal('show');
-
-	// $("#projectModalEditContent").click();
+	setTimeout(function() {
+		$("#example-getting-role").multiselect('select', [ id ]);
+		assignMulValue([ id ]);
+	}, 1000);
+	$("#editRoleName").val(name);
+	$("#editRoleId").val(id);
 };
 function roleListDel(id, name) {
 	$("#roleModalDelLabel").css("color", "rgba(0, 0, 0, 1)");
@@ -80,4 +93,15 @@ function delRoleConfirm() {
 	parent.Network.maskSend("token/role/delrole", {
 		id : delId
 	}, fun);
+}
+function updateRoleConfirm(e) {
+	function fun(data, textStatus, jqXHR) {
+		if (data.code = "000000") {
+			$(e.id).val("");
+			$(e.name).val("");
+			$('#roleModalEdit').modal('hide');
+			$("#table").bootstrapTable('refresh');
+		}
+	}
+	createRole(e, "token/role/updaterole", fun);
 }

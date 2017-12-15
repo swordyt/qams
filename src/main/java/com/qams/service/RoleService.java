@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qams.bean.SearchBean;
 import com.qams.dao.RoleMapper;
@@ -32,28 +33,46 @@ public class RoleService {
 	@Autowired
 	RoleUrlRelationMapper roleUrlRelationDao;
 
-	public Integer addRole(Integer creater,Role role,List<Integer> urlList,List<Integer> projectList) {
+	public Integer addRole(Integer creater, Role role, List<Integer> urlList,
+			List<Integer> projectList) {
 		role.setStatus(1);
 		roleDao.insertSelective(role);
-		Integer id=role.getId();
-		for(int i=0;i<urlList.size();i++){
-			RoleUrlRelation rur=new RoleUrlRelation();
+		insertUrlAndProjectRelation(creater, role.getId(), urlList, projectList);
+		return role.getId();
+	}
+
+	public void insertUrlAndProjectRelation(Integer creater, Integer roleId,
+			List<Integer> urlList, List<Integer> projectList) {
+		for (int i = 0; i < urlList.size(); i++) {
+			RoleUrlRelation rur = new RoleUrlRelation();
 			rur.setCreater(creater);
-			rur.setRoleid(id);
+			rur.setRoleid(roleId);
 			rur.setUrlid(urlList.get(i));
 			rur.setStatus(1);
 			roleUrlRelationDao.insertSelective(rur);
 		}
-		for(int i=0;i<projectList.size();i++){
-			RoleProjectRelation rpr=new RoleProjectRelation();
+		for (int i = 0; i < projectList.size(); i++) {
+			RoleProjectRelation rpr = new RoleProjectRelation();
 			rpr.setCreater(creater);
 			rpr.setProjectid(projectList.get(i));
-			rpr.setRoleid(id);
+			rpr.setRoleid(roleId);
 			rpr.setStatus(1);
 			roleProjectRelationDao.insertSelective(rpr);
 		}
-		
-		return id;
+	}
+
+	public void delUrlAndProjectRelation(Integer roleId) {
+		roleUrlRelationDao.deleteByRoleid(roleId);
+		roleProjectRelationDao.deleteByRoleid(roleId);
+	}
+
+	@Transactional
+	public Boolean editRole(Integer creater, Role role, List<Integer> urlList,
+			List<Integer> projectList) {
+		updateRole(role);
+		delUrlAndProjectRelation(role.getId());
+		insertUrlAndProjectRelation(creater, role.getId(), urlList, projectList);
+		return true;
 	}
 
 	public ListResponse getRoles(SearchBean search) {
@@ -87,10 +106,11 @@ public class RoleService {
 		map.put("projects", projects);
 		return map;
 	}
-	public Boolean updateRole(Role role){
-		try{
+
+	public Boolean updateRole(Role role) {
+		try {
 			roleDao.updateByPrimaryKeySelective(role);
-		}catch(Exception e){
+		} catch (Exception e) {
 			return false;
 		}
 		return true;

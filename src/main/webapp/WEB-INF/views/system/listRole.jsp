@@ -16,9 +16,8 @@
 	<div class="container" style="padding:0px" id="container">
 		<table id="table"></table>
 		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="roleModalEdit" tabindex="-1"
-			role="dialog" aria-labelledby="roleModalEditLabel"
-			aria-hidden="true">
+		<div class="modal fade" id="roleModalEdit" tabindex="-1" role="dialog"
+			aria-labelledby="roleModalEditLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -27,56 +26,43 @@
 					<div class="modal-body" id="roleModalEditBody">
 						<form style="margin:auto 5px auto 5px" class="form-horizontal"
 							role="form" onload="initDropzone()" id="createProjectForm">
-							<div>
-								<div class="form-group">
-									<label>项目名</label> <input type="text" class="form-control"
-										name="name" required="required" />
-								</div>
-								<div class="form-group">
-									<label>描述</label>
-									<textarea rows="4" cols="60" class="form-control"
-										name="description"></textarea>
-								</div>
+							<div class="form-group">
+								<input type="hidden" id="editRoleId" name="id" /> <label>角色名</label>
+								<input class="form-control" type="text" name="name"
+									placeholder="请输入角色名" id="editRoleName" />
 							</div>
 							<div class="form-group">
-								<div class="dropdown">
-									<button type="button" class="btn dropdown-toggle"
-										id="dropdownMenu1" data-toggle="dropdown">
-										点击查看已上传附件 <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu"
-										aria-labelledby="dropdownMenu1" id="dropdownMenu1-ul">
-									</ul>
-								</div>
+								<label for="example-getting-role">角色选择</label> <select
+									id="example-getting-role" multiple="multiple">
+								</select> <span class="help-block">请优先设置需要从已有角色中复制的权限，后续设置时会将已设置项覆盖为选择的角色项。</span>
 							</div>
 							<div class="form-group">
-								<label>附件</label>
-								<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
+								<label for="example-getting-permission">权限选择</label> <select
+									id="example-getting-permission" multiple="multiple">
+								</select>
 							</div>
 							<div class="form-group">
-								<label>用例主目录名</label> <input type="text" name="rootTree"
-									class="form-control" required="required" />
+								<label for="example-getting-project">负责项目</label> <select
+									id="example-getting-project" multiple="multiple">
+								</select>
 							</div>
-							<div class="form-group">
-								<button class="btn btn-success form-control"
-									onclick="createProject_submit(this.form);return false;">提交</button>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary"
+									onclick="updateRoleConfirm(this.form);return false;">提交更改</button>
 							</div>
+						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary">提交更改</button>
-					</div>
-					</form>
+					<!-- /.modal-content -->
 				</div>
-				<!-- /.modal-content -->
+				<!-- /.modal -->
 			</div>
-			<!-- /.modal -->
 		</div>
 		<!-- 删除 -->
 		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="roleModalDel" tabindex="-1"
-			role="dialog" aria-labelledby="roleModalDelLabel"
-			aria-hidden="true">
+		<div class="modal fade" id="roleModalDel" tabindex="-1" role="dialog"
+			aria-labelledby="roleModalDelLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -84,8 +70,7 @@
 					</div>
 					<div class="modal-body" id="roleModalDelBody">
 						<input type="hidden" value="" id="delRoleId"> 您确定要删除“<strong><span
-							id="listRoleName"></span>
-						</strong>”角色吗？
+							id="listRoleName"></span> </strong>”角色吗？
 						<p class="text-danger">警告！删除该角色，该角色所对应的用户均会不可访问。</p>
 					</div>
 					<div class="modal-footer">
