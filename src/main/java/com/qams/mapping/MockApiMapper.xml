@@ -3,7 +3,7 @@
 <mapper namespace="com.qams.dao.MockApiMapper">
 	<resultMap id="BaseResultMap" type="com.qams.domain.MockApi">
 		<id column="id" jdbcType="INTEGER" property="id" />
-		<id column="projectId" jdbcType="INTEGER" property="projectid" />
+		<result column="projectId" jdbcType="INTEGER" property="projectid" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="method" jdbcType="INTEGER" property="method" />
 		<result column="urlType" jdbcType="INTEGER" property="urltype" />
@@ -21,30 +21,56 @@
 		<result column="resultValue" jdbcType="LONGVARCHAR" property="resultvalue" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, projectId,name, method, urlType, url,
-		resultValue,resultCode, resultType,
+		id, projectId,name, method, urlType, url,resultCode,
+		resultType,
 		headers, status,
 		creater,
 		createtime,
 		updatetime
 	</sql>
+	<sql id="Blob_Column_List">
+		resultValue
+	</sql>
+	<sql id="SearchBlob_Column_List">
+		api.resultValue
+	</sql>
+	<sql id="Search_Column_List">
+		api.id, api.projectId,api.name, api.method, api.urlType,
+		api.url,api.resultCode, api.resultType,
+		api.headers,
+		api.status,
+		api.creater,
+		api.createtime,
+		api.updatetime
+	</sql>
 	<select id="selectAll" parameterType="com.qams.bean.SearchBean"
 		resultMap="ResultMapWithBLOBs">
 		select
-		<include refid="Base_Column_List" />
-		from t_mock_api
-		where status=1
+		<include refid="Search_Column_List" />
+		,
+		<include refid="SearchBlob_Column_List" />
+		from t_mock_api api JOIN t_mock_project p ON api.projectId=p.id
+		WHERE
+		api.`status` =1 AND p.`status`=1
 		<if test="search != null">
-			and name like concat(concat('%',#{search}),'%') or url
+			and p.name like concat(concat('%',#{search}),'%') or p.url
 			like concat(concat('%',#{search}),'%')
 		</if>
-		order by createtime desc
+		order by p.createtime desc
 		<if test="limit != 0">
 			LIMIT #{offset},#{limit}
 		</if>
-
 	</select>
-
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Search_Column_List" />
+		,
+		<include refid="SearchBlob_Column_List" />
+		from t_mock_api api JOIN t_mock_project p ON api.projectId=p.id
+		WHERE
+		api.`status` =1 AND p.`status`=1 and api.id = #{id,jdbcType=INTEGER}
+	</select>
 	<insert id="insertSelective" parameterType="com.qams.domain.MockApi"
 		keyProperty="id" useGeneratedKeys="true">
 		insert into t_mock_api
@@ -140,6 +166,9 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.qams.domain.MockApi">
 		update t_mock_api
 		<set>
+			<if test="projectid != null">
+				projectId = #{projectid,jdbcType=VARCHAR},
+			</if>
 			<if test="name != null">
 				name = #{name,jdbcType=VARCHAR},
 			</if>

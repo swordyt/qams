@@ -104,6 +104,9 @@ function fillFile(files) {
 					});
 
 }
+function removeFile(e) {
+	$(e).parent().parent().parent().remove();
+}
 function updateProject_submit(e) {
 	var data = new Object();
 	data.id = $(e.id).val().trim();

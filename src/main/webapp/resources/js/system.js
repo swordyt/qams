@@ -5,22 +5,22 @@ URLMAPPING["token/system/systemmange?url=createProject"] = function() {
 URLMAPPING["token/system/systemmange?url=createMockProject"] = function() {
 
 }
-URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
+function initCreateMockApi(mockProjectId,method,resultType){
 	function fillProject(data, textStatus, jqXHR) {
 		$.each(data.data.rows, function(k, v) {
-			$("#mockProjectId").append(
+			$(mockProjectId).append(
 					'<option  value="' + v.id + '">' + v.name + '</option>');
 		});
 	}
 	function fillMethod(data, textStatus, jqXHR) {
 		$.each(data.data, function(k, v) {
-			$("#method").append(
+			$(method).append(
 					'<option value="' + v.value + '">' + v.name + '</option>');
 		});
 	}
 	function fillResultType(data, textStatus, jqXHR) {
 		$.each(data.data, function(k, v) {
-			$("#resultType").append(
+			$(resultType).append(
 					'<option value="' + v.value + '">' + v.name + '</option>');
 		});
 	}
@@ -37,6 +37,9 @@ URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
 		tableName : "t_mock_api",
 		type : "resultType"
 	}, fillResultType);
+}
+URLMAPPING["token/system/systemmange?url=createMockApi"] = function() {
+	initCreateMockApi("#mockProjectId","#method","#resultType");
 }
 function initMultiselect(id, url, data) {
 	function fun(data, textStatus, jqXHR) {
@@ -310,7 +313,10 @@ function createUser_submit(e) {
 /** 创建MOCKPROJECT提交 */
 function createMockProject_submit(e) {
 	var data = new Object();
-	data.enabled = $(e.enabled).val().trim();
+	data.enabled = 0;
+	if ($(e.enabled).prop("checked")) {
+		data.enabled = 1;
+	}
 	data.name = $(e.name).val().trim();
 	data.description = $(e.description).val().trim();
 	data.projectleader = $(e.projectleader).val().trim();

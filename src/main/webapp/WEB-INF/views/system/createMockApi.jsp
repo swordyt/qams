@@ -19,27 +19,27 @@
 				<form class="form-inline pull-right" role="form" >
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目：</label><select
+							<label><span style="visibility:hidden">我的的的</span>项目：</label><select
 								name="projectid" class="form-control" id="mockProjectId">
 							</select>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接口名称：</label>
+							<label><span style="visibility:hidden">我的</span>接口名称：</label>
 							<input type="text" class="form-control" placeholder="购买基金" name="name">
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方法：</label>
+							<label><span style="visibility:hidden">我的的的</span>方法：</label>
 							<select name="method" class="form-control" id="method">
 							</select>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL类型：</label>
+							<label><span style="visibility:hidden">我的</span>URL类型：</label>
 							<select name="urltype" class="form-control">
 								<option selected="selected" value="1">URL</option>
 								<option value="2">URL正则</option>
@@ -48,14 +48,14 @@
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL：</label>
+							<label><span style="visibility:hidden">我的的的</span>URL：</label>
 							<input type="text" class="form-control"
 								placeholder="token/cases/index" name="url">
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回码：</label>
+							<label><span style="visibility:hidden">我的的</span>返回码：</label>
 							<input type="text" class="form-control" placeholder="200" name="resultcode">
 						</div>
 					</div>
@@ -67,13 +67,13 @@
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回结果：</label>
+							<label><span style="visibility:hidden">我的</span>返回结果：</label>
 							<textarea cols="50" rows="10" name="resultvalue" class="form-control" placeholder="Enter valid JSON"></textarea>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
 						<div class="form-group">
-							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Headers：</label>
+							<label><span style="visibility:hidden">我的</span>Headers：</label>
 							<textarea cols="50" rows="10" name="headers" class="form-control"
 								placeholder="{}"></textarea>
 						</div>

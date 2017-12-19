@@ -36,4 +36,8 @@ public class MockApiService {
 		}
 		return true;
 	}
+
+	public MockApi getApi(Integer id) {
+		return mockApiDao.selectByPrimaryKey(id);
+	}
 }

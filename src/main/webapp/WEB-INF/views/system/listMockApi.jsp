@@ -25,79 +25,116 @@
 						<h4 class="modal-title" id="mockApiModalEditLabel">编辑</h4>
 					</div>
 					<div class="modal-body" id="mockApiModalEditBody">
-						<form style="margin:auto 5px auto 5px" class="form-horizontal"
-							role="form" onload="initDropzone()" id="createProjectForm">
-							<div>
+						<form style="margin:auto 5px auto 5px" class="form-inline"
+							role="form" id="createProjectForm">
+							<input type="hidden" id="editMockapiId" name="id"/>
+							<div style="margin-bottom: 5px;">
 								<div class="form-group">
-									<label>项目名</label> <input type="text" class="form-control"
-										name="name" required="required" />
+									<label><span style="visibility:hidden">我的的的</span>项目：</label><select
+										name="projectid" class="form-control"
+										id="editMockapiProjectid">
+									</select>
 								</div>
+							</div>
+							<div style="margin-bottom: 5px;">
 								<div class="form-group">
-									<label>描述</label>
-									<textarea rows="4" cols="60" class="form-control"
-										name="description"></textarea>
+									<label><span style="visibility:hidden">我的</span>接口名称：</label> <input
+										type="text" class="form-control" placeholder="购买基金"
+										name="name" id="editMockapiName">
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="dropdown">
-									<button type="button" class="btn dropdown-toggle"
-										id="dropdownMenu1" data-toggle="dropdown">
-										点击查看已上传附件 <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu"
-										aria-labelledby="dropdownMenu1" id="dropdownMenu1-ul">
-									</ul>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的的的</span>方法：</label> <select
+										name="method" class="form-control" id="editMockapiMethod">
+									</select>
 								</div>
 							</div>
-							<div class="form-group">
-								<label>附件</label>
-								<div id="dropzone" class="dropzone needsclick dz-clickable"></div>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的</span>URL类型：</label>
+									<select name="urltype" class="form-control"
+										id="editMockapiUrltype">
+										<option selected="selected" value="1">URL</option>
+										<option value="2">URL正则</option>
+									</select>
+								</div>
 							</div>
-							<div class="form-group">
-								<label>用例主目录名</label> <input type="text" name="rootTree"
-									class="form-control" required="required" />
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的的的</span>URL：</label>
+									<input type="text" class="form-control"
+										placeholder="token/cases/index" name="url" id="editMockapiUrl">
+								</div>
 							</div>
-							<div class="form-group">
-								<button class="btn btn-success form-control"
-									onclick="createProject_submit(this.form);return false;">提交</button>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的的</span>返回码：</label> <input
+										type="text" class="form-control" placeholder="200"
+										name="resultcode" id="editMockapiResultcode">
+								</div>
 							</div>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label>返回结果类型：</label> <select class="form-control"
+										name="resulttype" id="editMockapiResulttype">
+									</select>
+								</div>
+							</div>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的</span>返回结果：</label>
+									<textarea cols="50" rows="10" name="resultvalue"
+										class="form-control" placeholder="Enter valid JSON"
+										id="editMockapiResultvalue"></textarea>
+								</div>
+							</div>
+							<div style="margin-bottom: 5px;">
+								<div class="form-group">
+									<label><span style="visibility:hidden">我的</span>Headers：</label>
+									<textarea cols="50" rows="10" name="headers"
+										class="form-control" placeholder="{}" id="editMockapiHeaders"></textarea>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary"
+									onclick="updateProject_submit(this.form);return false;">提交更改</button>
+							</div>
+						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary">提交更改</button>
-					</div>
-					</form>
+					<!-- /.modal-content -->
 				</div>
-				<!-- /.modal-content -->
+				<!-- /.modal -->
 			</div>
-			<!-- /.modal -->
-		</div>
-		<!-- 删除 -->
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="mockApiModalDel" tabindex="-1"
-			role="dialog" aria-labelledby="mockApiModalDelLabel"
-			aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="mockApiModalDelLabel">删除</h4>
+			<!-- 删除 -->
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="mockApiModalDel" tabindex="-1"
+				role="dialog" aria-labelledby="mockApiModalDelLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="mockApiModalDelLabel">删除</h4>
+						</div>
+						<div class="modal-body" id="mockApiModalDelBody">
+							<input type="hidden" value="" id="delMockApiId"> 您确定要删除“<strong><span
+								id="listMockApiName"></span> </strong>”MockApi吗？
+							<p class="text-danger">警告！删除该MockApi，该接口将不可访问。</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary"
+								onclick="delMockApiConfirm();return false;">确定</button>
+						</div>
 					</div>
-					<div class="modal-body" id="mockApiModalDelBody">
-						<input type="hidden" value="" id="delMockApiId">
-						您确定要删除“<strong><span id="listMockApiName"></span> </strong>”MockApi吗？
-						<p class="text-danger">警告！删除该MockApi，该接口将不可访问。</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary"
-							onclick="delMockApiConfirm();return false;">确定</button>
-					</div>
+					<!-- /.modal-content -->
 				</div>
-				<!-- /.modal-content -->
+				<!-- /.modal -->
 			</div>
-			<!-- /.modal -->
 		</div>
-	</div>
 </body>
 </html>
 

@@ -66,4 +66,19 @@ public class MockProjectController {
 		response.setData(mockProjectService.updateMockProject(mockProject));
 		return response;
 	}
+	@RequestMapping("updatemockproject")
+	@ResponseBody
+	public Response updateMockProject(MockProject mockProject) {
+		if (!ParaUtil.notNull(mockProject.getId())
+				||!ParaUtil.notEmpty(mockProject.getName())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("必传字段不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(mockProjectService.updateMockProject(mockProject));
+		return response;
+	}
 }

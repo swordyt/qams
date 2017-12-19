@@ -43,7 +43,17 @@ URLMAPPING["token/system/systemmange?url=listMockProject"] = function() {
 				formatter : function(value, row, index) {
 					return [
 							'<a href="javascript:void(0)" onclick="mockProjectListEdit(\''
-									+ value
+									+ row.id
+									+ '\',\''
+									+ row.enabled
+									+ '\',\''
+									+ row.name
+									+ '\',\''
+									+ row.description
+									+ '\',\''
+									+ row.projectleader
+									+ '\',\''
+									+ row.protocol
 									+ '\')"><i class="glyphicon glyphicon-edit"></i></a>',
 							'<a href="javascript:void(0)" onclick="mockProjectListDel(\''
 									+ row.id
@@ -55,7 +65,17 @@ URLMAPPING["token/system/systemmange?url=listMockProject"] = function() {
 			} ];
 	initBootstrapTable("#table", "token/mockproject/getprojects", data);
 }
-function mockProjectListEdit(id) {
+function mockProjectListEdit(id, enabled, name, description, projectleader,
+		protocol) {
+	var data = new Object();
+	$("#editMockProjectId").val(id);
+	if (enabled == 1) {
+		$("#editMockProjectEnabled").prop("checked", true);
+	}
+	$("#editMockProjectName").val(name);
+	$("#editMockProjectDescription").val(description);
+	$("#editMockProjectProjectleader").val(projectleader);
+	$("#editMockProjectProtocol").val(protocol);
 	$("#mockProjectModalEditLabel").css("color", "rgba(0, 0, 0, 1)");
 	$('#mockProjectModalEdit').modal('show');
 
@@ -83,4 +103,33 @@ function delMockProjectConfirm() {
 	parent.Network.maskSend("token/mockproject/delmockproject", {
 		id : delId
 	}, fun);
+}
+function updateMockProjectConfirm(e) {
+	var data = new Object();
+	data.id = $(e.id).val().trim();
+	data.enabled = 0;
+	if ($(e.enabled).prop("checked")) {
+		data.enabled = 1;
+	}
+	data.name = $(e.name).val().trim();
+	data.description = $(e.description).val().trim();
+	data.projectleader = $(e.projectleader).val().trim();
+	data.protocol = $(e.protocol).val().trim();
+	if (!parent.notEmpty(data.id) || !parent.notEmpty(data.name)
+			|| !parent.notEmpty(data.protocol)) {
+		parent.promptMessage("协议或名字均不能为空！");
+		return false;
+	}
+	function fun(data, textStatus, jqXHR) {
+		if (data.code == "000000") {
+			$(e.id).val("");
+			$(e.name).val("");
+			$(e.description).val("");
+			$(e.projectleader).val("");
+			$(e.protocol).val("");
+			$('#mockProjectModalEdit').modal('hide');
+			$("#table").bootstrapTable('refresh');
+		}
+	}
+	parent.Network.maskSend("token/mockproject/updatemockproject", data, fun);
 }

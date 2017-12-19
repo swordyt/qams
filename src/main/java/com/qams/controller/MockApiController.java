@@ -54,6 +54,20 @@ public class MockApiController {
 		response.setData(mockApiService.getApis(search));
 		return response;
 	}
+	@RequestMapping("getapi")
+	@ResponseBody
+	public Response getApi(Integer id) {
+		if(!ParaUtil.notNull(id)){
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("id不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(mockApiService.getApi(id));
+		return response;
+	}
 
 	@RequestMapping("delapi")
 	@ResponseBody
@@ -70,4 +84,26 @@ public class MockApiController {
 		response.setData(mockApiService.updateApi(mockApi));
 		return response;
 	}
+
+	@RequestMapping("updateapi")
+	@ResponseBody
+	public Response updateApi(MockApi mockApi) {
+		if (!ParaUtil.notNull(mockApi.getId())
+				|| !ParaUtil.notEmpty(mockApi.getName())
+				|| !ParaUtil.notEmpty(mockApi.getResultcode())
+				|| !ParaUtil.notEmpty(mockApi.getResultvalue())
+				|| !ParaUtil.notEmpty(mockApi.getUrl())
+				|| !ParaUtil.notNull(mockApi.getMethod())
+				|| !ParaUtil.notNull(mockApi.getProjectid())) {
+			response.setCode(Constant.CODE.RESCODE_FALSE);
+			response.setMessage(Constant.MESSAGE.RESMES_FALSE);
+			response.setData("必传字段不能为空！");
+			return response;
+		}
+		response.setCode(Constant.CODE.RESCODE_SUCCESS);
+		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
+		response.setData(mockApiService.updateApi(mockApi));
+		return response;
+	}
+
 }
