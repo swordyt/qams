@@ -45,6 +45,8 @@
 					</div>
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
+							<li><a href="javascript:void(0);" name="nav-caseexecute">用例执行
+							</a></li>
 							<li><a href="javascript:void(0);" name="nav-casemanger">用例管理
 							</a></li>
 							<li><a href="javascript:void(0);" name="nav-automanger">自动化管理</a>

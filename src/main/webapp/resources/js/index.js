@@ -32,9 +32,13 @@ $(document)
 								navInteraction();
 								$(this).addClass("navInteraction");//增加点击效果
 								var name = $(this).attr("name");
+								if (name == "nav-caseexecute") {
+									$("#content_iframe").attr("src",
+											"token/system/systemmange");
+								}
 								if (name == "nav-casemanger") {
 									$("#content_iframe").attr("src",
-											"token/cases/case");
+									"token/cases/case");
 								}
 								if(name == "nav-systemmanger"){
 									$("#content_iframe").attr("src",
