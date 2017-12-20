@@ -16,7 +16,7 @@ var dropz = new Dropzone("#dropzone", {
 	},
 	maxFiles : maxFiles,
 	maxFilesize : 2,
-	acceptedFiles : ".jpg,.png,.docx,.xlsx",
+	acceptedFiles : ".jpg,.png,.xlsx",
 	addRemoveLinks : true,
 	dictCancelUpload : "取消上传",
 	dictCancelUploadConfirmation : "您确定要取消该文件的上传？",
@@ -257,26 +257,17 @@ function fillStep(step, expect) {
 /**
  * 填充已上传的附件列表
  */
+var dropdownMenuAtta;
 function fillFile(files) {
 	if (files == null || files == "") {
 		return null;
 	}
+	dropdownMenuAtta=new Attachment("#dropdownMenu1-ul");
 	$
 			.each(
 					JSON.parse(files),
 					function(k, v) {
-						$("#dropdownMenu1-ul")
-								.append(
-										"<li role=\"presentation\">"
-												+ "<a role=\"menuitem\" tabindex=\"-1\""
-												+ "href=\"javascript:void(0);\" style=\"padding-left:0px;\">"
-												+ "<p style=\"margin-bottom:0px;font-size: 17px\" key=\""
-												+ v.key
-												+ "\" type=\""
-												+ v.type
-												+ "\"><span onclick=\"removeFile(this)\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"
-												+ v.name + "</p>"
-												+ "</span></a></li>");
+						dropdownMenuAtta.append(v.key,v.type,v.name);
 					});
 
 }
@@ -462,7 +453,7 @@ function submitForm(form) {
 	// console.log($(this).html());
 	// });
 	var files = dropz.getAcceptedFiles();
-	var file = new Array();
+	var file = dropdownMenuAtta.getValues();
 	$.each(files, function(k, v) {
 		var obj = new Object();
 		obj.name = v.fileName;
@@ -470,13 +461,13 @@ function submitForm(form) {
 		obj.key = v.fileKey;
 		file.push(obj);
 	});
-	$("#dropdownMenu1-ul li a p").each(function(k, v) {
-		var obj = new Object();
-		obj.name = $(v).text().trim();
-		obj.type = $(v).attr("type");
-		obj.key = $(v).attr("key");
-		file.push(obj);
-	});
+//	$("#dropdownMenu1-ul li a p").each(function(k, v) {
+//		var obj = new Object();
+//		obj.name = $(v).text().trim();
+//		obj.type = $(v).attr("type");
+//		obj.key = $(v).attr("key");
+//		file.push(obj);
+//	});
 
 	data.file = JSON.stringify(file);
 	data.level = $(form.level).val().trim();
@@ -501,6 +492,6 @@ function submitForm(form) {
 	}
 }
 // 删除已上传附件列表
-function removeFile(e) {
-	$(e).parent().parent().parent().remove();
-}
+//function removeFile(e) {
+//	$(e).parent().parent().parent().remove();
+//}

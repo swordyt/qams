@@ -1,3 +1,4 @@
+var dropdownMenuAtta;
 URLMAPPING["token/system/systemmange?url=listProject"] = function() {
 	var data = [
 			{
@@ -39,8 +40,9 @@ URLMAPPING["token/system/systemmange?url=listProject"] = function() {
 	initDropzone();
 }
 function projectListEdit(id) {
+	dropdownMenuAtta = new Attachment("#dropdownMenu1-ul");
 	function fun(data, textStatus, jqXHR) {
-		$("#dropdownMenu1-ul").html("");
+		dropdownMenuAtta.removeAll();
 		fillFile(data.data.project.file);
 		$("#editProjectId").val(data.data.project.id);
 		$("#editProjectName").val(data.data.project.name);
@@ -85,27 +87,10 @@ function fillFile(files) {
 	if (files == null || files == "") {
 		return null;
 	}
-	$
-			.each(
-					JSON.parse(files),
-					function(k, v) {
-						$("#dropdownMenu1-ul")
-								.append(
-										"<li role=\"presentation\">"
-												+ "<a role=\"menuitem\" tabindex=\"-1\""
-												+ "href=\"javascript:void(0);\" style=\"padding-left:0px;\">"
-												+ "<p style=\"margin-bottom:0px;font-size: 17px\" key=\""
-												+ v.key
-												+ "\" type=\""
-												+ v.type
-												+ "\"><span onclick=\"removeFile(this)\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"
-												+ v.name + "</p>"
-												+ "</span></a></li>");
-					});
+	$.each(JSON.parse(files), function(k, v) {
+		dropdownMenuAtta.append(v.key, v.type, v.name);
+	});
 
-}
-function removeFile(e) {
-	$(e).parent().parent().parent().remove();
 }
 function updateProject_submit(e) {
 	var data = new Object();
@@ -113,19 +98,12 @@ function updateProject_submit(e) {
 	data.name = $(e.name).val().trim();
 	data.description = $(e.description).val().trim();
 	var files = createProject_dropz.getAcceptedFiles();
-	var file = new Array();
+	var file = dropdownMenuAtta.getValues();
 	$.each(files, function(k, v) {
 		var obj = new Object();
 		obj.name = v.fileName;
 		obj.type = v.fileType;
 		obj.key = v.fileKey;
-		file.push(obj);
-	});
-	$("#dropdownMenu1-ul li a p").each(function(k, v) {
-		var obj = new Object();
-		obj.name = $(v).text();
-		obj.type = $(v).attr("type");
-		obj.key = $(v).attr("key");
 		file.push(obj);
 	});
 

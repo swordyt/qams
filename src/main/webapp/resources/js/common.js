@@ -63,3 +63,58 @@ function date(timestamp) {// 比如需要这样的格式 yyyy-MM-dd hh:mm:ss
 	// 输出结果：2014-04-23 18:55:49
 	return Y + M + D + h + m + s;
 };
+
+/**
+ * 附件列表对象
+ * 
+ */
+var Attachment=function (id){
+	var _this=this;
+	$(id).on("click","li > a > p > span.glyphicon.glyphicon-remove",function(e){
+		var key=$(e.currentTarget).parent().attr("key");
+		var type=$(e.currentTarget).parent().attr("type");
+		_this.removeElement($(e.currentTarget),key,type);
+	});
+	$(id).on("click","li > a > p > span:nth-child(2)",function(e){
+		var key=$(e.currentTarget).parent().attr("key");
+		var type=$(e.currentTarget).parent().attr("type");
+		var text=$(e.currentTarget).html();
+		_this.clickElement($(e.currentTarget),key,type,text);
+	});
+	this.removeElement=function (e,key,type){
+		$(e).parent().parent().parent().remove();
+	};
+	this.clickElement=function (e,key,type,text){
+		window.open("download?key="+key+"."+type+"&text="+text);
+	};
+	this.getValues=function(){
+		var file = new Array();
+		$(id+" li a p").each(function(k, v) {
+			var obj = new Object();
+			obj.name = $(v).children("span[name=text]").first().html();
+			obj.type = $(v).attr("type");
+			obj.key = $(v).attr("key");
+			file.push(obj);
+		});
+		return file;
+	}
+	this.obj=$(id);
+	this.append=function(key,type,text){
+		$(id).append(
+				"<li role=\"presentation\">"
+				+ "<a role=\"menuitem\" tabindex=\"-1\""
+				+ "href=\"javascript:void(0);\" style=\"padding-left:0px;\">"
+				+ "<p style=\"margin-bottom:0px;font-size: 17px\" key=\""
+				+ key
+				+ "\" type=\""
+				+ type
+				+ "\"><span  name=\"remove\" class=\"glyphicon glyphicon-remove\" style=\"color: rgb(212, 106, 64);padding-left:10px;padding-right:10px;\"></span>"
+				+ "<span name=\"text\">"
+				+ text + "</span></p>"
+				+ "</span></a></li>");
+	};
+	this.removeAll=function(){
+		console.log("removeAll");
+		this.obj.html("");
+	};
+}

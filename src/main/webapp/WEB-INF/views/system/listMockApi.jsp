@@ -100,7 +100,7 @@
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
 								<button type="button" class="btn btn-primary"
-									onclick="updateProject_submit(this.form);return false;">提交更改</button>
+									onclick="updateMockApi_submit(this.form);return false;">提交更改</button>
 							</div>
 						</form>
 					</div>

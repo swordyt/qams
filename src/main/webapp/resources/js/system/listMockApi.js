@@ -98,7 +98,7 @@ function delMockApiConfirm() {
 		id : delId
 	}, fun);
 }
-function updateProject_submit(e) {
+function updateMockApi_submit(e) {
 	var data = new Object();
 	data.id = $(e.id).val().trim();
 	data.projectid = $(e.projectid).val().trim();
