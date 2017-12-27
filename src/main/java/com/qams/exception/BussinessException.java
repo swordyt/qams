@@ -1,6 +1,6 @@
 package com.qams.exception;
 
-public class BussinessException extends Exception {
+public class BussinessException extends RuntimeException {
 	/**
 	 * 
 	 */

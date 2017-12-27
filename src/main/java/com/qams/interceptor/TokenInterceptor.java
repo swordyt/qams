@@ -24,6 +24,7 @@ import com.qams.dao.RoleUrlRelationMapper;
 import com.qams.dao.UserMapper;
 import com.qams.domain.Role;
 import com.qams.domain.User;
+import com.qams.exception.BussinessException;
 import com.qams.response.Response;
 import com.qams.util.JwtUtil;
 import com.qams.util.NetworkUtil;
@@ -76,6 +77,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 					flag = false;
 				}
 			}
+
 			//
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,12 +1,31 @@
 package com.qams.controller;
 
+import java.beans.IntrospectionException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.annotations.Param;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.xmlbeans.impl.regex.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +33,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.qams.annotation.PermissionAuth;
+import com.qams.bean.ExcelMapping;
 import com.qams.config.Constant;
 import com.qams.config.Permission;
 import com.qams.domain.Case;
 import com.qams.response.Response;
 import com.qams.service.CaseService;
+import com.qams.util.XssfExcel;
 
 @Controller
 @RequestMapping("/token/cases")
@@ -29,7 +50,8 @@ public class CaseController {
 	Response response;
 	@Autowired
 	HttpServletRequest request;
-
+	@Value("${upload.path}")
+	private String uploadPath;
 	@RequestMapping("/index")
 	// 登录后首页
 	public ModelAndView testIndex() {
@@ -123,5 +145,22 @@ public class CaseController {
 		response.setCode(Constant.CODE.RESCODE_SUCCESS);
 		response.setMessage(Constant.MESSAGE.RESMES_SUCCESS);
 		return response;
+	}
+
+	@RequestMapping("export")
+	public ResponseEntity<byte[]> export() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, ParseException, IntrospectionException, Exception {
+		HttpHeaders headers = new HttpHeaders();
+		String text="测试用例.xlsx";
+		try {
+			headers.setContentDispositionFormData("attachment",
+					new String(text.getBytes("utf-8"), "ISO8859-1"));
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(uploadPath+"temp/"+text)),
+				headers, HttpStatus.CREATED);
 	}
 }

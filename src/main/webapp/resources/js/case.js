@@ -174,7 +174,7 @@ function fillForm(name, type, pid, grade, description, steps, file, userId,
 	}
 	if (pid != null) {
 		$("#pid").val(pid);
-	}else{
+	} else {
 		$("#pid").val("");
 	}
 	if (grade != null) {
@@ -257,18 +257,14 @@ function fillStep(step, expect) {
 /**
  * 填充已上传的附件列表
  */
-var dropdownMenuAtta;
+var dropdownMenuAtta = new Attachment("#dropdownMenu1-ul");
 function fillFile(files) {
 	if (files == null || files == "") {
 		return null;
 	}
-	dropdownMenuAtta=new Attachment("#dropdownMenu1-ul");
-	$
-			.each(
-					JSON.parse(files),
-					function(k, v) {
-						dropdownMenuAtta.append(v.key,v.type,v.name);
-					});
+	$.each(JSON.parse(files), function(k, v) {
+		dropdownMenuAtta.append(v.key, v.type, v.name);
+	});
 
 }
 $("form").hide();
@@ -461,13 +457,13 @@ function submitForm(form) {
 		obj.key = v.fileKey;
 		file.push(obj);
 	});
-//	$("#dropdownMenu1-ul li a p").each(function(k, v) {
-//		var obj = new Object();
-//		obj.name = $(v).text().trim();
-//		obj.type = $(v).attr("type");
-//		obj.key = $(v).attr("key");
-//		file.push(obj);
-//	});
+	// $("#dropdownMenu1-ul li a p").each(function(k, v) {
+	// var obj = new Object();
+	// obj.name = $(v).text().trim();
+	// obj.type = $(v).attr("type");
+	// obj.key = $(v).attr("key");
+	// file.push(obj);
+	// });
 
 	data.file = JSON.stringify(file);
 	data.level = $(form.level).val().trim();
@@ -492,6 +488,6 @@ function submitForm(form) {
 	}
 }
 // 删除已上传附件列表
-//function removeFile(e) {
-//	$(e).parent().parent().parent().remove();
-//}
+// function removeFile(e) {
+// $(e).parent().parent().parent().remove();
+// }
