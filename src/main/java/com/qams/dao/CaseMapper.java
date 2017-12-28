@@ -11,6 +11,11 @@ public interface CaseMapper {
 	List<Case> selectCasesByPid(Integer id);
 
 	/**
+	 * 通过用例父id获取该id下除文件外的用例
+	 * */
+	List<Case> selectRealcasesByPid(Integer id);
+
+	/**
 	 * 插入实体类中非空字段数据
 	 * */
 	int insertSelective(Case record);

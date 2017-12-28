@@ -22,13 +22,21 @@
 		creater,
 		createtime, update_time
 	</sql>
-	<!-- 通过用例父id获取该id下的所有用例 -->
+	<!-- 通过用例父id获取该id下的所有子项 -->
 	<select id="selectCasesByPid" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from t_case
 		where pid=#{id,jdbcType=INTEGER} AND status =1
+	</select>
+	<select id="selectRealcasesByPid" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_case WHERE FIND_IN_SET(id,queryChildrenCaseInfo(
+		#{id,jdbcType=INTEGER} )) AND
+		status=1 and type=1;
 	</select>
 	<!-- 插入实体类中非空字段数据 -->
 	<insert id="insertSelective" parameterType="com.qams.domain.Case"

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import com.qams.bean.TreeCaseBean;
 import com.qams.dao.CaseMapper;
 import com.qams.domain.Case;
 
@@ -59,20 +61,28 @@ public class CaseService {
 	/**
 	 * 获取目录树
 	 * */
-	public List<Case> getCases(Integer id, Integer projectId) {
+	public List<TreeCaseBean> getCases(Integer id, Integer projectId) {
 		List<Case> list = new ArrayList<Case>();
-		Case cs = null;
+		List<TreeCaseBean> csBean = new ArrayList<>();
 		if (id != null) {
 			list = caseDao.selectCasesByPid(id);
-			return list;
+		} else {
+			Case cs = null;
+			cs = caseDao.selectByProjectId(projectId);
+			if (cs == null) {
+				return null;
+			}
+			list = caseDao.selectCasesByPid(cs.getId());
+			list.add(cs);
 		}
 
-		cs = caseDao.selectByProjectId(projectId);
-		if (cs == null) {
-			return null;
+		for (int i = 0; i < list.size(); i++) {
+			TreeCaseBean csb = new TreeCaseBean(list.get(i));
+			if (csb.getType() == 0) {
+				csb.setChildrenNum(caseDao.selectRealcasesByPid(csb.getId()).size());
+			}
+			csBean.add(csb);
 		}
-		list = caseDao.selectCasesByPid(cs.getId());
-		list.add(cs);
-		return list;
+		return csBean;
 	}
 }

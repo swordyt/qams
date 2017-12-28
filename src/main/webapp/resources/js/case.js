@@ -54,7 +54,8 @@ var setting = {
 	view : {
 		addHoverDom : false,
 		removeHoverDom : false,
-		selectedMulti : false
+		selectedMulti : false,
+		addDiyDom : addDiyDom
 	},
 	check : {
 		enable : true
@@ -87,6 +88,33 @@ var setting = {
 		url : "token/cases/casesTree"
 	}
 };
+function addDiyDom(treeId, treeNode) {
+	var aObj = $("#" + treeNode.tId + "_a");
+	// if ($("#diyBtn_" + treeNode.id).length > 0)
+	// return;
+	// var editStr = "<span id='diyBtn_space_" + treeNode.id + "' > </span>"
+	// + "<button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id
+	// + "' title='" + treeNode.name
+	// + "' onfocus='this.blur();'></button>";
+	// aObj.append(editStr);
+	// var btn = $("#diyBtn_" + treeNode.id);
+	// if (btn)
+	// btn.bind("click", function() {
+	// alert("diy Button for " + treeNode.name);
+	// });
+	if (treeNode.isParent == true) {
+		// aObj.append("<span class=\"label label-default\">新</span>");
+		// aObj.append("<span class=\"label label-primary\">新</span>");
+		// aObj.append("<span class=\"label label-success\">新</span>");
+		// aObj.append("<span class=\"label label-info\">新</span>");
+		// aObj.append("<span class=\"label label-warning\">新</span>");
+		// aObj.append("<span class=\"label label-danger\">新</span>");
+		aObj
+				.append("<span class=\"badge bg-success\" style=\"color:#337ab7;background-color:#e7e7e7\">"
+						+ treeNode.childrenNum + "</span>");
+	}
+}
+
 var newCount = 1;
 function addHoverDom(treeId, treeNode) {
 	var sObj = $("#" + treeNode.tId + "_span");
@@ -325,6 +353,14 @@ function initTree() {
 		$.fn.zTree.init($("#treeDemo"), setting, data.data);
 	});
 }
+function refreshTree(treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	if (treeNode == null || treeNode.id == rootId) {
+		initTree();
+	} else {
+		zTree.reAsyncChildNodes(treeNode, "refresh");
+	}
+}
 $(document).ready(
 		function() {
 			initTree();
@@ -342,7 +378,8 @@ $(document).ready(
 						showForm(1, 1, 1, 1, 1, 1, 1);
 						fillForm(null, "1", tree_Node.id, null, null, null,
 								null, tree_Node.userId, null, null);
-						// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+						// var zTree =
+						// $.fn.zTree.getZTreeObj("treeDemo");
 						// zTree.addNodes(tree_Node, {
 						// id : (100 + newCount),
 						// pId : tree_Node.id,
@@ -359,7 +396,8 @@ $(document).ready(
 						showForm(1, 0, 1, 0, 0, 1, 1);
 						fillForm(null, "0", tree_Node.id, null, null, null,
 								null, tree_Node.userId, null, null);
-						// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+						// var zTree =
+						// $.fn.zTree.getZTreeObj("treeDemo");
 						// zTree.addNodes(tree_Node, {
 						// id : (100 + newCount),
 						// pId : tree_Node.id,
@@ -382,9 +420,7 @@ $(document).ready(
 				if (tree_Node.isParent == true) {
 					alert("您正在删除的是目录，请再次确认。");
 				}
-				function fun(data, textStatus, jqXHR) {
-					parent.promptMessage(data.message);
-				}
+
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.removeNode(tree_Node);
 				var data = new Object();
@@ -392,6 +428,11 @@ $(document).ready(
 				data.id = id;
 				parent.Network.maskSend("token/cases/delCase", data, fun);
 				event.preventDefault();
+				function fun(data, textStatus, jqXHR) {
+					if (data.code == "000000") {
+						refreshTree(tree_Node.getParentNode());
+					}
+				}
 			});
 			// 监控name值变化,动态更新树名称
 			// $("#name").keyup(function(event) {
@@ -471,13 +512,11 @@ function submitForm(form) {
 	data.type = $(form.type).val().trim();
 	data.description = $(form.description).val().trim();
 	function fun(data, textStatus, jqXHR) {
-		resetForm("kill");
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		if (tree_Node == null || tree_Node.id == rootId) {
-			initTree();
-		} else {
-			zTree.reAsyncChildNodes(tree_Node, "refresh");
+		if (data.code = "000000") {
+			resetForm("kill");
+			refreshTree(tree_Node.getParentNode());
 		}
+
 	}
 	var id = parseInt($(form.id).val());
 	if (isNaN(id)) {
